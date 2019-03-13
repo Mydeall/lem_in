@@ -2,9 +2,15 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
-#include "libft.h"
-#define SIZE_HASH 8192
-#define NB_OBJ 4000
+#include "includes/libft.h"
+#define SIZE_HASH 9679
+#define NB_OBJ 6500
+
+typedef struct	s_room
+{
+	char 			*name;
+	struct s_room	*next;
+}				t_room;
 
 int		hash_classic(char *name) {
 	int accum;
@@ -48,6 +54,26 @@ int		hash_fowler_noll(char *name)
 	return ((unsigned int)(hash % SIZE_HASH));
 }
 
+int		hash_jenkins(char *name)
+{
+	int	i;
+	unsigned int hash;
+
+	i = -1;
+	hash = 0;
+	ft_putendl(name);
+	while (name[++i])
+	{
+		hash += name[i];
+		hash += hash << 10;
+		hash ^= hash >> 6;
+	}
+	hash += hash << 3;
+	hash ^= hash >> 11;
+	hash += hash << 15;
+	return (int)(hash % SIZE_HASH);
+}
+
 char	*gen_name(void)
 {
 	int		random;
@@ -63,7 +89,7 @@ char	*gen_name(void)
 	return (name);
 }
 
-int		print_tab(char *(hash_tab[SIZE_HASH]))
+int		print_tab(t_room *(hash_tab[SIZE_HASH]))
 {
 	int i;
 	int count;
@@ -84,13 +110,18 @@ int main()
 	int		hash;
 	char	*name;
 	int		i;
-	char	**hash_tab;
+	int		j;
+	int		max;
+	t_room	**hash_tab;
+	t_room	*tmp;
+	t_room	*new;
 	int		nb_coli;
 	int 	nb_cel;
 
-	hash_tab = (char**)ft_memalloc(sizeof(char*) * SIZE_HASH);
+	hash_tab = (t_room**)ft_memalloc(sizeof(t_room*) * SIZE_HASH);
 	srand(time(NULL));
 	i = -1;
+	max = 0;
 	nb_coli = 0;
 	while (++i < NB_OBJ)
 	{
@@ -98,17 +129,33 @@ int main()
 //		hash = hash_classic(name);
 		hash = hash_rodolphe(name);
 //		hash = hash_fowler_noll(name);
+//		hash = hash_jenkins(name);
+		new = (t_room*)malloc(sizeof(*new));
+		new->next = NULL;
+		new->name = name;
+		j = 0;
 		if (hash_tab[hash])
 		{
 			nb_coli++;
-			printf("collision --> %d : %s\n", hash, hash_tab[hash]);
+			tmp = hash_tab[hash];
+			while (tmp->next)
+			{
+				tmp = tmp->next;
+				j++;
+			}
+			if (j > max)
+				max = j;		
+			tmp->next = new; 
+//			printf("collision --> %d : %s\n", hash, hash_tab[hash]);
 		}
-		hash_tab[hash] = name;
+		else
+			hash_tab[hash] = new;
 	}
 	nb_cel = print_tab(hash_tab);
 	printf("\n-----------------------\n");
 	printf("Nombre de salles : %d\nTaille tab hash : %d\n", NB_OBJ, SIZE_HASH);
 	printf("Nombre de collisions : %d\nNombre de cases occupees : %d / %d\n", nb_coli, nb_cel, SIZE_HASH);
 	printf("Facteur de compression : %.2f\n", (double)nb_cel / (double)SIZE_HASH);
+	printf("Occupation maximale d'une case : %d\n", max);
 	return (0);
 }
