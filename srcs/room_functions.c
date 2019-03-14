@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 16:19:01 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/13 18:02:37 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/14 14:19:21 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int		hash_jenkins(char *name)
 
 	i = -1;
 	hash = 0;
-	ft_putendl(name);
 	while (name[++i])
 	{
 		hash += name[i];
@@ -29,7 +28,7 @@ int		hash_jenkins(char *name)
 	hash += hash << 3;
 	hash ^= hash >> 11;
 	hash += hash << 15;
-	return (int)(hash % HASH_SIZE);
+	return ((int)(hash % HASH_SIZE));
 }
 
 int		append_room(t_room *room, t_map *map)
@@ -61,11 +60,14 @@ t_room	*find_room(char *name, t_map *map)
 	int		hash;
 	t_room	*tmp;
 
-	hash = hash_jenkins(room->name);
+//	printf("find_room : name = %s\n", name);
+	if (!name || !(*name))
+		return (NULL);
+	hash = hash_jenkins(name);
 	tmp = map->hash_tab[hash];
 	while (tmp)
 	{
-		if (!ft_strcmp(tmp->name, room->name))
+		if (!ft_strcmp(tmp->name, name))
 			return (tmp);
 		tmp = tmp->next;
 	}

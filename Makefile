@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/03/11 15:18:16 by ccepre           ###   ########.fr        #
+#    Updated: 2019/03/14 13:06:00 by rkirszba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,12 @@ LIB_PATH = ./libft
 SRC_PATH = ./srcs
 INC_PATH = ./includes
 
-SRC_NAME = .c
+SRC_NAME = free_functions.c\
+		   links_functions.c\
+		   main.c\
+		   parser.c\
+		   parser_functions.c\
+		   room_functions.c\
 
 INC_NAME = lem_in.h \
 		   get_next_line.h \
@@ -32,7 +37,7 @@ OBJ_SRC= $(SRC:.c=.o)
 
 all : libft $(NAME)
 
-%.o : %.c $(INC_NAME)
+%.o : %.c $(INC)
 	gcc $(FLAGS) -c $< -o $@ -I $(INC_PATH) 
 
 $(NAME) : $(OBJ_SRC) $(OBJ_SRC_CHECK) $(INC) $(LIB_PATH)/libft.a

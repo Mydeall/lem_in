@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:04:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/13 19:12:08 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/14 15:49:39 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		is_pos_int(char *str)
 	int			len;
 	long long	nb;
 
-	len = -1;	
+	len = -1;
 	if (*str == '+')
 		len++;
 	while (str[++len])
@@ -29,30 +29,36 @@ int		is_pos_int(char *str)
 	return (-1);
 }
 
-int		parser(t_map *map, t_tab_parser *tab_parser)
+void		parser(t_map *map, t_tab_parser *tab_parser, char *line)
 {
-	char	*line;
 	char	command;
 	int		error;
 	int		step;
 	int		ret;
 	int		i;
 
-	line = NULL;
+	int		nb_line = 0;
+
 	step = 0;
+	command = 0;
 	while ((ret = get_next_line(0, &line)) == 1)
 	{
-		// verif com
+		nb_line++;
 		i = -1;
+		printf("line %d : %s\n", nb_line, line);
 		while (++i < 4)
 		{
 			if (tab_parser[i].step == step || i == 0 || (i == 3 && step == 1))
 			{
 				error = tab_parser[i].f(line, map, &step, &command);
-				if (error == 0)
-					continue ;
+				//printf("line = %d\ni = %d --> error = %d\n", nb_line, i, error);
+				if (error == 0 || error == -1)
+					break ;
 			}
 		}
+		free(line);
+		if (error == 1 || error == -1)
+			return ;
 	}
 }
 

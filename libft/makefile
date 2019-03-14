@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/03/11 15:14:52 by ccepre           ###   ########.fr        #
+#    Updated: 2019/03/14 14:35:54 by rkirszba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ LIB_NAME = ft_strcpy.c\
 		   ft_putlst_str.c \
 		   ft_freetab.c \
 		   ft_dtoa.c \
+		   ft_strtrimchar.c \
 		   get_next_line.c
 
 PRINTF_NAME = ft_printf.c \

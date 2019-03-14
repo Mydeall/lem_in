@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 17:54:56 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/13 17:55:20 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/14 15:49:18 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,19 @@ t_link	*new_link(t_room *room_dest)
 	t_link	*link;
 
 	if (!(link = (t_link*)malloc(sizeof(t_link))))
-		return (1);
+		return (NULL);
 	link->flow = 0;
 	link->next = NULL;
 	link->room_dest = room_dest;
 	return (link);
 }
 
-int		append_link(t_room *room, t_room *room_dest)
+int		append_one_link(t_room *room, t_room *room_dest)
 {
 	t_link *tmp;
 
-	if (!room || !room_dest)
-		return (1);
 	tmp = room->links;
-	while (tmp->next)
+	while (tmp && tmp->next)
 		tmp = tmp->next;
 	if (!tmp)
 	{
@@ -41,5 +39,14 @@ int		append_link(t_room *room, t_room *room_dest)
 	else	
 		if (!(tmp->next = new_link(room_dest)))
 			return (1);
+	return (0);
+}
+
+int	append_links(t_room *a_room, t_room *b_room)
+{
+	if (!a_room || !b_room)
+		return (1);
+	if ((append_one_link(a_room, b_room) || append_one_link(b_room, a_room)))
+		return (-1);
 	return (0);
 }

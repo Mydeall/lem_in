@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/13 19:12:51 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/14 15:48:41 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "libft.h"
 # include "get_next_line.h"
+
+# include <stdio.h>
 
 # define HASH_SIZE 9679
 
@@ -51,10 +53,25 @@ typedef struct	s_tab_parser
 	int				(*f)(char*, t_map*, int*, char*);
 }				t_tab_parser;
 
+/*
+** check functions
+*/
+
+void			parser(t_map *map, t_tab_parser *tab_parser, char *line);
 int				is_pos_int(char *str);
 int				verif_com(char *line, t_map *map, int *step, char *command);
 int				verif_ants(char *line, t_map *map, int *step, char *command);
 int				verif_room(char *line, t_map *map, int *step, char *command);
 int				verif_link(char *line, t_map *map, int *step, char *command);
+
+t_room			*find_room(char *name, t_map *map);
+int				append_room(t_room *room, t_map *map);
+int				hash_jenkins(char *name);
+int				append_one_link(t_room *room, t_room *room_dest);
+int				append_links(t_room *a_room, t_room *b_room);
+t_link			*new_link(t_room *room_dest);
+
+void			free_hash_tab(t_map *map);
+void			free_links(t_link *link);
 
 #endif
