@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 18:52:43 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/14 13:28:02 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/14 18:19:44 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ void			print_map(t_map *map)
 	int		i;
 	t_room	*tmp;
 	t_link	*tmp2;
+	int count_rooms;
+	int count_links;
 	
+	count_rooms = 0;
+	count_links = 0;
 	i = 0;
 	printf("ants = %d\n", map->ants);
 	if (map->start)
@@ -70,21 +74,26 @@ void			print_map(t_map *map)
 			printf("---- CELLULE ----\n");
 			while (tmp)
 			{
+				count_rooms++;
 				printf("room name = %s\n", tmp->name);
 				tmp2 = tmp->links;
 				if (!tmp2)
 					printf("----link dest = %p\n", tmp2);
 				while (tmp2)
 				{
+					count_links++;
 					printf("----link dest = %s\n", tmp2->room_dest->name);
 					tmp2 = tmp2->next;
 				}
 				tmp = tmp->next;
+				if (tmp)
+					printf("OK COLLISION : %p\n", tmp);
 			}
 			printf("--------------\n");
 		}
 		i++;
 	}
+	printf("nb_rooms : %d\nnb_links : %d\n", count_rooms, count_links);
 }
 
 int				main(void)
@@ -102,6 +111,7 @@ int				main(void)
 //		free_all
 		return (1);
 	}
+	printf("TEST");
 	parser(map, tab_parser, line);
 	print_map(map);
 }
