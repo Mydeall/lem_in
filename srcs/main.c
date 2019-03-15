@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 18:52:43 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/15 16:06:21 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/15 18:20:04 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int				main(void)
 //		free_all
 		return (1);
 	}
-	printf("TEST");
 	parser(map, tab_parser, line);
 //	print_map(map);
 	edmonds_karp(map);

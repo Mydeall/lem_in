@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 15:57:25 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/15 16:02:46 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/15 16:59:44 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void			print_map(t_map *map)
 				while (tmp2)
 				{
 					count_links++;
-					printf("----link dest = %s\n", tmp2->room_dest->name);
+					printf("----link dest = %s | flow = %d\n", tmp2->room_dest->name, tmp2->flow);
 					tmp2 = tmp2->next;
 				}
 				tmp = tmp->next;
@@ -74,10 +74,28 @@ void	display_paths(t_queue **paths)
 		current_queue = paths[i];
 		while (current_queue)
 		{
-			printf("%s\n", current_queue->room->name);
+			printf("%s", current_queue->room->name);
+			if (current_queue->next)
+				printf("->");
 			current_queue = current_queue->next;
 		}
-		printf("\n");
 		i++;
+		printf("\n");
 	}
+}
+
+void	display_queue(t_queue *queue)
+{
+	t_queue	*current_queue;
+
+	printf("queue :\n");
+	current_queue = queue;
+	while (current_queue)
+	{
+		printf("%s", current_queue->room->name);
+		if (current_queue->next)
+			printf("->");
+		current_queue = current_queue->next;
+	}
+	printf("\n");
 }

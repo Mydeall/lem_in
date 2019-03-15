@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:31:52 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/15 16:05:11 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/15 18:20:16 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ static t_queue	*browse_path(t_map *map, t_room *current_room)
 	t_link	*link;
 	
 	path = NULL;
+	if (append_queue(&path, map->start))
+		return (NULL);
 	while (current_room != map->end)
 	{
 		if (append_queue(&path, current_room))
 			return (NULL);
-		link = find_flow(current_room->links, 0, 1);
+		link = find_flow(current_room->links, 1);
 		current_room = link->room_dest;
 	}
 	if (append_queue(&path, current_room))
@@ -92,13 +94,13 @@ int		edmonds_karp(t_map *map)
 	t_queue **paths;
 //	t_queue	**best_path;
 
-	nb_iter = 0;
+	nb_iter = 1;
 	while ((ret = bfs(map, nb_iter)) == 1)
 	{
-		nb_iter++;
 		current = map->end;
 		while (current != map->start)
 		{
+			printf("current->name : %s\n", current->name);
 			update_flow(current->prev, current, 1);
 			update_flow(current, current->prev, -1);
 			current = current->prev;
@@ -107,8 +109,9 @@ int		edmonds_karp(t_map *map)
 			return (1);
 		// comparer nb_tour apres repartition
 		// +update chemins
-		printf("bfs n%d :\n", nb_iter + 1);
+		printf("\nafter bfs n%d :\n", nb_iter);
 		display_paths(paths);
+		nb_iter++;
 	}
 	if (nb_iter == 0 || ret == -1)
 		return (1);

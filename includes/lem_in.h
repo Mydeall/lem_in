@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/15 16:03:16 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/15 17:54:05 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef struct	s_room
 	int				y;
 	struct s_room	*next;
 	struct s_room	*prev;
-	int				visited;	
+	int				visited;
+	int				lock;
 }				t_room;
 
 typedef struct		s_queue
@@ -82,15 +83,16 @@ t_link			*new_link(t_room *room_dest);
 void			free_hash_tab(t_map *map);
 void			free_links(t_link *link);
 
-void			refresh_queue(t_queue **queue);
+void			refresh_queue(t_queue **queue, t_queue **prev_queue);
 int				append_queue(t_queue **queue, t_room *room);
 
 int				bfs(t_map *map, int nb_iter);
-t_link			*find_flow(t_link *links, int nb_iter, int value);
+t_link			*find_flow(t_link *links, int value);
 
 int				edmonds_karp(t_map *map);
 
 void			display_paths(t_queue **paths);
 void			print_map(t_map *map);
+void			display_queue(t_queue *queue);
 
 #endif

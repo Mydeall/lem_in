@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 18:47:10 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/14 18:01:03 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/15 17:47:39 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int		verif_room(char *line, t_map *map, int *step, char *command)
 		return(-1);
 	room->next = NULL;
 	room->links = NULL;
+	room->prev = NULL;
+	room->visited = 0;
 	if (verif_coord(cp, room))
 		return (1);
 	if ((ret = verif_name(map, cp,room)))
