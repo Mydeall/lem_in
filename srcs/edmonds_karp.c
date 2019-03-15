@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   edmonds_karp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:31:52 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/15 14:57:11 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/15 16:05:11 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static t_queue	**get_paths(t_map *map)
 			nb_paths++;
 		current_link = current_link->next;
 	}
-	if (!(paths = (t_queue**)malloc(sizeof(t_queue*) * (nb_paths + 1))));
+	if (!(paths = (t_queue**)malloc(sizeof(t_queue*) * (nb_paths + 1))))
 		return (NULL);
 	paths[nb_paths] = NULL;
 	current_link = map->start->links;
@@ -90,6 +90,7 @@ int		edmonds_karp(t_map *map)
 	t_room	*current;
 	int	ret;
 	t_queue **paths;
+//	t_queue	**best_path;
 
 	nb_iter = 0;
 	while ((ret = bfs(map, nb_iter)) == 1)
@@ -106,6 +107,8 @@ int		edmonds_karp(t_map *map)
 			return (1);
 		// comparer nb_tour apres repartition
 		// +update chemins
+		printf("bfs n%d :\n", nb_iter + 1);
+		display_paths(paths);
 	}
 	if (nb_iter == 0 || ret == -1)
 		return (1);

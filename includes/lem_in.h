@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/15 14:56:43 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/15 16:03:16 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,8 @@ int				bfs(t_map *map, int nb_iter);
 t_link			*find_flow(t_link *links, int nb_iter, int value);
 
 int				edmonds_karp(t_map *map);
+
+void			display_paths(t_queue **paths);
+void			print_map(t_map *map);
 
 #endif

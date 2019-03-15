@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bfs.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 14:54:20 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/15 14:55:41 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/15 15:18:37 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static int	check_next(t_map *map, t_queue *queue, int nb_iter, int *reach_end)
 	{
 		if (!current_link->flow && current_link->room_dest->visited != nb_iter)
 		{
-			if ((append_queue(queue, current_link->room_dest)))
+			if ((append_queue(&queue, current_link->room_dest)))
 				return (1);
-			current_link->room_dest->prev = queue;
+			current_link->room_dest->prev = queue->room;
 			if (current_link->room_dest == map->end)
 			{
 				*reach_end = 1;
@@ -55,7 +55,6 @@ static int	check_next(t_map *map, t_queue *queue, int nb_iter, int *reach_end)
 int		bfs(t_map *map, int nb_iter)
 {
 	t_queue	*queue;
-	t_room	*tmp;
 	t_link	*current_link;
 	int		reach_end;
 
@@ -67,9 +66,9 @@ int		bfs(t_map *map, int nb_iter)
 		queue->room->visited = nb_iter;
 		if ((current_link = find_flow(queue->room->links, nb_iter, -1)))
 		{
-			if ((append_queue(queue, current_link->room_dest)))
+			if ((append_queue(&queue, current_link->room_dest)))
 				return (-1);
-			current_link->room_dest->prev = queue;
+			current_link->room_dest->prev = queue->room;
 			refresh_queue(&queue);
 			continue ;
 		}
