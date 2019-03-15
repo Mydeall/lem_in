@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 11:31:52 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/15 18:20:16 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/15 18:36:29 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int		edmonds_karp(t_map *map)
 	nb_iter = 1;
 	while ((ret = bfs(map, nb_iter)) == 1)
 	{
+		printf("ok bfs\n");
 		current = map->end;
 		while (current != map->start)
 		{
@@ -111,6 +112,7 @@ int		edmonds_karp(t_map *map)
 		// +update chemins
 		printf("\nafter bfs n%d :\n", nb_iter);
 		display_paths(paths);
+		printf("end display paths\n");
 		nb_iter++;
 	}
 	if (nb_iter == 0 || ret == -1)

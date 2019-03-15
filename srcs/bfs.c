@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 14:54:20 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/15 18:19:53 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/15 18:40:24 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int		bfs(t_map *map, int nb_iter)
 	reach_end = 0;
 	queue = NULL;
 	append_queue(&queue, map->start);
-	//printf("ok bfs %d\n", nb_iter);
+	printf("ok bfs %d\n", nb_iter);
 	while (queue)
 	{
 		queue->room->visited = nb_iter;
@@ -93,9 +93,12 @@ int		bfs(t_map *map, int nb_iter)
 		if ((current_link = find_flow(queue->room->links, -1)))
 		{
 			prev_link = find_link(queue->room, prev_queue->room);
+			printf("ok bfs 00\n");
+			printf("prev_link: %p\n", prev_link);
+			printf("prev_link->flow : %d\n", prev_link->flow);
 			if (!prev_link->flow)
 			{
-			//	printf("%s : flux negatif ne venant pas d'un flux !!!!!!!!!!!!!\n", queue->room->name);
+				printf("%s : flux negatif ne venant pas d'un flux !!!!!!!!!!!!!\n", queue->room->name);
 				if (current_link->room_dest->visited == nb_iter)
 				{
 					queue->room->visited = 0;
@@ -113,7 +116,7 @@ int		bfs(t_map *map, int nb_iter)
 				continue ;
 			}
 		}
-	//	printf("ok bfs 2 %d\n", nb_iter);
+		printf("ok bfs 2 %d\n", nb_iter);
 		if ((check_next(map, &queue, nb_iter, &reach_end, &prev_queue)))
 			return (-1);
 	//	printf("before refresh\n");
@@ -122,7 +125,7 @@ int		bfs(t_map *map, int nb_iter)
 			refresh_queue(&queue, &prev_queue);
 	//	printf("after refresh\n");
 	//	display_queue(queue);
-	//	printf("ok bfs 3 %p\n", queue);
+		printf("ok bfs 3 %p\n", queue);
 	}
 //	printf("reach bfs end ? : %d\n", reach_end);
 	return (reach_end);
