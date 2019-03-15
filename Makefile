@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/03/14 13:06:00 by rkirszba         ###   ########.fr        #
+#    Updated: 2019/03/15 14:59:09 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,9 @@ SRC_NAME = free_functions.c\
 		   parser.c\
 		   parser_functions.c\
 		   room_functions.c\
+		   bfs.c \
+		   edmonds_karp.c \
+		   queue_functions.c
 
 INC_NAME = lem_in.h \
 		   get_next_line.h \

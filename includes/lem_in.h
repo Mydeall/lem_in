@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/14 15:48:41 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/15 14:56:43 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,15 @@ typedef struct	s_room
 	int				x;
 	int				y;
 	struct s_room	*next;
+	struct s_room	*prev;
+	int				visited;	
 }				t_room;
+
+typedef struct		s_queue
+{
+	t_room			*room;
+	struct s_queue	*next;
+}					t_queue;
 
 typedef struct	s_link
 {
@@ -73,5 +81,13 @@ t_link			*new_link(t_room *room_dest);
 
 void			free_hash_tab(t_map *map);
 void			free_links(t_link *link);
+
+void			refresh_queue(t_queue **queue);
+int				append_queue(t_queue **queue, t_room *room);
+
+int				bfs(t_map *map, int nb_iter);
+t_link			*find_flow(t_link *links, int nb_iter, int value);
+
+int				edmonds_karp(t_map *map);
 
 #endif
