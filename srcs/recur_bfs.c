@@ -1,43 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bfs.c                                              :+:      :+:    :+:   */
+/*   recur_bfs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/15 14:54:20 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/18 18:33:42 by ccepre           ###   ########.fr       */
+/*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
+/*   Updated: 2019/03/18 18:33:39 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
-
-t_link		*find_flow(t_link *links, int value)
+static int	find_path_flow_back(t_room *room)
 {
-	t_link	*current_link;
+	t_link	*link;
+	t_room	*current_room;
+	int		nb_room;
 
-	current_link = links;
-	while (current_link)
+	while ((link = find_flow(current_room->links, -1)))
 	{
-		if (current_link->flow == value)
-			return (current_link);
-		current_link = current_link->next;
+		nb_room++;
+		current_room = link->room_dest;
 	}
-	return (NULL);
-}
-
-t_link	*find_link(t_room *room, t_room *room_dest)
-{
-	t_link *current_link;
-
-	current_link = room->links;
-	while (current_link)
-	{
-		if (current_link->room_dest == room_dest)
-			return (current_link);
-		current_link = current_link->next;
-	}
-	return (NULL);
+	return (nb_room);
 }
 
 static void	end_reached(t_queue **queue, int *reach_end, int nb_iter)
@@ -78,7 +62,7 @@ static int	normal_case(t_map *map, t_queue **queue, int nb_iter, int *reach_end)
 	return (0);
 }
 
-int		case_flow_from_empty_flow(t_queue **queue, t_link *link, int nb_iter)
+static int		case_flow_from_empty_flow(t_queue **queue, t_link *link, int nb_iter)
 {
 	if (link->room_dest->visited == nb_iter) // cul-de-sac = reset
 	{
@@ -93,12 +77,16 @@ int		case_flow_from_empty_flow(t_queue **queue, t_link *link, int nb_iter)
 	link->room_dest->prev = (*queue)->room;
 	refresh_queue(queue);
 	return (1) ;
-
 }
 
-int		bfs(t_map *map, int nb_iter)
+int		recur_bfs(t_map *map, t_room *room, int nb_iter, t_queue **path)
 {
 	t_queue	*queue;
+	t_queue	*tmp_path;
+	t_queue	*best_path;
+	int		len;
+	int		best_len;
+	int		tmp_len;
 	t_link	*current_link;
 	t_link	*prev_link;
 	int		reach_end;
@@ -106,12 +94,14 @@ int		bfs(t_map *map, int nb_iter)
 	reach_end = 0;
 	queue = NULL;
 	prev_link= NULL;
-	append_queue(&queue, map->start);
+	append_queue(&queue, room);
 	while (queue)
 	{
 		queue->room->visited = nb_iter;
 		if ((current_link = find_flow(queue->room->links, -1)))
 		{
+			if (current_link->room_dest->visited != nb_iter)
+				if (recur_bfs(map, current_link->room_dest, nb_iter, best_len);
 			prev_link = find_link(queue->room, queue->room->prev);
 			if (!prev_link->flow)
 			{
@@ -125,8 +115,3 @@ int		bfs(t_map *map, int nb_iter)
 	}
 	return (reach_end);
 }
-/*
-				printf("queue->room = %s\n", queue->room->name);
-				printf("prev_queue->room = %s\n", prev_queue->room->name);
-				printf("prev_link->flow : %d\n", prev_link->flow);
-*/
