@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 14:54:20 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/18 18:33:42 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/19 13:11:55 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_link		*find_flow(t_link *links, int value)
 	return (NULL);
 }
 
-t_link	*find_link(t_room *room, t_room *room_dest)
+static t_link	*find_link(t_room *room, t_room *room_dest)
 {
 	t_link *current_link;
 
@@ -74,7 +74,7 @@ static int	normal_case(t_map *map, t_queue **queue, int nb_iter, int *reach_end)
 		current_link = current_link->next;
 	}
 	if (queue)
-		refresh_queue(&queue);
+		refresh_queue(queue);
 	return (0);
 }
 
@@ -115,7 +115,7 @@ int		bfs(t_map *map, int nb_iter)
 			prev_link = find_link(queue->room, queue->room->prev);
 			if (!prev_link->flow)
 			{
-				if (case_flow_from_empty_flow(&queue, prev_link, nb_iter) == -1)
+				if (case_flow_from_empty_flow(&queue, current_link, nb_iter) == -1)
 					return (-1);
 				continue ;
 			}					

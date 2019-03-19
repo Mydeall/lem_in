@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 14:51:49 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/18 18:33:40 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/19 12:27:33 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,20 @@ int		append_queue(t_queue **queue, t_room *room)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
+	return (0);
+}
+
+int		append_start_queue(t_queue **queue, t_room *room)
+{
+	t_queue	*new;
+	t_queue	*tmp;
+
+	if (!(new = (t_queue*)malloc(sizeof(t_queue))))
+		return (1);
+	new->room = room;
+	new->next = NULL;
+	tmp = *queue;
+	*queue = new;
+	(*queue)->next = tmp;
 	return (0);
 }

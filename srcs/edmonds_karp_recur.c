@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   edmonds_karp.c                                     :+:      :+:    :+:   */
+/*   edmonds_karp_recur.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/15 11:31:52 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/19 12:41:02 by ccepre           ###   ########.fr       */
+/*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
+/*   Updated: 2019/03/19 13:14:35 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,38 +86,39 @@ static t_queue	**get_paths(t_map *map)
 	return (paths);
 }
 
-int		edmonds_karp(t_map *map)
+int		recur_edmonds_karp(t_map *map)
 {
 	int	nb_iter;
-	t_room	*current;
-	int	ret;
+	t_queue	*current;
+	t_queue	*bfs_path;
 	t_queue **paths;
 //	t_queue	**best_path;
 
 	nb_iter = 1;
-	while ((ret = bfs(map, nb_iter)) == 1)
+	while ((bfs_path = recur_bfs(map, map->start, nb_iter, NULL)))
 	{
-		current = map->end;
-		while (current != map->start)
+		current = bfs_path;
+		while (current->next)
 		{
-			update_flow(current->prev, current, 1);
-			update_flow(current, current->prev, -1);
-			current = current->prev;
+			update_flow(current->room, current->next->room, 1);
+			update_flow(current->next->room, current->room, -1);
+			current = current->next;
 		}
+		// free bfs_path
 		if (!(paths = get_paths(map)))
 			return (1);
-		printf("\nafter bfs n%d :\n", nb_iter);
-		display_paths(paths);
-		printf("end display paths\n");
 		// comparer nb_tour apres repartition
 		// +update chemins
 		nb_iter++;
 	}
-	if (nb_iter == 0 || ret == -1)
+	if (nb_iter == 0)
 		return (1);
 	return (0);
 }
 
 
 /*
+		printf("\nafter bfs n%d :\n", nb_iter);
+		display_paths(paths);
+		printf("end display paths\n");
 */

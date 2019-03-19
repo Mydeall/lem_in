@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/03/15 16:03:41 by rkirszba         ###   ########.fr        #
+#    Updated: 2019/03/19 13:13:54 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,9 @@ SRC_NAME = free_functions.c\
 		   bfs.c\
 		   edmonds_karp.c\
 		   queue_functions.c\
-		   display.c
+		   display.c\
+		   recur_bfs.c\
+		   edmonds_karp_recur.c
 
 
 INC_NAME = lem_in.h \

@@ -6,12 +6,11 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 18:52:43 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/15 18:20:04 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/19 13:05:46 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include <stdio.h>
 
 t_tab_parser	*initialize_tab_parser(t_tab_parser *tab_parser)
 {
@@ -63,6 +62,7 @@ int				main(void)
 	}
 	parser(map, tab_parser, line);
 //	print_map(map);
-	edmonds_karp(map);
+//	edmonds_karp(map);
+	recur_edmonds_karp(map);
 	return (0);
 }
