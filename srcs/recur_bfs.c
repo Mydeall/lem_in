@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/19 16:53:43 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/19 17:04:40 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ static t_queue	*find_bfs_path(t_map *map)
 		return (NULL);
 	while (current != map->start)
 	{
-		printf("path nam : %s\n", current->name);
+		printf("path name : %s\n", current->name);
+//		if (current->prev)
+//			printf("prev name : %s\n", current->prev->name);
 		if(append_start_queue(&path, current->prev))
 			return (NULL);
 		current = current->prev;
