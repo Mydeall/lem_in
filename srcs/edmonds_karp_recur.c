@@ -6,10 +6,11 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/19 15:59:53 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/20 12:47:57 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <time.h>
 #include "lem_in.h"
 
 static void	update_flow(t_room *a_room, t_room *b_room, char side)
@@ -93,10 +94,13 @@ int		recur_edmonds_karp(t_map *map)
 	t_queue	*bfs_path;
 	t_queue **paths;
 //	t_queue	**best_path;
+	int		best_len;
 
+	best_len = -1;
 	nb_iter = 1;
-	while ((bfs_path = recur_bfs(map, map->start, nb_iter, NULL)))
+	while ((bfs_path = recur_bfs(map, map->start, nb_iter, &best_len)))
 	{
+		best_len = -1;
 		current = bfs_path;
 		while (current->next)
 		{
@@ -110,11 +114,14 @@ int		recur_edmonds_karp(t_map *map)
 		printf("\nafter bfs n%d :\n", nb_iter);
 		display_paths(paths);
 		printf("end display paths\n\n");
+//		usleep(5000000);
 		// comparer nb_tour apres repartition
 		// +update chemins
 		nb_iter++;
 	}
-	printf("end edmonds\n");
+		printf("\nafter bfs n%d :\n", nb_iter);
+		display_paths(paths);
+		printf("end display paths\n\n");
 	if (nb_iter == 0)
 		return (1);
 	return (0);

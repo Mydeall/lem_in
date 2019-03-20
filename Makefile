@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/03/19 13:13:54 by ccepre           ###   ########.fr        #
+#    Updated: 2019/03/20 13:20:58 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,11 +24,10 @@ SRC_NAME = free_functions.c\
 		   parser.c\
 		   parser_functions.c\
 		   room_functions.c\
-		   bfs.c\
-		   edmonds_karp.c\
 		   queue_functions.c\
 		   display.c\
 		   recur_bfs.c\
+		   bfs_functions.c\
 		   edmonds_karp_recur.c
 
 

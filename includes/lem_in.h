@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/19 14:18:02 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/20 13:10:02 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,10 @@ int				verif_already_queue(t_queue **queue, t_room *room);
 
 int				recur_edmonds_karp(t_map *map);
 t_queue			*recur_bfs(t_map *map, t_room *room, int nb_iter, int *best_len);
+
+int				compute_len(t_room *start, t_room *room, int len);
+void			reset_visited(t_queue **queue);
+t_link			*find_link(t_room *room, t_room *room_dest);
+int				find_path_flow_back(t_room *room);
+t_queue			*find_bfs_path(t_map *map);
 #endif
