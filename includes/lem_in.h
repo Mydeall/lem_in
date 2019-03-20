@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 13:10:02 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/20 16:03:41 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void			display_queue(t_queue *queue);
 int				verif_already_queue(t_queue **queue, t_room *room);
 
 int				recur_edmonds_karp(t_map *map);
-t_queue			*recur_bfs(t_map *map, t_room *room, int nb_iter, int *best_len);
+t_queue			*recur_bfs(t_map *map, t_room *room, int *best_len);
 
 int				compute_len(t_room *start, t_room *room, int len);
 void			reset_visited(t_queue **queue);

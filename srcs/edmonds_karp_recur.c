@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 12:47:57 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/20 16:05:08 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int		recur_edmonds_karp(t_map *map)
 
 	best_len = -1;
 	nb_iter = 1;
-	while ((bfs_path = recur_bfs(map, map->start, nb_iter, &best_len)))
+	while ((bfs_path = recur_bfs(map, map->start, &best_len)))
 	{
 		best_len = -1;
 		current = bfs_path;
