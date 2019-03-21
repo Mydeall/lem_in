@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/21 15:02:03 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/21 16:05:30 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ static t_queue	*browse_path(t_map *map, t_room *current_room)
 		current_room = link->room_dest;
 	}
 	if (append_queue(&path, current_room))
-		path = NULL;
+		return(NULL);
 	return (path);
 }
 
-static t_path	**get_paths(t_map *map)
+static t_path	*get_paths(t_map *map)
 {
 	t_link	*current_link;
-	t_path	**paths;
+	t_path	*paths;
 	int		nb_paths;
 
 	nb_paths = 0;
@@ -66,16 +66,17 @@ static t_path	**get_paths(t_map *map)
 			nb_paths++;
 		current_link = current_link->next;
 	}
-	if (!(paths = (t_path**)malloc(sizeof(t_path*) * (nb_paths + 1))))
+	printf("nb_path = %d\n", nb_paths);
+	if (!(paths = (t_path*)malloc(sizeof(t_path) * (nb_paths + 1))))
 		return (NULL);
-	paths[nb_paths] = NULL;
+	paths[nb_paths].path = NULL;
 	current_link = map->start->links;
 	nb_paths = 0;
 	while (current_link)
 	{
 		if (current_link->flow == 1)
 		{
-			if (!(paths[nb_paths]->path = browse_path(map, current_link->room_dest)))
+			if (!(paths[nb_paths].path = browse_path(map, current_link->room_dest)))
 			{
 				//free
 				return (NULL);
@@ -87,9 +88,9 @@ static t_path	**get_paths(t_map *map)
 	return (paths);
 }
 
-t_path		**test_best_repartition(t_map *map, t_path **best_paths, int *best_steps)
+t_path		*test_best_repartition(t_map *map, t_path *best_paths, int *best_steps)
 {
-	t_path	**paths;
+	t_path	*paths;
 	int		steps;
 	int		i;
 
@@ -97,7 +98,6 @@ t_path		**test_best_repartition(t_map *map, t_path **best_paths, int *best_steps
 	printf("OK TEST BEST REPARTITION\n");
 	if (!(paths = get_paths(map)))
 		return (NULL); // erreur malloc
-	display_paths(paths);
 	steps = ants_repartition(map->ants, paths);
 	display_paths(paths);
 	if (*best_steps == -1 || *best_steps > steps)
@@ -107,11 +107,8 @@ t_path		**test_best_repartition(t_map *map, t_path **best_paths, int *best_steps
 	}
 	else
 	{
-		while (paths[++i])
-		{
-			free_queue(paths[i]->path);
-			free(paths[i]);
-		}
+		while (paths[++i].path)
+			free_queue(paths[i].path);
 		free(paths);
 	}
 	return (best_paths);
@@ -121,7 +118,7 @@ int		recur_edmonds_karp(t_map *map)
 {
 	t_queue	*current;
 	t_queue	*bfs_path;
-	t_path	**best_paths;
+	t_path	*best_paths;
 	int		best_steps;
 	int		best_len;
 

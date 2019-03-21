@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 15:57:25 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/21 15:01:13 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/21 15:48:33 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,31 +62,32 @@ void			print_map(t_map *map)
 	printf("nb_rooms : %d\nnb_links : %d\n", count_rooms, count_links);
 }
 
-void	display_paths(t_path **paths)
+void	display_paths(t_path *paths)
 {
 	int		i;
-	t_queue	*path;
+//	t_queue	*path;
 
 	i = 0;
 	printf("DISPLAY\n");
-	if (!paths || !*paths)
+	if (!paths)
 	{
 		printf("%p\n", NULL);
 		return ;
 	}
-	while (paths[i])
+	while (paths[i].path)
 	{
 		printf("Chemin %d\n", i + 1);
-		path = paths[i]->path;
-		printf("size : %d\nants : %d\nsteps : %d\n", paths[i]->size,\
-				paths[i]->ants, paths[i]->steps);
-		while (path)
-		{
-			printf("%s", path->room->name);
-			if (path->next)
-				printf("->");
-			path = path->next;
-		}
+//		path = paths[i]->path;
+		printf("size : %d\nants : %d\nsteps : %d\n", paths[i].size,\
+				paths[i].ants, paths[i].steps);
+		display_queue(paths[i].path);
+//		while (path)
+//		{
+//			printf("%s", path->room->name);
+//			if (path->next)
+//				printf("->");
+//			path = path->next;
+//		}
 		i++;
 		printf("\n");
 	}

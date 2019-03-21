@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/21 14:49:21 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/21 16:05:09 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_link			*find_flow(t_link *links, int value);
 
 int				edmonds_karp(t_map *map);
 
-void			display_paths(t_path **paths);
+void			display_paths(t_path *paths);
 void			print_map(t_map *map);
 void			display_queue(t_queue *queue);
 int				verif_already_queue(t_queue **queue, t_room *room);
@@ -116,7 +116,7 @@ t_link			*find_link(t_room *room, t_room *room_dest);
 int				find_path_flow_back(t_room *room);
 t_queue			*find_bfs_path(t_map *map);
 
-int				ants_repartition(int ants, t_path **paths);
+int				ants_repartition(int ants, t_path *paths);
 int				queue_len(t_queue *queue);
 
 #endif
