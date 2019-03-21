@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/03/20 13:20:58 by ccepre           ###   ########.fr        #
+#    Updated: 2019/03/21 14:51:51 by rkirszba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC_NAME = free_functions.c\
 		   display.c\
 		   recur_bfs.c\
 		   bfs_functions.c\
-		   edmonds_karp_recur.c
+		   edmonds_karp_recur.c\
+		   ants_repartition.c
 
 
 INC_NAME = lem_in.h \

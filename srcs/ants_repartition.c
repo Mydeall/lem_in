@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ants_repartition.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:08:40 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 19:11:08 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 14:57:27 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		queue_len(t_queue *queue)
+int			queue_len(t_queue *queue)
 {
 	t_queue	*current;
 	int		len;
@@ -27,7 +27,7 @@ int		queue_len(t_queue *queue)
 	return (len - 1);
 }
 
-void	sort_paths(t_path **paths, int nb_paths)
+static void	sort_paths(t_path **paths, int nb_paths)
 {
 	t_path *tmp;
 	int i;
@@ -51,7 +51,7 @@ void	sort_paths(t_path **paths, int nb_paths)
 	}
 }
 
-int		compute_ants(t_path *path, int nb_paths, int paths_len, int ants)
+static int	compute_ants(t_path *path, int nb_paths, int paths_len, int ants)
 {
 	int		ants_path;
 
@@ -59,7 +59,7 @@ int		compute_ants(t_path *path, int nb_paths, int paths_len, int ants)
 	return (ants_path);
 }
 
-void	complete(t_path **paths, int ants_left)
+static void	complete(t_path **paths, int ants_left)
 {
 	int	min_step;
 	int min_index;
@@ -83,7 +83,7 @@ void	complete(t_path **paths, int ants_left)
 	}
 }
 
-void	compute_total_step(t_path **paths)
+static int	compute_total_steps(t_path **paths)
 {
 	int		max_step;
 	int		i;
@@ -96,7 +96,7 @@ void	compute_total_step(t_path **paths)
 	return (max_step);
 }
 
-int		ants_repartition(int ants, t_path **paths)
+int			ants_repartition(int ants, t_path **paths)
 {
 	t_path	**current_path;
 	int		i;
@@ -106,6 +106,7 @@ int		ants_repartition(int ants, t_path **paths)
 
 	i = -1;
 	paths_len = 0;
+	printf("OK ANTS REPARTITION\n");
 	while(paths[++i])
 	{
 		paths[i]->size = queue_len(paths[i]->path);
@@ -131,6 +132,7 @@ int		ants_repartition(int ants, t_path **paths)
 		*current_path = *(current_path + 1);
 	}
 	complete(paths + nb_skip, ants_left);
+	printf("OK ANTS REPARTITION FIN\n");
 	return (compute_total_steps(paths + nb_skip));
 }
 		

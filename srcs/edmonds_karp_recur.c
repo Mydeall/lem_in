@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   edmonds_karp_recur.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 18:24:52 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 15:02:03 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,47 @@ static t_path	**get_paths(t_map *map)
 	return (paths);
 }
 
+t_path		**test_best_repartition(t_map *map, t_path **best_paths, int *best_steps)
+{
+	t_path	**paths;
+	int		steps;
+	int		i;
+
+	i = -1;
+	printf("OK TEST BEST REPARTITION\n");
+	if (!(paths = get_paths(map)))
+		return (NULL); // erreur malloc
+	display_paths(paths);
+	steps = ants_repartition(map->ants, paths);
+	display_paths(paths);
+	if (*best_steps == -1 || *best_steps > steps)
+	{
+		*best_steps = steps;
+		best_paths = paths;
+	}
+	else
+	{
+		while (paths[++i])
+		{
+			free_queue(paths[i]->path);
+			free(paths[i]);
+		}
+		free(paths);
+	}
+	return (best_paths);
+}
+
 int		recur_edmonds_karp(t_map *map)
 {
-	int	nb_iter;
 	t_queue	*current;
 	t_queue	*bfs_path;
-	t_queue **paths;
-//	t_queue	**best_path;
+	t_path	**best_paths;
+	int		best_steps;
 	int		best_len;
 
 	best_len = -1;
-	nb_iter = 1;
+	best_steps = -1;
+	best_paths = NULL;
 	while ((bfs_path = recur_bfs(map, map->start, &best_len)))
 	{
 		best_len = -1;
@@ -108,21 +138,12 @@ int		recur_edmonds_karp(t_map *map)
 			update_flow(current->next->room, current->room, -1);
 			current = current->next;
 		}
-		// free bfs_path
-		if (!(paths = get_paths(map)))
-			return (1);
-		printf("\nafter bfs n%d :\n", nb_iter);
-		display_paths(paths);
-		printf("end display paths\n\n");
-//		usleep(5000000);
-		// comparer nb_tour apres repartition
-		// +update chemins
-		nb_iter++;
+		printf("END BFS\n");
+		best_paths = test_best_repartition(map, best_paths, &best_steps);
 	}
-		printf("\nafter bfs n%d :\n", nb_iter);
-		display_paths(paths);
-		printf("end display paths\n\n");
-	if (nb_iter == 0)
+	printf("\nBest paths after edmonds-karp :\n");
+	display_paths(best_paths);
+	if (!best_paths)
 		return (1);
 	return (0);
 }

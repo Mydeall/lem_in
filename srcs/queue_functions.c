@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   queue_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 14:51:49 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 18:15:34 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 14:24:09 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-void	refresh_queue(t_queue **queue)
-{
-	t_queue	*tmp;
-
-	if (!queue || !*queue)
-		return ;
-	tmp = *queue;
-	*queue = (*queue)->next;
-	if (tmp)
-		free(tmp);
-}
 
 int		verif_already_queue(t_queue **queue, t_room *room)
 {
@@ -72,4 +60,16 @@ int		append_start_queue(t_queue **queue, t_room *room)
 	*queue = new;
 	(*queue)->next = tmp;
 	return (0);
+}
+
+void	free_queue(t_queue *queue)
+{
+	t_queue	*tmp;
+
+	while (queue)
+	{
+		tmp = queue;
+		queue = queue->next;
+		free(tmp);
+	}
 }

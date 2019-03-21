@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recur_bfs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 17:40:30 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 14:54:08 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,7 @@ t_queue		*recur_bfs(t_map *map, t_room *room_start, int *best_len)
 			return (NULL); // erreur malloc NULL....
 		queue = queue->next;
 	}
-	printf("before reset\n");
 	reset_visited(&head_queue);
-	printf("end BFS\n");
 	return (path);
 }
 

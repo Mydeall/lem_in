@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 15:57:25 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/15 16:59:44 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/21 15:01:13 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,30 @@ void			print_map(t_map *map)
 	printf("nb_rooms : %d\nnb_links : %d\n", count_rooms, count_links);
 }
 
-void	display_paths(t_queue **paths)
+void	display_paths(t_path **paths)
 {
 	int		i;
-	t_queue	*current_queue;
+	t_queue	*path;
 
 	i = 0;
+	printf("DISPLAY\n");
+	if (!paths || !*paths)
+	{
+		printf("%p\n", NULL);
+		return ;
+	}
 	while (paths[i])
 	{
 		printf("Chemin %d\n", i + 1);
-		current_queue = paths[i];
-		while (current_queue)
+		path = paths[i]->path;
+		printf("size : %d\nants : %d\nsteps : %d\n", paths[i]->size,\
+				paths[i]->ants, paths[i]->steps);
+		while (path)
 		{
-			printf("%s", current_queue->room->name);
-			if (current_queue->next)
+			printf("%s", path->room->name);
+			if (path->next)
 				printf("->");
-			current_queue = current_queue->next;
+			path = path->next;
 		}
 		i++;
 		printf("\n");

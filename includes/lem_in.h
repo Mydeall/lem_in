@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 19:12:21 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 14:49:21 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,14 @@ void			free_links(t_link *link);
 void			refresh_queue(t_queue **queue);
 int				append_queue(t_queue **queue, t_room *room);
 int				append_start_queue(t_queue **queue, t_room *room);
+void			free_queue(t_queue *queue);
 
 int				bfs(t_map *map, int nb_iter);
 t_link			*find_flow(t_link *links, int value);
 
 int				edmonds_karp(t_map *map);
 
-void			display_paths(t_queue **paths);
+void			display_paths(t_path **paths);
 void			print_map(t_map *map);
 void			display_queue(t_queue *queue);
 int				verif_already_queue(t_queue **queue, t_room *room);
@@ -114,4 +115,8 @@ void			reset_visited(t_queue **queue);
 t_link			*find_link(t_room *room, t_room *room_dest);
 int				find_path_flow_back(t_room *room);
 t_queue			*find_bfs_path(t_map *map);
+
+int				ants_repartition(int ants, t_path **paths);
+int				queue_len(t_queue *queue);
+
 #endif
