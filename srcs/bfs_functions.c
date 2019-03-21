@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 13:07:57 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 17:48:10 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 18:00:37 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_queue	*find_bfs_path(t_map *map)
 		return (NULL);
 	while (current != map->start)
 	{
-		printf("find path name : %s\n", current->prev->room->name);
 		if(append_start_queue(&path, current->prev->room))
 			return (NULL);
 		current = current->prev->room;
@@ -53,7 +52,6 @@ int		compute_len(t_room *start, t_room *room, int len)
 	while (current != start && current->prev)
 	{
 		len++;
-		printf("len name : %s\n", current->name);
 		current = current->prev->room;
 	}
 	return (len);

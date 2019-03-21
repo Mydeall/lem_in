@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/21 16:26:04 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 18:05:57 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ t_queue		*recur_bfs(t_map *map, t_room *room_start, int *best_len)
 		queue = queue->next;
 	}
 	reset_visited(&head_queue);
-	display_queue(path);
 	return (path);
 }
 

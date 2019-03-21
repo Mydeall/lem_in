@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/21 16:28:15 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 18:00:16 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static t_path	*get_paths(t_map *map)
 			nb_paths++;
 		current_link = current_link->next;
 	}
-	printf("nb_path = %d\n", nb_paths);
 	if (!(paths = (t_path*)malloc(sizeof(t_path) * (nb_paths + 1))))
 		return (NULL);
 	paths[nb_paths].path = NULL;
@@ -88,21 +87,22 @@ static t_path	*get_paths(t_map *map)
 	return (paths);
 }
 
-t_path		*test_best_repartition(t_map *map, t_path *best_paths, int *best_steps)
+int		test_best_repartition(t_map *map, t_path **best_paths, int *best_steps)
 {
 	t_path	*paths;
 	int		steps;
 	int		i;
 
 	i = -1;
-	printf("OK TEST BEST REPARTITION\n");
 	if (!(paths = get_paths(map)))
-		return (NULL); // erreur malloc
+		return (-1); // erreur malloc
 	steps = ants_repartition(map->ants, paths);
 	if (*best_steps == -1 || *best_steps > steps)
 	{
 		*best_steps = steps;
-		best_paths = paths;
+		*best_paths = paths;
+		// free old best_path
+		return (1);
 	}
 	else
 	{
@@ -110,7 +110,7 @@ t_path		*test_best_repartition(t_map *map, t_path *best_paths, int *best_steps)
 			free_queue(paths[i].path);
 		free(paths);
 	}
-	return (best_paths);
+	return (0);
 }
 
 int		recur_edmonds_karp(t_map *map)
@@ -134,8 +134,8 @@ int		recur_edmonds_karp(t_map *map)
 			update_flow(current->next->room, current->room, -1);
 			current = current->next;
 		}
-		printf("END BFS\n");
-		best_paths = test_best_repartition(map, best_paths, &best_steps);
+		if (!test_best_repartition(map, &best_paths, &best_steps))
+			break ;
 	}
 	printf("\nBest paths after edmonds-karp :\n");
 	display_paths(best_paths);

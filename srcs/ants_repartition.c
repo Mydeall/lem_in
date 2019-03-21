@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:08:40 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/21 16:26:55 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 17:59:56 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int			queue_len(t_queue *queue)
 	t_queue	*current;
 	int		len;
 
-	printf("start queue len\n");
 	len = 0;
 	current = queue;
 	while (current)
@@ -25,7 +24,6 @@ int			queue_len(t_queue *queue)
 		len++;
 		current = current->next;
 	}
-	printf("end queue len\n");
 	return (len - 1);
 }
 
@@ -38,7 +36,7 @@ static void	sort_paths(t_path *paths, int nb_paths)
 	i = -1;
 	while (++i < nb_paths)
 	{
-		j = i;
+		j = 0;
 		while (j < nb_paths - 1)
 		{
 			if (paths[j].size < paths[j + 1].size)
@@ -46,6 +44,7 @@ static void	sort_paths(t_path *paths, int nb_paths)
 				tmp = paths[j];
 				paths[j] = paths[j + 1];
 				paths[j + 1] = tmp;
+				continue ;
 			}
 			j++;
 		}
@@ -108,35 +107,31 @@ int			ants_repartition(int ants, t_path *paths)
 
 	nb_path = -1;
 	paths_len = 0;
-	printf("OK ANTS REPARTITION\n");
 	while(paths[++nb_path].path)
 	{
 		paths[nb_path].size = queue_len(paths[nb_path].path);
 		paths_len += paths[nb_path].size;
 	}
-	printf("OK ANTS REPARTITION 1\n");
 	sort_paths(paths, nb_path);
-	printf("OK ANTS REPARTITION 8\n");
 	current_path = paths;
 	ants_left = ants;
 	nb_skip = 0;
-	printf("OK ANTS REPARTITION 2\n");
 	i = -1;
 	while (current_path[++i].path)
 	{
 		current_path[i].ants = compute_ants(&current_path[i], nb_path, paths_len, ants);
-		if (current_path[i].ants == 0)
+		if (current_path[i].ants <= 0)
 		{
 			paths_len -= current_path[i].size;
 			nb_path--;
 			nb_skip++;
+			printf("skip size : %d\n", current_path[i].size);
 			continue ;
 		}
 		current_path[i].steps = current_path[i].size + current_path[i].ants - 1;
 		ants_left -= current_path[i].ants;
 	}
 	complete(&paths[nb_skip], ants_left);
-	printf("OK ANTS REPARTITION FIN\n");
 	return (compute_total_steps(&paths[nb_skip]));
 }
 		
