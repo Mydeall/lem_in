@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   edmonds_karp_recur.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 16:05:08 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/20 18:24:52 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ static t_queue	*browse_path(t_map *map, t_room *current_room)
 	return (path);
 }
 
-static t_queue	**get_paths(t_map *map)
+static t_path	**get_paths(t_map *map)
 {
 	t_link	*current_link;
-	t_queue	**paths;
+	t_path	**paths;
 	int		nb_paths;
 
 	nb_paths = 0;
@@ -66,7 +66,7 @@ static t_queue	**get_paths(t_map *map)
 			nb_paths++;
 		current_link = current_link->next;
 	}
-	if (!(paths = (t_queue**)malloc(sizeof(t_queue*) * (nb_paths + 1))))
+	if (!(paths = (t_path**)malloc(sizeof(t_path*) * (nb_paths + 1))))
 		return (NULL);
 	paths[nb_paths] = NULL;
 	current_link = map->start->links;
@@ -75,7 +75,7 @@ static t_queue	**get_paths(t_map *map)
 	{
 		if (current_link->flow == 1)
 		{
-			if (!(paths[nb_paths] = browse_path(map, current_link->room_dest)))
+			if (!(paths[nb_paths]->path = browse_path(map, current_link->room_dest)))
 			{
 				//free
 				return (NULL);

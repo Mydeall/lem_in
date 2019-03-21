@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 16:15:34 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/20 17:40:30 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static int		link_action(t_queue **queue, t_link *link)
 		{
 			if ((append_queue(queue, link->room_dest)))
 				return (1);
-			link->room_dest->prev = (*queue)->room;
+			if (append_start_queue(&link->room_dest->prev, (*queue)->room))
+				return (-1); //WARNING
 		}
 	return (0);
 }
@@ -43,7 +44,7 @@ int		links_manager(t_map *map, t_queue **queue)
 	
 	if ((current_link = find_flow((*queue)->room->links, -1)))
 	{
-		prev_link = find_link((*queue)->room, (*queue)->room->prev);
+		prev_link = find_link((*queue)->room, (*queue)->room->prev->room);
 		if (!prev_link->flow)
 		{
 			(*queue)->room->visited = 0;
@@ -79,12 +80,19 @@ t_queue		*recur_bfs(t_map *map, t_room *room_start, int *best_len)
 	len = find_path_flow_back(room_start);
 	while (queue && (*best_len == -1 || compute_len(room_start, queue->room, len) < *best_len))
 	{
+		display_queue(queue);
+		if (queue->room->prev)
+			printf("queue->prev : %s\n", queue->room->prev->room->name);
+		else
+			printf("queue->prev : %s\n", NULL);
 		queue->room->visited = 1;
 		if ((current_link = find_flow(queue->room->links, -1))\
 				&& current_link->room_dest->visited != 1)
 		{
-			current_link->room_dest->prev = queue->room;
+			if (append_start_queue(&current_link->room_dest->prev, queue->room))
+				return (NULL);
 			printf("Appel recur from %s to %s\n", room_start->name, current_link->room_dest->name);
+//			usleep(1000000);
 			tmp_path = recur_bfs(map, current_link->room_dest, best_len);
 			if (tmp_path)
 				path = tmp_path;
@@ -99,7 +107,9 @@ t_queue		*recur_bfs(t_map *map, t_room *room_start, int *best_len)
 			return (NULL); // erreur malloc NULL....
 		queue = queue->next;
 	}
+	printf("before reset\n");
 	reset_visited(&head_queue);
+	printf("end BFS\n");
 	return (path);
 }
 

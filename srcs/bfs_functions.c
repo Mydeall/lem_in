@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 13:07:57 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 13:19:52 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/20 17:48:10 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,35 @@ t_link		*find_flow(t_link *links, int value)
 	return (NULL);
 }
 
+t_queue	*find_bfs_path(t_map *map)
+{
+	t_room	*current;
+	t_queue	*path;
+
+	current = map->end;
+	path = NULL;
+	if (append_start_queue(&path, current))
+		return (NULL);
+	while (current != map->start)
+	{
+		printf("find path name : %s\n", current->prev->room->name);
+		if(append_start_queue(&path, current->prev->room))
+			return (NULL);
+		current = current->prev->room;
+	}
+	return (path);
+}
+
 int		compute_len(t_room *start, t_room *room, int len)
 {
 	t_room *current;
 	
 	current = room;
-	while (current != start)
+	while (current != start && current->prev)
 	{
 		len++;
 		printf("len name : %s\n", current->name);
-		current = current->prev;
+		current = current->prev->room;
 	}
 	return (len);
 }
@@ -43,16 +62,23 @@ int		compute_len(t_room *start, t_room *room, int len)
 void		reset_visited(t_queue **queue)
 {
 	t_queue	*tmp;
+	int i;
 	
-	tmp = *queue;
-	*queue = (*queue)->next;
-	free(tmp);
+	i = 0;
 	while (*queue)
 	{
+		if (i != 0)
+			(*queue)->room->visited = 0;
+		if ((*queue)->room->prev)
+		{
+			tmp = (*queue)->room->prev;
+		    (*queue)->room->prev =  (*queue)->room->prev->next;
+			free(tmp);
+		}
 		tmp = *queue;
-		(*queue)->room->visited = 0;
 		*queue = (*queue)->next;
 		free(tmp);
+		i++;
 	}
 }
 
@@ -84,23 +110,4 @@ int	find_path_flow_back(t_room *room)
 		current_room = link->room_dest;
 	}
 	return (nb_room);
-}
-
-t_queue	*find_bfs_path(t_map *map)
-{
-	t_room	*current;
-	t_queue	*path;
-
-	current = map->end;
-	path = NULL;
-	if (append_start_queue(&path, current))
-		return (NULL);
-	while (current != map->start)
-	{
-		printf("find path name : %s\n", current->prev->name);
-		if(append_start_queue(&path, current->prev))
-			return (NULL);
-		current = current->prev;
-	}
-	return (path);
 }

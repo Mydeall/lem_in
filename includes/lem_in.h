@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/20 16:03:41 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/20 19:12:21 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define HASH_SIZE 9679
 
 struct s_link;
+struct s_queue;
 
 typedef struct	s_room
 {
@@ -29,7 +30,7 @@ typedef struct	s_room
 	int				x;
 	int				y;
 	struct s_room	*next;
-	struct s_room	*prev;
+	struct s_queue	*prev;
 	int				visited;
 	int				lock;
 }				t_room;
@@ -61,6 +62,14 @@ typedef struct	s_tab_parser
 	int				step;
 	int				(*f)(char*, t_map*, int*, char*);
 }				t_tab_parser;
+
+typedef struct	s_path
+{
+	t_queue	*path;
+	int		size;
+	int		ants;
+	int		steps;
+}				t_path;
 
 /*
 ** check functions
