@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:08:40 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/21 16:11:35 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 16:26:55 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int			queue_len(t_queue *queue)
 	return (len - 1);
 }
 
-static void	sort_paths(t_path **paths, int nb_paths)
+static void	sort_paths(t_path *paths, int nb_paths)
 {
-	t_path *tmp;
+	t_path tmp;
 	int i;
 	int j;
 
@@ -41,7 +41,7 @@ static void	sort_paths(t_path **paths, int nb_paths)
 		j = i;
 		while (j < nb_paths - 1)
 		{
-			if (paths[j]->size < paths[j + 1]->size)
+			if (paths[j].size < paths[j + 1].size)
 			{
 				tmp = paths[j];
 				paths[j] = paths[j + 1];
@@ -49,7 +49,6 @@ static void	sort_paths(t_path **paths, int nb_paths)
 			}
 			j++;
 		}
-		i++;
 	}
 }
 
@@ -116,7 +115,7 @@ int			ants_repartition(int ants, t_path *paths)
 		paths_len += paths[nb_path].size;
 	}
 	printf("OK ANTS REPARTITION 1\n");
-	sort_paths(&paths, nb_path);
+	sort_paths(paths, nb_path);
 	printf("OK ANTS REPARTITION 8\n");
 	current_path = paths;
 	ants_left = ants;

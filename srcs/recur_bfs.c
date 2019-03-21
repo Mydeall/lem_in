@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/21 15:08:19 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 16:26:04 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ t_queue		*recur_bfs(t_map *map, t_room *room_start, int *best_len)
 	len = find_path_flow_back(room_start);
 	while (queue && (*best_len == -1 || compute_len(room_start, queue->room, len) < *best_len))
 	{
-		display_queue(queue);
-		if (queue->room->prev)
-			printf("queue->prev : %s\n", queue->room->prev->room->name);
-		else
-			printf("queue->prev : %s\n", NULL);
+//		display_queue(queue);
+//		if (queue->room->prev)
+//			printf("queue->prev : %s\n", queue->room->prev->room->name);
+//		else
+//			printf("queue->prev : %s\n", NULL);
 		queue->room->visited = 1;
 		if ((current_link = find_flow(queue->room->links, -1))\
 				&& current_link->room_dest->visited != 1)

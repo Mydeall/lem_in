@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/21 16:05:30 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/21 16:28:15 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ t_path		*test_best_repartition(t_map *map, t_path *best_paths, int *best_steps)
 	if (!(paths = get_paths(map)))
 		return (NULL); // erreur malloc
 	steps = ants_repartition(map->ants, paths);
-	display_paths(paths);
 	if (*best_steps == -1 || *best_steps > steps)
 	{
 		*best_steps = steps;
@@ -140,6 +139,7 @@ int		recur_edmonds_karp(t_map *map)
 	}
 	printf("\nBest paths after edmonds-karp :\n");
 	display_paths(best_paths);
+	printf("finale best steps : %d\n", best_steps);
 	if (!best_paths)
 		return (1);
 	return (0);
