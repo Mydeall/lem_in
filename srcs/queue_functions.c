@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 14:51:49 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/21 14:24:09 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/22 17:47:18 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,3 +73,20 @@ void	free_queue(t_queue *queue)
 		free(tmp);
 	}
 }
+
+int			queue_len(t_queue *queue)
+{
+	t_queue	*current;
+	int		len;
+
+	len = 0;
+	current = queue;
+	while (current)
+	{
+		len++;
+		current = current->next;
+	}
+	return (len);
+}
+
+

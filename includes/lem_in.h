@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/21 16:05:09 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/22 18:39:20 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct	s_room
 	struct s_queue	*prev;
 	int				visited;
 	int				lock;
+	int				prev_depth;
+	int				nb_recur;
 }				t_room;
 
 typedef struct		s_queue
@@ -108,13 +110,18 @@ void			display_queue(t_queue *queue);
 int				verif_already_queue(t_queue **queue, t_room *room);
 
 int				recur_edmonds_karp(t_map *map);
-t_queue			*recur_bfs(t_map *map, t_room *room, int *best_len);
+void			update_flow_path(t_queue *path, char side);
+t_path			*get_paths(t_map *map);
+int				test_best_repartition(t_map *map, t_path **best_paths, int *best_steps);
 
-int				compute_len(t_room *start, t_room *room, int len);
-void			reset_visited(t_queue **queue);
+
+int				recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
+					t_path **best_ed_paths);
+void			reset_visited(t_map *map, t_queue **queue);
 t_link			*find_link(t_room *room, t_room *room_dest);
-int				find_path_flow_back(t_room *room);
 t_queue			*find_bfs_path(t_map *map);
+//int			compute_len(t_room *start, t_room *room, int len);
+//int			find_path_flow_back(t_room *room);
 
 int				ants_repartition(int ants, t_path *paths);
 int				queue_len(t_queue *queue);

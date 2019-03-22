@@ -6,26 +6,11 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:08:40 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/21 17:59:56 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/22 17:47:21 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-int			queue_len(t_queue *queue)
-{
-	t_queue	*current;
-	int		len;
-
-	len = 0;
-	current = queue;
-	while (current)
-	{
-		len++;
-		current = current->next;
-	}
-	return (len - 1);
-}
 
 static void	sort_paths(t_path *paths, int nb_paths)
 {
@@ -96,6 +81,16 @@ static int	compute_total_steps(t_path *paths)
 	return (max_step);
 }
 
+/*
+ *		tmp = current->prev;
+		current->prev = current->prev->next;
+		current = tmp->room;
+		free(tmp);
+		
+		current = current->prev->room;
+
+*/
+
 int			ants_repartition(int ants, t_path *paths)
 {
 	t_path	*current_path;
@@ -109,9 +104,10 @@ int			ants_repartition(int ants, t_path *paths)
 	paths_len = 0;
 	while(paths[++nb_path].path)
 	{
-		paths[nb_path].size = queue_len(paths[nb_path].path);
+		paths[nb_path].size = queue_len(paths[nb_path].path) - 1;
 		paths_len += paths[nb_path].size;
 	}
+	printf("nb_paths : %d\n", nb_path);
 	sort_paths(paths, nb_path);
 	current_path = paths;
 	ants_left = ants;
@@ -125,7 +121,7 @@ int			ants_repartition(int ants, t_path *paths)
 			paths_len -= current_path[i].size;
 			nb_path--;
 			nb_skip++;
-			printf("skip size : %d\n", current_path[i].size);
+//			printf("skip size : %d\n", current_path[i].size);
 			continue ;
 		}
 		current_path[i].steps = current_path[i].size + current_path[i].ants - 1;
