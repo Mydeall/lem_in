@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recur_bfs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/22 18:47:15 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/25 14:36:00 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 	append_queue(&head_queue, room_start);
 	queue = head_queue;
 	end_reached = 0;
-//	printf("NEW BFS on %s !\n", room_start->name);
+	printf("NEW BFS on %s !\n", room_start->name);
 	while (queue && !end_reached)
 	{
-//		display_queue(queue);
+		display_queue(queue);
 		queue->room->visited = 1;
 //		if ((current_link = find_flow(queue->room->links, -1))\
 //				&& current_link->room_dest->visited != 1)
@@ -105,13 +105,16 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 		{
 			if (!(bfs_path = find_bfs_path(map)))
 				return (1);
-//			printf("\nEEENNNNNND\n");
+			printf("\nEND REACHED : %s\n", room_start->name);
 		}
 		queue = queue->next;
 	}
 	reset_visited(map, &head_queue);
 	if (!(end_reached))
+	{
+		printf("NOTHING = END : %s\n", room_start->name);
 		return (0);
+	}
 	update_flow_path(bfs_path, 1);
 	if (test_best_repartition(map, best_ed_paths, best_steps))
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bfs_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 13:07:57 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/22 18:43:10 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/25 14:32:18 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ void		reset_visited(t_map *map, t_queue **queue)
 			(*queue)->room->prev =  (*queue)->room->prev->next;
 			free(tmp);
 		}
+		(*queue)->room->prev_depth = 0;
+		(*queue)->room->nb_recur = 0;
 		tmp = *queue;
 		*queue = (*queue)->next;
 		free(tmp);
