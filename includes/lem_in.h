@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/22 18:39:20 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/26 14:36:42 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "get_next_line.h"
 
 # include <stdio.h>
+# include <time.h>
 
 # define HASH_SIZE 9679
 
