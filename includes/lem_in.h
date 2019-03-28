@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/22 18:39:20 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/26 18:21:31 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "libft.h"
 # include "get_next_line.h"
+
+# include <SDL2/SDL.h>
+# include <limits.h>
 
 # include <stdio.h>
 
@@ -73,6 +76,25 @@ typedef struct	s_path
 	int		steps;
 }				t_path;
 
+typedef struct	s_visu
+{
+	int				x_min;
+	int				x_max;
+	int				x_diff;
+	int				y_min;
+	int				y_max;
+	int				y_diff;
+	int				delay;
+	int				square_size;
+	int				ant_size;
+	int				follow;
+	int				ants_start;
+	int				ants_end;
+	SDL_Window		*window;
+	SDL_Renderer	*renderer;
+	SDL_Event		event;
+}				t_visu;
+
 /*
 ** check functions
 */
@@ -125,5 +147,7 @@ t_queue			*find_bfs_path(t_map *map);
 
 int				ants_repartition(int ants, t_path *paths);
 int				queue_len(t_queue *queue);
+
+int				display_instructions(t_map *map, t_path *paths, int steps);
 
 #endif

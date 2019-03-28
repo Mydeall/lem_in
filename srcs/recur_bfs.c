@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/25 14:36:00 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/25 16:37:45 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 	append_queue(&head_queue, room_start);
 	queue = head_queue;
 	end_reached = 0;
-	printf("NEW BFS on %s !\n", room_start->name);
+//	printf("NEW BFS on %s !\n", room_start->name);
 	while (queue && !end_reached)
 	{
-		display_queue(queue);
+//		display_queue(queue);
 		queue->room->visited = 1;
 //		if ((current_link = find_flow(queue->room->links, -1))\
 //				&& current_link->room_dest->visited != 1)
@@ -92,7 +92,7 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 		{
 			if (append_start_queue(&current_link->room_dest->prev, queue->room))
 				return (1);
-			printf("Appel recur from (%s : %s) to %s\n", room_start->name, queue->room->name, current_link->room_dest->name);
+//			printf("Appel recur from (%s : %s) to %s\n", room_start->name, queue->room->name, current_link->room_dest->name);
 			current_link->room_dest->nb_recur++;
 			if (recur_bfs(map, current_link->room_dest, best_steps, best_ed_paths))
 				return (1);
@@ -105,14 +105,14 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 		{
 			if (!(bfs_path = find_bfs_path(map)))
 				return (1);
-			printf("\nEND REACHED : %s\n", room_start->name);
+//			printf("\nEND REACHED : %s\n", room_start->name);
 		}
 		queue = queue->next;
 	}
 	reset_visited(map, &head_queue);
 	if (!(end_reached))
 	{
-		printf("NOTHING = END : %s\n", room_start->name);
+//		printf("NOTHING = END : %s\n", room_start->name);
 		return (0);
 	}
 	update_flow_path(bfs_path, 1);

@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:08:40 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/22 17:47:21 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/25 16:37:05 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int			ants_repartition(int ants, t_path *paths)
 		paths[nb_path].size = queue_len(paths[nb_path].path) - 1;
 		paths_len += paths[nb_path].size;
 	}
-	printf("nb_paths : %d\n", nb_path);
+//	printf("nb_paths : %d\n", nb_path);
 	sort_paths(paths, nb_path);
 	current_path = paths;
 	ants_left = ants;
