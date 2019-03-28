@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/28 10:17:02 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/28 12:57:05 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,11 @@ int		recur_edmonds_karp(t_map *map)
 //	printf("edmonds karp !\n");
 	if (recur_bfs(map, map->start, &best_steps, &best_paths))
 		return (1);
-	printf("\nBest paths after edmonds-karp :\n");
+//	printf("\nBest paths after edmonds-karp :\n");
 	display_paths(best_paths);
-	printf("finale best steps : %d\n", best_steps);
+//	printf("finale best steps : %d\n", best_steps);
 	if (!best_paths)
 		return (1);
+	display_instructions(map, best_paths, best_steps);
 	return (0);
 }
