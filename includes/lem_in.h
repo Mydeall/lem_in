@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/26 18:21:31 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 11:53:36 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <limits.h>
 
 # include <stdio.h>
+# include <time.h>
 
 # define HASH_SIZE 9679
 
@@ -35,8 +36,6 @@ typedef struct	s_room
 	struct s_room	*next;
 	struct s_queue	*prev;
 	int				visited;
-	int				lock;
-	int				prev_depth;
 	int				nb_recur;
 }				t_room;
 
