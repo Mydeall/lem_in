@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/28 11:53:36 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 16:47:14 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <time.h>
 
 # define HASH_SIZE 9679
+# define MOVE_STEPS 12
 
 struct s_link;
 struct s_queue;
@@ -91,14 +92,25 @@ typedef struct	s_visu
 	int				ants_end;
 	SDL_Window		*window;
 	SDL_Renderer	*renderer;
+	SDL_Surface		*sprite;
 	SDL_Event		event;
 }				t_visu;
+
+typedef struct	s_move
+{
+	t_room	*room;
+	t_room	*room_dest;
+	int		x;
+	int		y;
+}				t_move;
 
 /*
 ** check functions
 */
 
 void			parser(t_map *map, t_tab_parser *tab_parser, char *line);
+t_tab_parser	*initialize_tab_parser(t_tab_parser *tab_parser);
+t_map			*initialize_map(t_map *map);
 int				is_pos_int(char *str);
 int				verif_com(char *line, t_map *map, int *step, char *command);
 int				verif_ants(char *line, t_map *map, int *step, char *command);
@@ -148,5 +160,14 @@ int				ants_repartition(int ants, t_path *paths);
 int				queue_len(t_queue *queue);
 
 int				display_instructions(t_map *map, t_path *paths, int steps);
+
+void			parser_v(t_map *map, t_tab_parser *tab_parser, char *line);
+int				visualize(t_map *map, char **instructions);
+int				update_state(t_map *map, t_visu *visu, char *instruction, t_move *tab_ants);
+void			give_sizes(t_map *map, t_visu *visu);
+int				give_delay(char **instructions);
+void			find_min_max_coord(t_map *map, t_visu *visu);
+void			draw_map(t_map *map, t_visu *visu);
+
 
 #endif

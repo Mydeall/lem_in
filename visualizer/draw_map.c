@@ -6,13 +6,13 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 15:40:36 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/26 18:33:37 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 17:03:00 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	draw_rooms(t_map *map, t_visu *visu)
+static void	draw_rooms(t_map *map, t_visu *visu)
 {
 	int			i;
 	t_room		*current_room;
@@ -27,9 +27,9 @@ void	draw_rooms(t_map *map, t_visu *visu)
 			current_room = map->hash_tab[i];
 		while (current_room)
 		{
-			rect.x = visu->x - visu->square_size / 2;
-			rect.y = visu->y - visu->square_size / 2;
-			rect.w = visu->squre_size;
+			rect.x = current_room->x - visu->square_size / 2;
+			rect.y = current_room->y - visu->square_size / 2;
+			rect.w = visu->square_size;
 			rect.h = visu->square_size;
 			SDL_RenderFillRect(visu->renderer, &rect);
 			current_room = current_room->next;
@@ -38,7 +38,7 @@ void	draw_rooms(t_map *map, t_visu *visu)
 }
 
 
-void	draw_links(t_map *map, t_visu *visu)
+static void	draw_links(t_map *map, t_visu *visu)
 {
 	int		i;
 	t_room	*current_room;
@@ -66,7 +66,7 @@ void	draw_links(t_map *map, t_visu *visu)
 	}
 }
 
-void	draw_map(t_map *map, t_visu *visu)
+void		draw_map(t_map *map, t_visu *visu)
 {
 	SDL_SetRenderDrawColor(visu->renderer, 213, 16, 69, 255);
 	SDL_RenderClear(visu->renderer);

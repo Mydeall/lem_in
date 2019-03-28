@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 14:49:49 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/26 18:26:16 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 17:01:07 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		give_delay(char **instructions)
 	nb_inst = 0;
 	while (instructions[nb_inst])
 		nb_inst++;
-	if (!nb_inst);
+	if (!nb_inst)
 		nb_inst++;
 	delay = 10000 / nb_inst;
 	return (delay);

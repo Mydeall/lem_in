@@ -6,22 +6,27 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:56:39 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/26 18:34:23 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 16:50:49 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static t_room	*initialize_tab_ants(t_map *map)
+static t_move	*initialize_tab_ants(t_map *map)
 {
-	t_room	**tab_ants;
+	t_move	*tab_ants;
 	int		i;
 
-	if (!(tab_ants = (t_room**)malloc(sizeof(t_room*) * map->ants)))
+	if (!(tab_ants = (t_move*)malloc(sizeof(t_move) * map->ants)))
 		return (NULL);
 	i = -1;
 	while (++i < map->ants)
-		tab_ants[i] = map->start;
+	{
+		tab_ants[i].room = NULL;
+		tab_ants[i].room_dest = map->start;
+		tab_ants[i].x = 0;
+		tab_ants[i].y = 0;
+	}
 	return (tab_ants);
 }
 
@@ -39,10 +44,11 @@ static t_visu	*initialize_visu(t_map *map, char **instructions)
 	visu->follow = 1;
 	visu->ants_start = map->ants;
 	visu->ants_end = 0;
+	visu->sprite = SDL_LoadBMP("./visualizer/Rond.bmp");
 	return (visu);	
 }
 
-void			actualize_coor(t_map *map, t_visu *visu)
+static void		actualize_coor(t_map *map, t_visu *visu)
 {
 	int		i;
 	t_room	*current_room;
@@ -68,36 +74,45 @@ int				visualize(t_map *map, char **instructions)
 {
 	int		current_inst;
 	t_visu	*visu;
-	t_room	**tab_ants;
+	t_move	*tab_ants;
 
 	if (!(tab_ants = initialize_tab_ants(map)))
 		return (1);
 	if (!(visu = initialize_visu(map, instructions)))
 	{
-		free(tab_ants)
+		free(tab_ants);
 		return (1);
 	}
-	actualize_coord(map, visu);
+	actualize_coor(map, visu);
 	// create window
 	// create renderer
 	visu->window = SDL_CreateWindow("Lem-in", SDL_WINDOWPOS_UNDEFINED,
 	SDL_WINDOWPOS_UNDEFINED, 1600, 900, SDL_WINDOW_SHOWN);
-	visu->renderer =  SDL_CreateRenderer(stct->window, -1,
+	visu->renderer =  SDL_CreateRenderer(visu->window, -1,
 	SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	draw_map(map, visu);
-	while (instructions[current_inst])
+	current_inst = 0;
+	while (instructions[current_inst] && visu->follow)
 	{
-		actualize_state(map, instructions[current_inst], tab_ants);
+		if (!(update_state(map, visu, instructions[current_inst], tab_ants)))
+			break ;
 		/*
 		if (fleche gauche)
 			last_state(map, instructions[current_inst - 1], tab_ants);
 			current_inst--;
 			continue ;
 		*/
+		while (visu->follow)
+		{
+			SDL_PollEvent(&(visu->event));
+			if (visu->event.type == SDL_QUIT)
+				visu->follow = 0;
+		}
 		current_inst++;
-		//delay()
+		SDL_Delay(visu->delay);
 	}
 	//fonction free
+	//destroy surface
 	SDL_DestroyRenderer(visu->renderer);
 	SDL_DestroyWindow(visu->window);
 	return (0);

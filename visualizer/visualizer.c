@@ -6,13 +6,13 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:12:55 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/26 11:56:02 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 16:30:57 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-char	**record_instructions(void)
+static char	**record_instructions(void)
 {
 	char	*joined_insts;
 	char	*tmp;
@@ -36,7 +36,7 @@ char	**record_instructions(void)
 }
 
 
-int		main(void)
+int			main(void)
 {
 	t_tab_parser	*tab_parser;
 	t_map			*map;
