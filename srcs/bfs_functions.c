@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 13:07:57 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/25 14:32:18 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/27 17:23:10 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,85 +26,34 @@ t_link		*find_flow(t_link *links, int value)
 	}
 	return (NULL);
 }
-/*
-t_room	*find_next_prev(t_map *map, t_room *room, int depth)
-{
-	int		i;
-	t_room	*current;
-	t_queue	*current_prev;
-	int		count;
 
-	current = map->end;
-	i = 0;
-	count = 0;
-	printf("verif %s, depth = %d\n", room->name, depth);
-	while (current != map->start && i < depth)
-	{
-		if (current == room)
-			count++;
-		current = current->prev->room;
-		i++;
-	}
-	current_prev = room->prev;
-	printf("count = %d\n", count);
-	if (count)
-		display_queue(current_prev);
-	while (count--)
-		current_prev = current_prev->next;
-	return (current_prev->room);
-}
-*/
 t_queue	*find_bfs_path(t_map *map)
 {
-	t_room	*current;
-	t_queue	*current_prev;
+	t_room	*room;// if needed can supress room and use current->room
+	t_queue	*current;
+	t_queue	*current_path;
 	t_queue	*path;
-	int		i;
 
-	current = map->end;
+	room = map->end;
 	path = NULL;
-	while (current != map->start)
+	while (room != map->start)
 	{
-//		printf("name : %s (prev = %s)\n", current->name, current->prev->room->name);
-		if(append_start_queue(&path, current))
+		current = room->prev;
+		current_path = path;
+		while (current_path)
+		{
+			if (current_path->room == room)
+				current = current->next;
+			current_path = current_path->next;
+		}
+		if (append_start_queue(&path, room))
 			return (NULL);
-		i = 0;
-		current_prev = current->prev;
-//		printf("prev_depth : %d\n", current->prev_depth);
-		while (i++ < current->prev_depth)
-			current_prev = current_prev->next;
-		current->prev_depth++;
-		current = current_prev->room;
+		room = current->room;
 	}
-	if (append_start_queue(&path, current))
+	if (append_start_queue(&path, room))
 		return (NULL);
-	current_prev = path;
-	// reset depth
-	while (current_prev)
-	{
-		current_prev->room->prev_depth = 0;
-		current_prev->room->nb_recur = 0;
-		current_prev = current_prev->next;
-	}
-//	display_queue(path);
-//	printf("end bfs path\n\n");
 	return (path);
 }
-
-/*
-   int		compute_len(t_room *start, t_room *room, int len)
-   {
-   t_room *current;
-
-   current = room;
-   while (current != start && current->prev)
-   {
-   len++;
-   current = current->prev->room;
-   }
-   return (len);
-   }
-   */
 
 void		reset_visited(t_map *map, t_queue **queue)
 {
@@ -122,7 +71,6 @@ void		reset_visited(t_map *map, t_queue **queue)
 			(*queue)->room->prev =  (*queue)->room->prev->next;
 			free(tmp);
 		}
-		(*queue)->room->prev_depth = 0;
 		(*queue)->room->nb_recur = 0;
 		tmp = *queue;
 		*queue = (*queue)->next;

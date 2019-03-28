@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/26 14:36:42 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/27 17:09:50 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ typedef struct	s_room
 	struct s_room	*next;
 	struct s_queue	*prev;
 	int				visited;
-	int				lock;
-	int				prev_depth;
 	int				nb_recur;
 }				t_room;
 

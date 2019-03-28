@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/22 15:24:50 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/28 10:17:02 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ t_path	*get_paths(t_map *map)
 				//free
 				return (NULL);
 			}
+			paths[nb_paths].steps = 0;
+			paths[nb_paths].size = 0;
+			paths[nb_paths].ants = 0;
 			nb_paths++;
 		}
 		current_link = current_link->next;
@@ -112,9 +115,9 @@ int		test_best_repartition(t_map *map, t_path **best_paths, int *best_steps)
 	if (!(paths = get_paths(map)))
 		return (1);
 	steps = ants_repartition(map->ants, paths);
-	display_paths(paths);
-	printf("steps : %d\n", steps);
-	printf("----------------\n");
+//	display_paths(paths);
+//	printf("steps : %d\n", steps);
+//	printf("----------------\n");
 	if (*best_steps == -1 || *best_steps > steps)
 	{
 		*best_steps = steps;
@@ -137,7 +140,7 @@ int		recur_edmonds_karp(t_map *map)
 
 	best_steps = -1;
 	best_paths = NULL;
-	printf("edmonds karp !\n");
+//	printf("edmonds karp !\n");
 	if (recur_bfs(map, map->start, &best_steps, &best_paths))
 		return (1);
 	printf("\nBest paths after edmonds-karp :\n");
