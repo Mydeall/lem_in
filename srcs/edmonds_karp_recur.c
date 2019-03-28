@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   edmonds_karp_recur.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/25 17:03:11 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 12:57:05 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ t_path	*get_paths(t_map *map)
 				//free
 				return (NULL);
 			}
+			paths[nb_paths].steps = 0;
+			paths[nb_paths].size = 0;
+			paths[nb_paths].ants = 0;
 			nb_paths++;
 		}
 		current_link = current_link->next;

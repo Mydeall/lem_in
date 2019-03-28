@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recur_bfs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/25 16:37:45 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 12:58:24 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static t_queue	*end_reached(t_room *room_start, t_map *map, int len, int *best_l
 }
 */
 
-static int		link_action(t_queue **queue, t_link *link)
+static int		link_action(t_queue **queue, t_link *link, t_map *map,\
+		int *end_reached)
 {
 	if ((!link->flow) && link->room_dest->visited != 1) //chemin empreintable
 		if (!(verif_already_queue(queue, link->room_dest)))
@@ -34,7 +35,9 @@ static int		link_action(t_queue **queue, t_link *link)
 			if ((append_queue(queue, link->room_dest)))
 				return (1);
 			if (append_start_queue(&link->room_dest->prev, (*queue)->room))
-				return (-1); //WARNING
+				return (1); //WARNING
+			if (link->room_dest == map->end)
+				*end_reached = 1;
 		}
 	return (0);
 }
@@ -57,10 +60,8 @@ int		links_manager(t_map *map, t_queue **queue, int *end_reached)
 	while (current_link && !*end_reached)
 	{
 //		printf("room vu : %s\n", current_link->room_dest->name);
-		if (link_action(queue, current_link))
-			return (-1);
-		if (current_link->room_dest == map->end)
-			*end_reached = 1;
+		if (link_action(queue, current_link, map, end_reached))
+			return (1);
 		current_link = current_link->next;
 	}
 	return (0);
@@ -80,7 +81,6 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 	append_queue(&head_queue, room_start);
 	queue = head_queue;
 	end_reached = 0;
-//	printf("NEW BFS on %s !\n", room_start->name);
 	while (queue && !end_reached)
 	{
 //		display_queue(queue);
@@ -88,11 +88,11 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 //		if ((current_link = find_flow(queue->room->links, -1))\
 //				&& current_link->room_dest->visited != 1)
 		if ((current_link = find_flow(queue->room->links, -1))\
-				&& current_link->room_dest->nb_recur < 100)
+				&& current_link->room_dest->nb_recur < 1)
 		{
 			if (append_start_queue(&current_link->room_dest->prev, queue->room))
 				return (1);
-//			printf("Appel recur from (%s : %s) to %s\n", room_start->name, queue->room->name, current_link->room_dest->name);
+	//		printf("Appel recur from (%s : %s) to %s\n", room_start->name, queue->room->name, current_link->room_dest->name);
 			current_link->room_dest->nb_recur++;
 			if (recur_bfs(map, current_link->room_dest, best_steps, best_ed_paths))
 				return (1);
@@ -101,20 +101,14 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 		if (links_manager(map, &queue, &end_reached))
 			return (1);
 //		printf("end link manager\n");
-		if (end_reached)
-		{
-			if (!(bfs_path = find_bfs_path(map)))
-				return (1);
-//			printf("\nEND REACHED : %s\n", room_start->name);
-		}
 		queue = queue->next;
 	}
+	if (end_reached)
+		if (!(bfs_path = find_bfs_path(map)))
+			return (1);
 	reset_visited(map, &head_queue);
 	if (!(end_reached))
-	{
-//		printf("NOTHING = END : %s\n", room_start->name);
 		return (0);
-	}
 	update_flow_path(bfs_path, 1);
 	if (test_best_repartition(map, best_ed_paths, best_steps))
 		return (1);
