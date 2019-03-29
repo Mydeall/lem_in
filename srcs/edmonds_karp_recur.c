@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   edmonds_karp_recur.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/28 12:57:05 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/28 18:01:06 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int		recur_edmonds_karp(t_map *map)
 	if (recur_bfs(map, map->start, &best_steps, &best_paths))
 		return (1);
 //	printf("\nBest paths after edmonds-karp :\n");
-	display_paths(best_paths);
+//	display_paths(best_paths);
 //	printf("finale best steps : %d\n", best_steps);
 	if (!best_paths)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:56:39 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/28 16:50:49 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/29 11:16:11 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static void		actualize_coor(t_map *map, t_visu *visu)
 			current_room = map->hash_tab[i];
 		while (current_room)
 		{
+			ft_printf("visu->x_diff = %d\n", visu->x_diff);
+			ft_printf("visu->y_diff = %d\n", visu->y_diff);
 			current_room->x = (visu->x_diff ? 200 + (current_room->x - visu->x_min) * 1200 / visu->x_diff
 			: 800);
 			current_room->y = (visu->y_diff ? 150 + (current_room->y - visu->y_min) * 600 / visu->y_diff
@@ -91,9 +93,12 @@ int				visualize(t_map *map, char **instructions)
 	visu->renderer =  SDL_CreateRenderer(visu->window, -1,
 	SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	draw_map(map, visu);
+//	SDL_Delay(5000);
 	current_inst = 0;
 	while (instructions[current_inst] && visu->follow)
 	{
+	//	ft_putendl("TEST");
+		ft_putendl("TEST ITER");
 		if (!(update_state(map, visu, instructions[current_inst], tab_ants)))
 			break ;
 		/*
@@ -102,15 +107,19 @@ int				visualize(t_map *map, char **instructions)
 			current_inst--;
 			continue ;
 		*/
+	//	ft_putendl("TEST2");
+		/*
 		while (visu->follow)
 		{
 			SDL_PollEvent(&(visu->event));
 			if (visu->event.type == SDL_QUIT)
 				visu->follow = 0;
 		}
+		*/
 		current_inst++;
 		SDL_Delay(visu->delay);
 	}
+	SDL_Delay(5000);
 	//fonction free
 	//destroy surface
 	SDL_DestroyRenderer(visu->renderer);

@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:04:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/18 15:39:45 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 18:05:00 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void		parser(t_map *map, t_tab_parser *tab_parser, char *line)
 	while ((ret = get_next_line(0, &line)) == 1)
 	{
 		nb_line++;
+		ft_putendl(line);
 		i = -1;
 //		printf("line %d : %s\n", nb_line, line);
 		while (++i < 4)
@@ -60,6 +61,7 @@ void		parser(t_map *map, t_tab_parser *tab_parser, char *line)
 		if (error == 1 || error == -1)
 			return ;
 	}
+	ft_putendl("");
 }
 
 

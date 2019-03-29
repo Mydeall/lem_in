@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 14:51:24 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/25 17:27:25 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 19:10:34 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,22 @@ static void	initialize_tab_ants(t_queue **tab_ants, int ants)
 static void	print_instructions(t_queue **tab_ants, int ants)
 {
 	int		current_ant;
+	int		i;
 
 	current_ant = -1;
+	i = 0;
 	while (++current_ant < ants)
 	{
 		if (tab_ants[current_ant] && tab_ants[current_ant]->room)
 		{
+			if (i)
+				write(1, " ", 1);
 			write(1, "L", 1);
 			ft_putnbr(current_ant + 1);
 			write(1, "-", 1);
 			write(1, tab_ants[current_ant]->room->name,
 				ft_strlen(tab_ants[current_ant]->room->name));
-			write(1, " ", 1);
+			i++;
 		}
 	}
 	write(1 , "\n", 1);

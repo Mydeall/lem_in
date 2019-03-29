@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:12:55 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/28 16:30:57 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 18:32:43 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,29 @@
 static char	**record_instructions(void)
 {
 	char	*joined_insts;
+	char	*line;
 	char	*tmp;
+	char	*tmp2;
 	char	**instructions;
-	char	buf[1049];
-	int		ret;
-
+	//char	buf[1049];
+	//int		ret;
 
 	if (!(joined_insts = ft_strnew(0)))
 		return (NULL);
-	while ((ret = read(0, buf, 1048)))
+	while (get_next_line(0, &line) == 1)
 	{
-		buf[ret] = '\0';
-		tmp = joined_insts;
-		joined_insts = ft_strjoin(joined_insts, buf);
+		tmp = line;
+		line = ft_strjoin(line, "\n");
 		free(tmp);
+		tmp = joined_insts;
+		tmp2 = line;
+		joined_insts = ft_strjoin(joined_insts, line);
+		free(tmp);
+		free(tmp2);
 	}
 	if (!(instructions = ft_strsplit(joined_insts, '\n')))
 		return (NULL);
+	free(joined_insts);
 	return (instructions);
 }
 
@@ -55,6 +61,7 @@ int			main(void)
 	parser_v(map, tab_parser, line);
 	if (!(instructions = record_instructions()))
 		return (1);
+//	ft_putendl(instructions[0]);
 	visualize(map, instructions);
 	//free
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 15:40:36 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/28 17:03:00 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/28 18:39:57 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,5 @@ void		draw_map(t_map *map, t_visu *visu)
 	SDL_RenderClear(visu->renderer);
 	draw_links(map, visu);
 	draw_rooms(map, visu);
-	SDL_RenderPresent(visu->renderer);
+//	SDL_RenderPresent(visu->renderer);
 }

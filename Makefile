@@ -5,13 +5,13 @@
 #                                                     +:+ +:+         +:+      #
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/03/28 17:08:31 by rkirszba         ###   ########.fr        #
+#    Created: 2019/03/28 17:33:18 by rkirszba          #+#    #+#              #
+#    Updated: 2019/03/28 17:41:24 by rkirszba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in
-NAME_VIS = visualizer
+NAME_VIS = visu
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -21,15 +21,16 @@ VIS_PATH = ./visualizer
 INC_PATH = ./includes
 
 SRC_NAME = free_functions.c\
-		   parser.c\
+		   main.c\
 		   display.c\
 		   recur_bfs.c\
 		   bfs_functions.c\
 		   edmonds_karp_recur.c\
 		   ants_repartition.c\
-		   display_instructions.c 
+		   display_instructions.c\
 
-COM_NAME = main.c\
+COM_NAME = initialize.c\
+		   parser.c\
 		   room_functions.c\
 		   links_functions.c\
 		   queue_functions.c\
@@ -83,6 +84,7 @@ re : fclean all
 san : $(OBJ_SRC) $(OBJ_VIS) $(OBJ_COM) $(OBJ_LIB) $(INC)
 	cd $(LIB_PATH) ; $(MAKE) -f Makefile
 	gcc -g3 -fsanitize=address -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
-	gcc -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
+	gcc -g3 -fsanitize=address -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
 
-.PHONY : san libft clean fclean re
+.PHONY : san libft visu clean fclean re
+

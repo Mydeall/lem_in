@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/03/28 16:15:47 by rkirszba         ###   ########.fr        #
+#    Updated: 2019/03/28 17:24:30 by rkirszba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ LIB_NAME = ft_strcpy.c\
 		   ft_dtoa.c \
 		   ft_strtrimchar.c \
 		   ft_strsplitstr.c \
+		   ft_strncmp.c \
 		   get_next_line.c
 
 PRINTF_NAME = ft_printf.c \
