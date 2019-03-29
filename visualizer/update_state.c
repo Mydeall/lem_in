@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 12:50:35 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/29 11:28:28 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/29 11:33:47 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static void	make_movement(t_visu *visu, t_move *tab_ants, int ants)
 	nb_inst++;
 }
 
-int		update_state(t_visu *visu, char *instruction, t_move *tab_ants)
+int		update_state(t_map *map, t_visu *visu, char *instruction, t_move *tab_ants)
 {
 	int		i;
 	
