@@ -45,7 +45,7 @@ class   Map_Parser() :
                 if room.name == name :
                     return (room)
         return (None)
-
+#
     def parse_com(self, line, i) :
         if line[1] == "#" :
             line_next = self.map_gen[i].rstrip("\n")

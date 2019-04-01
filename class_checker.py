@@ -6,25 +6,43 @@ import time
 import parser
 import numpy as np
 
-class   OUtput_Checker() :
-    def __init__(self, actions, map_parser) :
-        self.actions = actions
-        self.save_actions = actions
+class   Output_Checker() :
+    def __init__(self, output, map_parser) :
+        self.output = output 
         self.map_parser = map_parser
+        self.actions = None 
+        self.raw_actions = "" 
         self.ants_arrived = 0
         self.error_message = ""
 
-    def check_unique_action(self, action, nb_line) :
+    def check_unique_action(self, action, nb_line, actions = None) :
+        if actions == None :
+            actions = self.actions
         if self.map_parser.find_room(action[1]) == None :
             self.error_message = "Room : on line {} doesn'exist"\
                     .format(action[1], nb_line)
-        if nb_line > 0 :
-            # Verifier qu'elle vienne bien d'une salle valide
-            # checker jusqu'a trouver sa derniere apparition
+            return (1)
+        if action[1] in map_parser.start.tab_link :
+            return (0)
+        for i in range(nb_line - 1, -1, -1) :
+            index = np.where(actions[i][:, 0] == action[0])[0]
+            if len(index) == 1 :
+                room = actions[i][int(index)][1]
+                room = map_parser.find_room(room)
+                if map_parser.find_room(action[1]) not in room.tab_link :
+                    self.error_message = "No link existing between {} (line : {}) and {} (line {})"\
+                            .format(action[1], nb_line, room, i)
+                    return (1)
+                return (0)
+            if i == 0 :
+                self.error_message = "Ant {} in room {} come frome nowhere (line : {})"\
+                        .format(action[0], action[1], nb_line)
         return (0)
-        
-    def check_step(self, nb_line) :
-        lst_line = self.actions[nb_line]
+
+    def check_step(self, nb_line, actions = None) :
+        if (actions == None) :
+            actions = self.actions
+        lst_line = actions[nb_line]
         if (min(map(len, lst_line)) < 2) :
             self.error_message = "Wrong action format : line " + str(nb_line)
             return (1)
@@ -50,28 +68,35 @@ class   OUtput_Checker() :
                 return (1)
         return (0)
 
-    def check_actions(self, actions = self.actions) :
+    def check_actions(self, actions = None) :
+        if (actions == None) :
+            actions = self.actions
         for i in range(len(self.actions)) :
-            self.actions[i] = self.actions[i].replace("L", "", 1)
-            self.actions[i] = self.actions[i].split(" L")
-            self.actions[i] = np.array(\
-                    [action.split("-", 1) for action in self.actions[i]])
-            if (self.check_step(i) == 1) :
+            actions[i] = actions[i].replace("L", "", 1)
+            actions[i] = actions[i].split(" L")
+            actions[i] = np.array(\
+                    [action.split("-", 1) for action in actions[i]])
+            if (self.check_step(i, actions) == 1) :
                 print(self.error_message)
-                print(self.save_actions[i])
+                print(self.raw_actions[i])
                 return (1)
         if self.ants_arrived != self.map_parser.ants :
             print("Wrong number of ants arrived : \nAnts arrived : {}\nMap ants : {}"\
                     .format(self.ants_arrived, self.map_parser.ants))
         return (0)
-    
+
+    def check_map_output(self, map_output = "") :
+        if map_output == "" : 
+            map_output = self.map_output
+
     def check_output(self) :
         self.output = [line.rstrip("\n") for line in self.output]
+        print("\n".join(self.output))
         for i in range(len(self.output)) :
             if self.output[i] == "" :
                 self.actions = self.output[i + 1 :]
-                self.save_actions = self.output[i + 1 :]
-                return (check_actions())
+                self.raw_actions = self.output[i + 1 :]
+                return (self.check_actions())
         print("Wrong output format : No '\n' separator between map and actions")
         return (1)
         
@@ -92,6 +117,6 @@ if __name__ == "__main__" :
     map_exec.exec_lem_in("maps/best_path")
     map_parser = parser.Map_Parser(map_exec.map_gen)
     map_parser.parse_map()
-    action_checker = Actions_Checker(map_exec.actions, map_parser)
-    action_checker.check_actions()
+    output_checker = Output_Checker(map_exec.output, map_parser)
+    output_checker.check_output()
     print(map_parser)
