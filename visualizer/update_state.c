@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 12:50:35 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/29 11:33:47 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:03:27 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ static void	give_vectors(t_move *tab_ants, int ants)
 		if (!tab_ants[i].room || !tab_ants[i].room_dest)
 			continue ;
 		tab_ants[i].x = (tab_ants[i].room_dest->x - tab_ants[i].room->x)
-		/ MOVE_STEPS;
-		tab_ants[i].x = (tab_ants[i].room_dest->y - tab_ants[i].room->y)
-		/ MOVE_STEPS;
+			/ MOVE_STEPS;
+		tab_ants[i].y = (tab_ants[i].room_dest->y - tab_ants[i].room->y)
+			/ MOVE_STEPS;
 	}
 }
 
-static int	find_new_room_dest(t_map *map, t_visu *visu, char *instruction, t_move *tab_ants)
+static int	find_new_room_dest(t_map *map, t_visu *visu, char *instruction,
+t_move *tab_ants)
 {
 	int		i;
 	char	**split;
@@ -40,85 +41,77 @@ static int	find_new_room_dest(t_map *map, t_visu *visu, char *instruction, t_mov
 		if (tab_ants[i].room_dest)
 			tab_ants[i].room = tab_ants[i].room_dest;
 		tab_ants[i].room_dest = NULL;
-//		ft_putendl("TEST10");
 	}
-	// suite grace aux instruction
-	//		if (tab_ants[i].room = map->start)
-	//			visu.ants_start--;
+	if (!(instruction))
+		return (1);
 	if (!(split = ft_strsplitstr(instruction, " L")))
 		return (0);
 	i = -1;
-//	ft_putendl("TEST2");
 	while (split[++i])
 	{
-		if (!i)
-			(split[i])++;
-		tab_ants[ft_atoi(split[i]) - 1].room_dest = find_room(ft_strchr(split[i], '-') + 1, map);
-//		free(!i ? split[i]-- : split[i]);
+		(split[i])++;
+		tab_ants[ft_atoi(split[i]) - 1].room_dest
+			= find_room(ft_strchr(split[i], '-') + 1, map);
 	}
-//	free(split);
+	free(split);
 	return (1);
 }
 
-static void	make_movement(t_visu *visu, t_move *tab_ants, int ants)
+static void	move_ants(t_map *map, t_visu *visu, t_move *tab_ants, int step)
 {
-	SDL_Texture	*texture;
-	SDL_Rect	dest;
+	int		i;
+	
+	i = -1;
+	draw_map(map, visu);
+	while (++i < map->ants)
+	{
+		if (tab_ants[i].room)
+		{				
+			visu->dest.x = tab_ants[i].room->x - visu->ant_size / 2
+				+ step * tab_ants[i].x;
+			visu->dest.y = tab_ants[i].room->y - visu->ant_size / 2
+				+ step * tab_ants[i].y;
+			SDL_RenderCopy(visu->renderer, visu->texture, NULL, &(visu->dest));
+		}
+	}
+	SDL_RenderPresent(visu->renderer);
+	SDL_Delay(200 / MOVE_STEPS);
+}
+
+static int	make_movement(t_map *map, t_visu *visu, t_move *tab_ants, int ants)
+{
 	int			i;
 	int			step;
 	static int	nb_inst = 0;
 
 	step = 0;
 	while (++step < MOVE_STEPS - 1 && nb_inst)
-	{
-		texture = SDL_CreateTextureFromSurface(visu->renderer, visu->sprite);
-		i = -1;
-		while (++i < ants)
-		{
-			if (tab_ants[i].room)
-			{
-				dest.x = tab_ants[i].room->x - visu->ant_size / 2 + i * tab_ants[i].x;
-				dest.y = tab_ants[i].room->y - visu->ant_size / 2 + i * tab_ants[i].y;
-				dest.w = visu->ant_size;
-				dest.h = visu->ant_size;
-				SDL_RenderCopy(visu->renderer, texture, NULL, &dest);
-//				ft_putendl("TEST");
-				SDL_DestroyTexture(texture);
-			}
-		}
-		SDL_RenderPresent(visu->renderer);
-//		while (visu->current_time < visu->last_time + (500 / MOVE_STEPS))
-//		{
-//
-//		}
-		SDL_Delay(1000);
-		//SDL_Delay(500 / MOVE_STEPS);
-	}
+		move_ants(map, visu, tab_ants, step);
 	i = -1;
+	draw_map(map, visu);
 	while (++i < ants)
 	{
-		texture = SDL_CreateTextureFromSurface(visu->renderer, visu->sprite);
-		dest.x = tab_ants[i].room_dest ? tab_ants[i].room_dest->x - visu->ant_size / 2
-		: tab_ants[i].room->x - visu->ant_size / 2;
-		dest.y = tab_ants[i].room_dest ? tab_ants[i].room_dest->y - visu->ant_size / 2
-		: tab_ants[i].room->y - visu->ant_size / 2;
-		dest.w = visu->ant_size;
-		dest.h = visu->ant_size;
-		SDL_RenderCopy(visu->renderer, texture, NULL, &dest);
-		SDL_DestroyTexture(texture);
+		visu->dest.x = tab_ants[i].room_dest ? tab_ants[i].room_dest->x
+			- visu->ant_size / 2 : tab_ants[i].room->x - visu->ant_size / 2;
+		visu->dest.y = tab_ants[i].room_dest ? tab_ants[i].room_dest->y
+		- visu->ant_size / 2 : tab_ants[i].room->y - visu->ant_size / 2;
+		SDL_RenderCopy(visu->renderer, visu->texture, NULL, &(visu->dest));
 	}
 	SDL_RenderPresent(visu->renderer);
-//	SDL_Delay(500 / MOVE_STEPS);
-	SDL_Delay(1000);
+	SDL_Delay(200 / MOVE_STEPS);
 	nb_inst++;
+	return (1);
 }
 
 int		update_state(t_map *map, t_visu *visu, char *instruction, t_move *tab_ants)
 {
 	int		i;
 	
+	if (!visu->follow)
+		return (0);
 	give_vectors(tab_ants, map->ants);
-	make_movement(visu, tab_ants, map->ants);
+	if (!(make_movement(map, visu, tab_ants, map->ants)))
+		return (0);
 	i = -1;
 	while (++i < map->ants)
 	{

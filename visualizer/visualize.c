@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:56:39 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/29 11:16:11 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:56:09 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,15 @@ static t_visu	*initialize_visu(t_map *map, char **instructions)
 	visu->delay = give_delay(instructions);
 	give_sizes(map, visu);
 	visu->follow = 1;
-	visu->ants_start = map->ants;
+	visu->ants_start = 0;
 	visu->ants_end = 0;
-	visu->sprite = SDL_LoadBMP("./visualizer/Rond.bmp");
+	visu->dest.w = visu->ant_size;
+	visu->dest.h = visu->ant_size;
+	visu->room.w = visu->square_size;
+	visu->room.h = visu->square_size;
+	visu->sprite = SDL_LoadBMP("./visualizer/Rond10.bmp");
+	SDL_SetColorKey(visu->sprite, SDL_TRUE,
+		SDL_MapRGB(visu->sprite->format, 40, 147, 255));
 	return (visu);	
 }
 
@@ -61,12 +67,10 @@ static void		actualize_coor(t_map *map, t_visu *visu)
 			current_room = map->hash_tab[i];
 		while (current_room)
 		{
-			ft_printf("visu->x_diff = %d\n", visu->x_diff);
-			ft_printf("visu->y_diff = %d\n", visu->y_diff);
-			current_room->x = (visu->x_diff ? 200 + (current_room->x - visu->x_min) * 1200 / visu->x_diff
-			: 800);
-			current_room->y = (visu->y_diff ? 150 + (current_room->y - visu->y_min) * 600 / visu->y_diff
-			: 450);
+			current_room->x = (visu->x_diff ? 200
+				+ (current_room->x - visu->x_min) * 1200 / visu->x_diff : 800);
+			current_room->y = (visu->y_diff ? 150
+				+ (current_room->y - visu->y_min) * 600 / visu->y_diff : 450);
 			current_room = current_room->next;
 		}
 	}
@@ -86,42 +90,36 @@ int				visualize(t_map *map, char **instructions)
 		return (1);
 	}
 	actualize_coor(map, visu);
-	// create window
-	// create renderer
 	visu->window = SDL_CreateWindow("Lem-in", SDL_WINDOWPOS_UNDEFINED,
 	SDL_WINDOWPOS_UNDEFINED, 1600, 900, SDL_WINDOW_SHOWN);
 	visu->renderer =  SDL_CreateRenderer(visu->window, -1,
 	SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	visu->texture = SDL_CreateTextureFromSurface(visu->renderer, visu->sprite);
+	SDL_FreeSurface(visu->sprite);
 	draw_map(map, visu);
-//	SDL_Delay(5000);
+	SDL_Delay(1000);
 	current_inst = 0;
 	while (instructions[current_inst] && visu->follow)
 	{
-	//	ft_putendl("TEST");
-		ft_putendl("TEST ITER");
 		if (!(update_state(map, visu, instructions[current_inst], tab_ants)))
 			break ;
-		/*
-		if (fleche gauche)
-			last_state(map, instructions[current_inst - 1], tab_ants);
-			current_inst--;
-			continue ;
-		*/
-	//	ft_putendl("TEST2");
-		/*
-		while (visu->follow)
-		{
-			SDL_PollEvent(&(visu->event));
-			if (visu->event.type == SDL_QUIT)
-				visu->follow = 0;
-		}
-		*/
+		SDL_PollEvent(&(visu->event));
+		if (visu->event.type == SDL_QUIT)
+			visu->follow = 0;
 		current_inst++;
-		SDL_Delay(visu->delay);
+		SDL_Delay(500);
 	}
-	SDL_Delay(5000);
+	update_state(map, visu, instructions[current_inst], tab_ants);
+	while (visu->follow)
+	{
+		SDL_PollEvent(&(visu->event));
+		if (visu->event.type == SDL_QUIT)
+			visu->follow = 0;
+	}
 	//fonction free
-	//destroy surface
+	free(tab_ants);
+	free(visu);
+	SDL_DestroyTexture(visu->texture);
 	SDL_DestroyRenderer(visu->renderer);
 	SDL_DestroyWindow(visu->window);
 	return (0);

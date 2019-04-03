@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:20:05 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/28 18:42:14 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/02 16:42:30 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,12 @@ void		parser_v(t_map *map, t_tab_parser *tab_parser, char *line)
 		}
 		i = -1;
 		while (++i < 4)
-		{
 			if (tab_parser[i].step == step || i == 0 || (i == 3 && step == 1))
 			{
 				error = tab_parser[i].f(line, map, &step, &command);
 				if (error == 0 || error == -1)
 					break ;
 			}
-		}
 		free(line);
 		if (error == 1 || error == -1)
 			return ;

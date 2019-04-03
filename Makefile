@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/28 17:33:18 by rkirszba          #+#    #+#              #
-#    Updated: 2019/03/28 17:41:24 by rkirszba         ###   ########.fr        #
+#    Updated: 2019/04/02 16:18:40 by rkirszba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,6 @@ VIS_NAME = visualizer.c\
 		   parser_v.c\
 		   initialization_utils_functions.c\
 		   draw_map.c\
-		   
 
 INC_NAME = lem_in.h \
 		   get_next_line.h \
@@ -61,7 +60,7 @@ OBJ_VIS= $(VIS:.c=.o)
 all : libft $(NAME) $(NAME_VIS)
 
 %.o : %.c $(INC)
-	gcc $(FLAGS) -c $< -o $@ -I $(INC_PATH) 
+	gcc $(FLAGS) -c `~/SDL2/SDL2-2.0.8/build/sdl2-config --cflags` $< -o $@ -I $(INC_PATH)
 
 $(NAME) : $(OBJ_SRC) $(OBJ_COM) $(INC) $(LIB_PATH)/libft.a
 	gcc -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)

@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/28 17:20:30 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:22:22 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <time.h>
 
 # define HASH_SIZE 9679
-# define MOVE_STEPS 12
+# define MOVE_STEPS 20
 
 struct s_link;
 struct s_queue;
@@ -93,6 +93,9 @@ typedef struct	s_visu
 	SDL_Window		*window;
 	SDL_Renderer	*renderer;
 	SDL_Surface		*sprite;
+	SDL_Texture		*texture;
+	SDL_Rect		room;
+	SDL_Rect		dest;
 	SDL_Event		event;
 }				t_visu;
 

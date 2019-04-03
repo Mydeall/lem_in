@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 14:49:49 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/29 11:18:06 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/02 16:30:25 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,5 @@ void	give_sizes(t_map *map, t_visu *visu)
 		}
 	}
 	visu->square_size = 50;
-//	visu->square_size = 900 / nb_rooms;
 	visu->ant_size = visu->square_size / 2;
 }

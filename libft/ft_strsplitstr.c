@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 15:46:46 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/28 19:02:14 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/03/29 15:25:18 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char		**filltab(char **tab, char *str, int count, char *c)
 	{
 		i = 0;
 		while (ft_strncmp(str + i, c, len))
-			i += len;
+			i++;
 		if (!(tab[j] = ft_strsub(str, 0, i)))
 		{
 			free_tab(tab, count);

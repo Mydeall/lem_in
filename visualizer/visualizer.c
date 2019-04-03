@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:12:55 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/28 18:32:43 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:06:38 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static char	**record_instructions(void)
 	char	*tmp;
 	char	*tmp2;
 	char	**instructions;
-	//char	buf[1049];
-	//int		ret;
 
 	if (!(joined_insts = ft_strnew(0)))
 		return (NULL);
@@ -61,8 +59,9 @@ int			main(void)
 	parser_v(map, tab_parser, line);
 	if (!(instructions = record_instructions()))
 		return (1);
-//	ft_putendl(instructions[0]);
+	SDL_Init(SDL_INIT_VIDEO);
 	visualize(map, instructions);
-	//free
+	SDL_Quit();
+	//free (notamment instructions);
 	return (0);
 }
