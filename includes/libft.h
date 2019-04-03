@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 20:00:42 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/26 14:35:39 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/28 17:24:23 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const*s1, char const *s2);
 char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
+char				**ft_strsplitstr(char const *s, char *c);
 char				*ft_itoa(long long int n);
 void				ft_putnbr(int n);
 void				ft_putendl(char const *s);

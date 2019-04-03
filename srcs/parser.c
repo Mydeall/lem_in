@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:04:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/02 16:49:52 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/03 12:59:07 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		parser(t_map *map, t_tab_parser *tab_parser, char *line)
 		if (error == 1 || error == -1)
 			return ;
 	}
-		write(1, "\n", 1);
+	write(1, "\n", 1);
 }
 
 

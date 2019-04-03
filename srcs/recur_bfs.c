@@ -6,13 +6,13 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/03 12:05:29 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/03 19:04:56 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-/*
+
 void			display_params(t_param *params)
 {
 	t_param *current;
@@ -32,14 +32,14 @@ void			display_params(t_param *params)
 	}
 	printf("---- fin params ----\n");
 }
-*/
 
-int static	verif_launch_recur(t_queue *queue, t_map *map, t_link *current_link)
+
+int		verif_launch_recur(t_queue *queue, t_map *map, t_link *current_link)
 {
 	t_queue *current;
 	t_queue	*path;
 
-	if (!current_link || current_link->room_dest->nb_recur > 100)
+	if (!current_link || current_link->room_dest->nb_recur > 10)
 		return (1);
 	if (!(path = find_bfs_path(map, queue->room)))
 		return (1);
@@ -85,14 +85,11 @@ int				append_param(t_room *room, t_room *prev, int bfs_id)
 static int		link_action(t_queue **queue, t_link *link, t_map *map,\
 		int *end_reached)
 {
-	int bfs_id;
+	int	bfs_id;
 
 	bfs_id = (*queue)->room->params->bfs_id;
-//	if (!verif_launch_recur(*queue, map, link) && (!link->flow) && (!link->room_dest->params\
-//				|| link->room_dest->params->bfs_id != bfs_id)) //chemin empreintable
-//	{
 	if ((!link->flow) && (!link->room_dest->params\
-				|| !link->room_dest->params->visited)) //chemin empreintable
+				|| link->room_dest->params->bfs_id != bfs_id)) //chemin empreintable
 	{
 		if (!(verif_already_queue(queue, link->room_dest)))
 		{
@@ -127,7 +124,7 @@ int		links_manager(t_map *map, t_queue **queue, t_queue **head_queue,\
 	while (current_link && !*end_reached)
 	{
 		if (link_action(queue, current_link, map, end_reached))
-			return (-1);
+			return (1);
 		current_link = current_link->next;
 	}
 	return (0);
@@ -171,6 +168,26 @@ static int	verif_flow_path(t_queue *path, t_map *map)
 }
 */
 
+void	verif_params(t_map *map)
+{
+	int i;
+	t_room *current_room;
+
+	i = -1;
+	while (++i < HASH_SIZE)
+	{
+		current_room = NULL;
+		if (map->hash_tab[i])
+			current_room = map->hash_tab[i];
+		while (current_room)
+		{
+			if (current_room->params)
+				display_params(current_room->params);
+			current_room = current_room->next;
+		}
+	}
+}
+
 int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 		t_path **best_ed_paths)
 {
@@ -178,7 +195,7 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 	t_queue	*queue;
 	t_link	*current_link;
 	t_queue	*bfs_path;
-	t_path	*paths;
+//	t_path	*paths;
 	int		end_reached;
 	int		bfs_id;
 	
@@ -195,14 +212,10 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 		if (!verif_launch_recur(queue, map, current_link))
 		{
 			current_link->room_dest->nb_recur++;
-			if (append_param(current_link->room_dest, queue->room, bfs_id + 1))
+			if (append_param(current_link->room_dest, queue->room, bfs_id))
 				return (1);
-//			printf("Appel recur from (%s : %s) to %s\n", room_start->name,\
-//					queue->room->name, current_link->room_dest->name);
 			if (recur_bfs(map, current_link->room_dest, best_steps, best_ed_paths))
 				return (1);
-//			printf("END appel recur from (%s : %s) to %s\n", room_start->name,\
-//					queue->room->name, current_link->room_dest->name);
 		}
 		if (links_manager(map, &queue, &head_queue, &end_reached))
 			return (1);
@@ -214,13 +227,16 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 	reset_visited(&head_queue);
 	if (!end_reached)
 		return (0);
-	if (!(paths = get_paths(map)))
-		return (1);
 	update_flow_path(bfs_path, 1);
 	if (test_best_repartition(map, best_ed_paths, best_steps))
 		return (1);
 	if (append_param(map->start, NULL, bfs_id + 1))
 		return (1);
+//	if (!(paths = get_paths(map)))
+//		return (1);
+//	display_paths(paths);
+//	usleep(5000000);
+//	verif_params(map);
 	if (recur_bfs(map, map->start, best_steps, best_ed_paths))
 		return (1);
 	update_flow_path(bfs_path, -1);
@@ -237,3 +253,7 @@ int			recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 //		printf("Retour\n");
 //		usleep(10000000);
 //	}
+//			printf("Appel recur from (%s : %s) to %s\n", room_start->name,\
+//					queue->room->name, current_link->room_dest->name);
+//			printf("END appel recur from (%s : %s) to %s\n", room_start->name,\
+//					queue->room->name, current_link->room_dest->name);

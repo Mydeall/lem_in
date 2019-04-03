@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ants_repartition.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:08:40 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/03 11:17:36 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/03 18:15:22 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,12 @@ int			ants_repartition(int ants, t_path *paths)
 		current_path[i].ants = compute_ants(&current_path[i], nb_path, paths_len, ants);
 		if (current_path[i].ants <= 0)
 		{
+	//		printf("skip size : %d\n", current_path[i].size);
 			paths_len -= current_path[i].size;
+			current_path[i].ants = 0;
 			nb_path--;
 			nb_skip++;
 			current_path[i].ants = 0;
-//			printf("skip size : %d\n", current_path[i].size);
 			continue ;
 		}
 		current_path[i].steps = current_path[i].size + current_path[i].ants - 1;

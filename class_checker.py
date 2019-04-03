@@ -186,7 +186,7 @@ class   Executer() :
 
 def specific_map(map_path) :
     map_exec = Map_Exec()
-    map_exec.exec_lem_in("map_error")
+    map_exec.exec_lem_in(map_path)
     map_parser = parser.Map_Parser(map_exec.map_gen)
     map_parser.parse_map()
     output_checker = Output_Checker(map_exec.output, map_parser)
@@ -196,7 +196,8 @@ def specific_map(map_path) :
 
 if __name__ == "__main__" :
     executer = Executer(50)
-#    executer.execute_generator(gen_option = "--big")
-    executer.execute_generator()
+    executer.execute_generator(gen_option = "--big")
+#    executer.execute_generator()
+#    specific_map("maps/best_combinaison")
 
     

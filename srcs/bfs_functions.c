@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 13:07:57 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/02 17:55:18 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/03 18:49:55 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,18 @@ t_link	*find_link(t_room *room, t_room *room_dest)
 	return (NULL);
 }
 
-/*
-t_queue	*find_bfs_path(t_map *map)
+t_queue	*find_bfs_path(t_map *map, t_room *end)
 {
 	t_room	*room;// if needed can supress room and use current->room
-	t_queue	*current;
+	t_param	*current;
 	t_queue	*current_path;
 	t_queue	*path;
 
-	room = map->end;
+	room = end;
 	path = NULL;
 	while (room != map->start)
 	{
-		current = room->prev;
+		current = room->params;
 		current_path = path;
 		while (current_path)
 		{
@@ -62,14 +61,14 @@ t_queue	*find_bfs_path(t_map *map)
 		}
 		if (append_start_queue(&path, room))
 			return (NULL);
-		room = current->room;
+		room = current->prev;
 	}
 	if (append_start_queue(&path, room))
 		return (NULL);
 	return (path);
 }
-*/
 
+/*
 t_queue	*find_bfs_path(t_map *map, t_room *end)
 {
 	t_room	*room;// if needed can supress room and use current->room
@@ -94,11 +93,7 @@ t_queue	*find_bfs_path(t_map *map, t_room *end)
 		return (NULL);
 	return (path);
 }
-
-//		printf("name : %s (prev = %s)\n", current->name, current->prev->room->name);
-//		printf("prev_depth : %d\n", current->prev_depth);
-//	display_queue(path);
-//	printf("end bfs path\n\n");
+*/
 
 void		reset_visited(t_queue **queue)
 {

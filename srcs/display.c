@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 15:57:25 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/02 17:05:02 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/03 17:46:54 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	display_paths(t_path *paths)
 	//	t_queue	*path;
 
 	i = 0;
-	printf("DISPLAY\n");
+//	printf("DISPLAY\n");
 	if (!paths)
 	{
 		printf("%p\n", NULL);
@@ -78,8 +78,8 @@ void	display_paths(t_path *paths)
 	{
 		printf("Chemin %d\n", i + 1);
 		//		path = paths[i]->path;
-		printf("size : %d\nants : %d\nsteps : %d\n", paths[i].size,\
-				paths[i].ants, paths[i].steps);
+//		printf("size : %d\nants : %d\nsteps : %d\n", paths[i].size,\
+//				paths[i].ants, paths[i].steps);
 		display_queue(paths[i].path);
 		//		while (path)
 		//		{
