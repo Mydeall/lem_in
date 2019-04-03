@@ -6,11 +6,10 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 13:05:22 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/22 15:24:50 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/03 11:20:06 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <time.h>
 #include "lem_in.h"
 
 static void	update_flow(t_room *a_room, t_room *b_room, char side)
@@ -36,6 +35,8 @@ void			update_flow_path(t_queue *path, char side)
 {
 	t_queue *current;
 	
+//	printf("update flow  :\n");
+//	display_queue(path);
 	current = path;
 	if (!path)
 		return ;
@@ -59,7 +60,14 @@ static t_queue	*browse_path(t_map *map, t_room *current_room)
 	{
 		if (append_queue(&path, current_room))
 			return (NULL);
-		link = find_flow(current_room->links, 1);
+		if (!(link = find_flow(current_room->links, 1)))
+		{
+			print_map(map);
+			display_queue(path);
+			display_room(current_room);
+			printf("bug d'update de flow room : %s\n", current_room->name);
+			return (NULL);
+		}
 		current_room = link->room_dest;
 	}
 	if (append_queue(&path, current_room))
@@ -112,9 +120,10 @@ int		test_best_repartition(t_map *map, t_path **best_paths, int *best_steps)
 	if (!(paths = get_paths(map)))
 		return (1);
 	steps = ants_repartition(map->ants, paths);
-	display_paths(paths);
-	printf("steps : %d\n", steps);
-	printf("----------------\n");
+//	printf("----test best----\n");
+//	display_paths(paths);
+//	printf("steps : %d\n", steps);
+//	printf("----------------\n");
 	if (*best_steps == -1 || *best_steps > steps)
 	{
 		*best_steps = steps;
@@ -137,13 +146,16 @@ int		recur_edmonds_karp(t_map *map)
 
 	best_steps = -1;
 	best_paths = NULL;
-	printf("edmonds karp !\n");
+	if (append_param(map->start, NULL, 0))
+		return (1);
+//	printf("edmonds karp !\n");
 	if (recur_bfs(map, map->start, &best_steps, &best_paths))
 		return (1);
-	printf("\nBest paths after edmonds-karp :\n");
-	display_paths(best_paths);
-	printf("finale best steps : %d\n", best_steps);
+//	printf("\nBest paths after edmonds-karp :\n");
+//	display_paths(best_paths);
+//	printf("finale best steps : %d\n", best_steps);
 	if (!best_paths)
 		return (1);
+	display_instructions(map, best_paths, best_steps);
 	return (0);
 }

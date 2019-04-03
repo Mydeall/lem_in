@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   bfs_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 13:07:57 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/25 14:32:18 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:55:18 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include <time.h>
 
 t_link		*find_flow(t_link *links, int value)
 {
@@ -25,110 +24,6 @@ t_link		*find_flow(t_link *links, int value)
 		current_link = current_link->next;
 	}
 	return (NULL);
-}
-/*
-t_room	*find_next_prev(t_map *map, t_room *room, int depth)
-{
-	int		i;
-	t_room	*current;
-	t_queue	*current_prev;
-	int		count;
-
-	current = map->end;
-	i = 0;
-	count = 0;
-	printf("verif %s, depth = %d\n", room->name, depth);
-	while (current != map->start && i < depth)
-	{
-		if (current == room)
-			count++;
-		current = current->prev->room;
-		i++;
-	}
-	current_prev = room->prev;
-	printf("count = %d\n", count);
-	if (count)
-		display_queue(current_prev);
-	while (count--)
-		current_prev = current_prev->next;
-	return (current_prev->room);
-}
-*/
-t_queue	*find_bfs_path(t_map *map)
-{
-	t_room	*current;
-	t_queue	*current_prev;
-	t_queue	*path;
-	int		i;
-
-	current = map->end;
-	path = NULL;
-	while (current != map->start)
-	{
-//		printf("name : %s (prev = %s)\n", current->name, current->prev->room->name);
-		if(append_start_queue(&path, current))
-			return (NULL);
-		i = 0;
-		current_prev = current->prev;
-//		printf("prev_depth : %d\n", current->prev_depth);
-		while (i++ < current->prev_depth)
-			current_prev = current_prev->next;
-		current->prev_depth++;
-		current = current_prev->room;
-	}
-	if (append_start_queue(&path, current))
-		return (NULL);
-	current_prev = path;
-	// reset depth
-	while (current_prev)
-	{
-		current_prev->room->prev_depth = 0;
-		current_prev->room->nb_recur = 0;
-		current_prev = current_prev->next;
-	}
-//	display_queue(path);
-//	printf("end bfs path\n\n");
-	return (path);
-}
-
-/*
-   int		compute_len(t_room *start, t_room *room, int len)
-   {
-   t_room *current;
-
-   current = room;
-   while (current != start && current->prev)
-   {
-   len++;
-   current = current->prev->room;
-   }
-   return (len);
-   }
-   */
-
-void		reset_visited(t_map *map, t_queue **queue)
-{
-	t_queue	*tmp;
-	int i;
-
-	i = 0;
-	while (*queue)
-	{
-		if (i != 0)
-			(*queue)->room->visited = 0;
-		if ((*queue)->room != map->start)
-		{
-			tmp = (*queue)->room->prev;
-			(*queue)->room->prev =  (*queue)->room->prev->next;
-			free(tmp);
-		}
-		(*queue)->room->prev_depth = 0;
-		(*queue)->room->nb_recur = 0;
-		tmp = *queue;
-		*queue = (*queue)->next;
-		free(tmp);
-		i++;
-	}
 }
 
 t_link	*find_link(t_room *room, t_room *room_dest)
@@ -146,19 +41,77 @@ t_link	*find_link(t_room *room, t_room *room_dest)
 }
 
 /*
-   int	find_path_flow_back(t_room *room)
-   {
-   t_link	*link;
-   t_room	*current_room;
-   int		nb_room;
+t_queue	*find_bfs_path(t_map *map)
+{
+	t_room	*room;// if needed can supress room and use current->room
+	t_queue	*current;
+	t_queue	*current_path;
+	t_queue	*path;
 
-   current_room = room;
-   nb_room = 0;
-   while ((link = find_flow(current_room->links, -1)))
-   {
-   nb_room++;
-   current_room = link->room_dest;
-   }
-   return (nb_room);
-   }
-   */
+	room = map->end;
+	path = NULL;
+	while (room != map->start)
+	{
+		current = room->prev;
+		current_path = path;
+		while (current_path)
+		{
+			if (current_path->room == room)
+				current = current->next;
+			current_path = current_path->next;
+		}
+		if (append_start_queue(&path, room))
+			return (NULL);
+		room = current->room;
+	}
+	if (append_start_queue(&path, room))
+		return (NULL);
+	return (path);
+}
+*/
+
+t_queue	*find_bfs_path(t_map *map, t_room *end)
+{
+	t_room	*room;// if needed can supress room and use current->room
+	t_param	*current_param;
+	t_queue	*path;
+	int		last_bfs_id;
+
+	room = end;
+	last_bfs_id = room->params->bfs_id;
+	path = NULL;
+	while (room != map->start)
+	{
+		current_param = room->params;
+		while (current_param->bfs_id > last_bfs_id)
+			current_param = current_param->next; // si segfault alors probleme d'append
+		if (append_start_queue(&path, room))
+			return (NULL);
+		last_bfs_id = current_param->bfs_id;
+		room = current_param->prev;
+	}
+	if (append_start_queue(&path, room))
+		return (NULL);
+	return (path);
+}
+
+//		printf("name : %s (prev = %s)\n", current->name, current->prev->room->name);
+//		printf("prev_depth : %d\n", current->prev_depth);
+//	display_queue(path);
+//	printf("end bfs path\n\n");
+
+void		reset_visited(t_queue **queue)
+{
+	t_param	*tmp;
+	t_queue	*tmp_queue;
+
+	while (*queue)
+	{
+		tmp = (*queue)->room->params;
+		(*queue)->room->params =  (*queue)->room->params->next;
+		free(tmp);
+		tmp_queue = *queue;
+		*queue = (*queue)->next;
+		free(tmp_queue);
+	}
+}

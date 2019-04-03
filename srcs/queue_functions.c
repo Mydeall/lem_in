@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 14:51:49 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/22 17:47:18 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/02 16:50:32 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,31 @@ int		verif_already_queue(t_queue **queue, t_room *room)
 		tmp = tmp->next;
 	}
 	return (0);
+}
+
+void	remove_queue_elem(t_queue **head_queue, t_queue *elem)
+{
+	t_queue *current;
+	t_queue *prev_current;
+
+	current = *head_queue;
+	prev_current = NULL;
+	while (current)
+	{
+		if (current == elem)
+		{
+			if (!prev_current)
+				*head_queue = (*head_queue)->next;
+			else
+			{
+				prev_current->next = current->next;
+				free(current);
+			}
+			return ;
+		}
+		prev_current = current;
+		current = current->next;
+	}
 }
 
 int		append_queue(t_queue **queue, t_room *room)
@@ -88,5 +113,3 @@ int			queue_len(t_queue *queue)
 	}
 	return (len);
 }
-
-

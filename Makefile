@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/03/21 14:51:51 by rkirszba         ###   ########.fr        #
+#    Updated: 2019/04/02 16:02:54 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC_NAME = free_functions.c\
 		   main.c\
 		   parser.c\
 		   parser_functions.c\
+		   display_instructions.c\
 		   room_functions.c\
 		   queue_functions.c\
 		   display.c\

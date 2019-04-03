@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/26 14:36:42 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/02 18:17:48 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,26 @@
 
 struct s_link;
 struct s_queue;
+struct s_room;
 
-typedef struct	s_room
+typedef struct		s_param
+{
+	int				bfs_id;
+	int				visited;
+	struct s_room	*prev;
+	struct s_param	*next;
+}					t_param;
+
+typedef struct		s_room
 {
 	char			*name;
 	struct s_link	*links;
 	int				x;
 	int				y;
-	struct s_room	*next;
-	struct s_queue	*prev;
-	int				visited;
-	int				lock;
-	int				prev_depth;
+	t_param			*params;
 	int				nb_recur;
-}				t_room;
+	struct s_room	*next;
+}					t_room;
 
 typedef struct		s_queue
 {
@@ -99,12 +105,15 @@ void			refresh_queue(t_queue **queue);
 int				append_queue(t_queue **queue, t_room *room);
 int				append_start_queue(t_queue **queue, t_room *room);
 void			free_queue(t_queue *queue);
+void			remove_queue_elem(t_queue **head_queue, t_queue *elem);
 
 int				bfs(t_map *map, int nb_iter);
 t_link			*find_flow(t_link *links, int value);
 
 int				edmonds_karp(t_map *map);
 
+void			display_room(t_room *room);
+int				display_instructions(t_map *map, t_path *paths, int steps);
 void			display_paths(t_path *paths);
 void			print_map(t_map *map);
 void			display_queue(t_queue *queue);
@@ -118,9 +127,10 @@ int				test_best_repartition(t_map *map, t_path **best_paths, int *best_steps);
 
 int				recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
 					t_path **best_ed_paths);
-void			reset_visited(t_map *map, t_queue **queue);
+void			reset_visited(t_queue **queue);
 t_link			*find_link(t_room *room, t_room *room_dest);
-t_queue			*find_bfs_path(t_map *map);
+t_queue			*find_bfs_path(t_map *map, t_room *end);
+int				append_param(t_room *room, t_room *prev, int bfs_id);
 //int			compute_len(t_room *start, t_room *room, int len);
 //int			find_path_flow_back(t_room *room);
 
