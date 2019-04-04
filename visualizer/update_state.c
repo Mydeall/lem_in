@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 12:50:35 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 12:52:02 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 16:38:39 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ static void	give_vectors(t_move *tab_ants, int ants)
 	}
 }
 
-static int	find_new_room_dest(t_map *map, t_visu *visu, char *instruction,
-t_move *tab_ants)
+static int	find_new_room_dest(t_map *map, char *instruction, t_move *tab_ants)
 {
 	int		i;
 	char	**split;
 
-	(void)visu;
 	i = -1;
 	while (++i < map->ants)
 	{
@@ -49,9 +47,11 @@ t_move *tab_ants)
 	i = -1;
 	while (split[++i])
 	{
-		(split[i])++;
+		if (!i)
+			(split[i])++;
 		tab_ants[ft_atoi(split[i]) - 1].room_dest
 			= find_room(ft_strchr(split[i], '-') + 1, map);
+		free(i ? --split[i] : split[i]);
 	}
 	free(split);
 	return (1);
@@ -118,7 +118,7 @@ int		update_state(t_map *map, t_visu *visu, char *instruction, t_move *tab_ants)
 		tab_ants[i].x = 0;
 		tab_ants[i].y = 0;
 	}
-	if (!(find_new_room_dest(map, visu, instruction, tab_ants)))
+	if (!(find_new_room_dest(map, instruction, tab_ants)))
 		return (0);
 	return (1);
 }
