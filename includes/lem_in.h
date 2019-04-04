@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/03 16:48:45 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 15:07:42 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,5 +190,8 @@ int				give_delay(char **instructions);
 void			find_min_max_coord(t_map *map, t_visu *visu);
 void			draw_map(t_map *map, t_visu *visu);
 
+
+
+void			free_map(t_map *map);
 
 #endif

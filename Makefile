@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+         #
+#    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/04/03 15:48:57 by ccepre           ###   ########.fr        #
+#    Updated: 2019/04/04 15:09:10 by rkirszba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,6 @@ VIS_PATH = ./visualizer
 INC_PATH = ./includes
 
 SRC_NAME = free_functions.c\
-		   main.c\
 		   display.c\
 		   recur_bfs.c\
 		   best_len_bfs.c\
@@ -35,7 +34,8 @@ COM_NAME = initialize.c\
 		   room_functions.c\
 		   links_functions.c\
 		   queue_functions.c\
-		   parser_functions.c
+		   parser_functions.c\
+		   main.c\
 
 VIS_NAME = visualizer.c\
 		   visualize.c\

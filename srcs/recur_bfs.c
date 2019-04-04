@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recur_bfs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/03 19:04:56 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 15:26:07 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		verif_launch_recur(t_queue *queue, t_map *map, t_link *current_link)
 	t_queue *current;
 	t_queue	*path;
 
-	if (!current_link || current_link->room_dest->nb_recur > 10)
+	if (!current_link || current_link->room_dest->nb_recur > 1)
 		return (1);
 	if (!(path = find_bfs_path(map, queue->room)))
 		return (1);

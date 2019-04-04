@@ -6,11 +6,23 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:12:55 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/02 17:06:38 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 15:03:52 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+static void	free_instructions(char **instructions)
+{
+	int		i;
+
+	if (!instructions)
+		return ;
+	i = -1;
+	while (instructions[++i])
+		free(instructions[i]);
+	free(instructions);
+}
 
 static char	**record_instructions(void)
 {
@@ -53,7 +65,8 @@ int			main(void)
 	if (!(tab_parser = initialize_tab_parser(tab_parser))
 			|| !(map = initialize_map(map)))
 	{
-//		free_all
+		if (tab_parser)
+			free(tab_parser);
 		return (1);
 	}
 	parser_v(map, tab_parser, line);
@@ -62,6 +75,8 @@ int			main(void)
 	SDL_Init(SDL_INIT_VIDEO);
 	visualize(map, instructions);
 	SDL_Quit();
-	//free (notamment instructions);
+	free(tab_parser);
+	free_map(map);
+	free_instructions(instructions);
 	return (0);
 }

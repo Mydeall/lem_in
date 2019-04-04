@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_state.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 12:50:35 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/03 12:56:46 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 12:52:02 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,8 @@ static int	make_movement(t_map *map, t_visu *visu, t_move *tab_ants, int ants)
 	draw_map(map, visu);
 	while (++i < ants)
 	{
-		ft_printf("vtab_ants[i] = %p\n", tab_ants[i].room);
 		visu->dest.x = tab_ants[i].room_dest ? tab_ants[i].room_dest->x
 			- visu->ant_size / 2 : tab_ants[i].room->x - visu->ant_size / 2;
-		ft_putendl("test");
 		visu->dest.y = tab_ants[i].room_dest ? tab_ants[i].room_dest->y
 		- visu->ant_size / 2 : tab_ants[i].room->y - visu->ant_size / 2;
 		SDL_RenderCopy(visu->renderer, visu->texture, NULL, &(visu->dest));

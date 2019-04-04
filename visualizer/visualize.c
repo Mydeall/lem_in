@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   visualize.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:56:39 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/03 12:57:34 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 15:26:53 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static t_move	*initialize_tab_ants(t_map *map)
 	while (++i < map->ants)
 	{
 		tab_ants[i].room = NULL;
-		ft_printf("map->start = %p\n", map->start);
 		tab_ants[i].room_dest = map->start;
 		tab_ants[i].x = 0;
 		tab_ants[i].y = 0;
@@ -97,7 +96,7 @@ int				visualize(t_map *map, char **instructions)
 	SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	visu->texture = SDL_CreateTextureFromSurface(visu->renderer, visu->sprite);
 	SDL_FreeSurface(visu->sprite);
-	draw_map(map, visu);
+	draw_map(map, visu);  // necessaire ??
 	SDL_Delay(1000);
 	current_inst = 0;
 	while (instructions[current_inst] && visu->follow)
@@ -118,10 +117,10 @@ int				visualize(t_map *map, char **instructions)
 			visu->follow = 0;
 	}
 	//fonction free
-	free(tab_ants);
-	free(visu);
 	SDL_DestroyTexture(visu->texture);
 	SDL_DestroyRenderer(visu->renderer);
 	SDL_DestroyWindow(visu->window);
+	free(visu);
+	free(tab_ants);
 	return (0);
 }
