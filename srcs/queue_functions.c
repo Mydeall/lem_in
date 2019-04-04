@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 14:51:49 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/02 16:50:32 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 16:40:00 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ void	remove_queue_elem(t_queue **head_queue, t_queue *elem)
 			if (!prev_current)
 				*head_queue = (*head_queue)->next;
 			else
-			{
 				prev_current->next = current->next;
-				free(current);
-			}
+			free(current);
 			return ;
 		}
 		prev_current = current;
@@ -91,6 +89,8 @@ void	free_queue(t_queue *queue)
 {
 	t_queue	*tmp;
 
+//	printf("%p\n", queue);
+//	display_queue(queue);
 	while (queue)
 	{
 		tmp = queue;

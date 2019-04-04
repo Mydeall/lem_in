@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 18:52:43 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 12:12:20 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 16:04:38 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int				main(void)
 	t_tab_parser	*tab_parser;
 	t_map			*map;
 	char			*line;
+	int				ret;
 
 	line = NULL;
 	map = NULL;
@@ -76,7 +77,15 @@ int				main(void)
 	}
 	parser(map, tab_parser, line);
 	free(tab_parser);
-	recur_edmonds_karp(map);
-	free_map(map);
+	if ((ret = recur_edmonds_karp(map)))
+	{
+		if (ret == 1)
+			write(1, "ERROR\n", 6);
+		else
+		{
+			free_map(map);
+			return (1);
+		}
+	}
 	return (0);
 }

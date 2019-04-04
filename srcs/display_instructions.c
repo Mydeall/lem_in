@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 14:51:24 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/28 19:10:34 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 15:43:12 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ int			display_instructions(t_map *map, t_path *paths, int steps)
 		refresh_tab_ants(tab_ants, paths, &sent_ants);
 		print_instructions(tab_ants, map->ants);
 	}
+	free(tab_ants);
 	return (0);
 }

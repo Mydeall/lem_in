@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/04/04 15:09:10 by rkirszba         ###   ########.fr        #
+#    Updated: 2019/04/04 16:35:12 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,14 +23,15 @@ INC_PATH = ./includes
 SRC_NAME = free_functions.c\
 		   display.c\
 		   recur_bfs.c\
-		   best_len_bfs.c\
 		   bfs_functions.c\
+		   path_functions.c\
 		   edmonds_karp_recur.c\
 		   ants_repartition.c\
 		   display_instructions.c\
 
 COM_NAME = initialize.c\
 		   parser.c\
+		   param_functions.c\
 		   room_functions.c\
 		   links_functions.c\
 		   queue_functions.c\
@@ -66,8 +67,8 @@ all : libft $(NAME) $(NAME_VIS)
 $(NAME) : $(OBJ_SRC) $(OBJ_COM) $(INC) $(LIB_PATH)/libft.a
 	gcc -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
 
-$(NAME_VIS) : $(OBJ_VIS) $(OBJ_COM) $(INC) $(LIB_PATH)/libft.a
-	gcc -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
+#$(NAME_VIS) : $(OBJ_VIS) $(OBJ_COM) $(INC) $(LIB_PATH)/libft.a
+#	gcc -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
 
 libft :
 	@cd $(LIB_PATH) ; $(MAKE) -f Makefile
@@ -84,7 +85,7 @@ re : fclean all
 san : $(OBJ_SRC) $(OBJ_VIS) $(OBJ_COM) $(OBJ_LIB) $(INC)
 	cd $(LIB_PATH) ; $(MAKE) -f Makefile
 	gcc -g3 -fsanitize=address -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
-	gcc -g3 -fsanitize=address -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
+#	gcc -g3 -fsanitize=address -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
 
 .PHONY : san libft visu clean fclean re
 
