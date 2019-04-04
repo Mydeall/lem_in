@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 15:46:46 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/29 15:25:18 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 16:34:22 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char		**filltab(char **tab, char *str, int count, char *c)
 	while (++j < count)
 	{
 		i = 0;
-		while (ft_strncmp(str + i, c, len))
+		while (str[i] && ft_strncmp(str + i, c, len))
 			i++;
 		if (!(tab[j] = ft_strsub(str, 0, i)))
 		{
@@ -40,7 +40,7 @@ static char		**filltab(char **tab, char *str, int count, char *c)
 			return (NULL);
 		}
 		while (*str && !ft_strncmp(str + i, c, len))
-			i++;
+			i += len;
 		str = &str[i];
 	}
 	return (tab);
