@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/04 18:11:56 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 18:34:37 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,16 +168,12 @@ int				test_best_repartition(t_map *map);
 
 
 int				find_best_paths(t_map *map, t_room *room_start);
-//int				recur_bfs(t_map *map, t_room *room_start, int *best_steps,\
-//					t_path **best_ed_paths);
 void			reset_visited(t_queue **queue);
 t_link			*find_link(t_room *room, t_room *room_dest);
 t_queue			*find_bfs_path(t_map *map, t_room *end);
 int				verif_launch_recur(t_queue *queue, t_map *map, t_link *current_link);
 int				links_manager(t_map *map, t_queue **queue, t_queue **head_queue,\
 					int *end_reached);
-//int			compute_len(t_room *start, t_room *room, int len);
-//int			find_path_flow_back(t_room *room);
 
 int				ants_repartition(int ants, t_path *paths);
 int				queue_len(t_queue *queue);
@@ -185,14 +181,16 @@ int				queue_len(t_queue *queue);
 int				display_instructions(t_map *map, t_path *paths, int steps);
 
 void			parser_v(t_map *map, t_tab_parser *tab_parser, char *line);
-int				visualize(t_map *map, char **instructions);
+void			visualize(t_map *map, char **instructions);
 int				update_state(t_map *map, t_visu *visu, char *instruction, t_move *tab_ants);
 void			give_sizes(t_map *map, t_visu *visu);
 int				give_delay(char **instructions);
 void			find_min_max_coord(t_map *map, t_visu *visu);
 void			draw_map(t_map *map, t_visu *visu);
 
-
+void			destroy_sdl_tools(t_visu *visu, t_move *tab_ants);
+void			create_sdl_tools(t_visu *visu);
+void 			poll_quit(t_visu *visu);
 
 void			free_map(t_map *map);
 

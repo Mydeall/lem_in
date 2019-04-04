@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_and_destroy.c                               :+:      :+:    :+:   */
+/*   sdl_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 15:11:19 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 15:26:56 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 15:37:45 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,18 @@ void	create_sdl_tools(t_visu *visu)
 	SDL_FreeSurface(visu->sprite);
 }
 
-void	destroy_sdl_tools(t_visu *visu)
+void	destroy_sdl_tools(t_visu *visu, t_move *tab_ants)
+{
+	SDL_DestroyTexture(visu->texture);
+	SDL_DestroyRenderer(visu->renderer);
+	SDL_DestroyWindow(visu->window);
+	free(visu);
+	free(tab_ants);
+}
+
+void 	poll_quit(t_visu *visu)
+{
+	SDL_PollEvent(&(visu->event));
+	if (visu->event.type == SDL_QUIT)
+		visu->follow = 0;
+}

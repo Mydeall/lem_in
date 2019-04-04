@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/04/04 16:35:12 by ccepre           ###   ########.fr        #
+#    Updated: 2019/04/04 18:38:39 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,8 @@ SRC_PATH = ./srcs
 VIS_PATH = ./visualizer
 INC_PATH = ./includes
 
-SRC_NAME = free_functions.c\
-		   display.c\
+SRC_NAME = display.c\
+		   main.c\
 		   recur_bfs.c\
 		   bfs_functions.c\
 		   path_functions.c\
@@ -36,7 +36,7 @@ COM_NAME = initialize.c\
 		   links_functions.c\
 		   queue_functions.c\
 		   parser_functions.c\
-		   main.c\
+		   free_functions.c\
 
 VIS_NAME = visualizer.c\
 		   visualize.c\
@@ -44,6 +44,7 @@ VIS_NAME = visualizer.c\
 		   parser_v.c\
 		   initialization_utils_functions.c\
 		   draw_map.c\
+		   sdl_tools.c
 
 INC_NAME = lem_in.h \
 		   get_next_line.h \
@@ -67,8 +68,8 @@ all : libft $(NAME) $(NAME_VIS)
 $(NAME) : $(OBJ_SRC) $(OBJ_COM) $(INC) $(LIB_PATH)/libft.a
 	gcc -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
 
-#$(NAME_VIS) : $(OBJ_VIS) $(OBJ_COM) $(INC) $(LIB_PATH)/libft.a
-#	gcc -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
+$(NAME_VIS) : $(OBJ_VIS) $(OBJ_COM) $(INC) $(LIB_PATH)/libft.a
+	gcc -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
 
 libft :
 	@cd $(LIB_PATH) ; $(MAKE) -f Makefile
@@ -85,7 +86,7 @@ re : fclean all
 san : $(OBJ_SRC) $(OBJ_VIS) $(OBJ_COM) $(OBJ_LIB) $(INC)
 	cd $(LIB_PATH) ; $(MAKE) -f Makefile
 	gcc -g3 -fsanitize=address -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
-#	gcc -g3 -fsanitize=address -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
+	gcc -g3 -fsanitize=address -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
 
 .PHONY : san libft visu clean fclean re
 

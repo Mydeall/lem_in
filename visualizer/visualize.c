@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:56:39 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 15:26:53 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 18:35:05 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,51 +76,33 @@ static void		actualize_coor(t_map *map, t_visu *visu)
 	}
 }
 
-int				visualize(t_map *map, char **instructions)
+void			visualize(t_map *map, char **instructions)
 {
 	int		current_inst;
 	t_visu	*visu;
 	t_move	*tab_ants;
 
-	if (!(tab_ants = initialize_tab_ants(map)))
-		return (1);
-	if (!(visu = initialize_visu(map, instructions)))
+	if (!(tab_ants = initialize_tab_ants(map))
+		|| !(visu = initialize_visu(map, instructions)))
 	{
-		free(tab_ants);
-		return (1);
+		if (tab_ants)
+			free(tab_ants);
+		return ;
 	}
 	actualize_coor(map, visu);
-	visu->window = SDL_CreateWindow("Lem-in", SDL_WINDOWPOS_UNDEFINED,
-	SDL_WINDOWPOS_UNDEFINED, 1600, 900, SDL_WINDOW_SHOWN);
-	visu->renderer =  SDL_CreateRenderer(visu->window, -1,
-	SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	visu->texture = SDL_CreateTextureFromSurface(visu->renderer, visu->sprite);
-	SDL_FreeSurface(visu->sprite);
+	create_sdl_tools(visu);
 	draw_map(map, visu);  // necessaire ??
 	SDL_Delay(1000);
-	current_inst = 0;
-	while (instructions[current_inst] && visu->follow)
+	current_inst = -1;
+	while (instructions[++current_inst] && visu->follow)
 	{
 		if (!(update_state(map, visu, instructions[current_inst], tab_ants)))
 			break ;
-		SDL_PollEvent(&(visu->event));
-		if (visu->event.type == SDL_QUIT)
-			visu->follow = 0;
-		current_inst++;
+		poll_quit(visu);
 		SDL_Delay(500);
 	}
 	update_state(map, visu, instructions[current_inst], tab_ants);
 	while (visu->follow)
-	{
-		SDL_PollEvent(&(visu->event));
-		if (visu->event.type == SDL_QUIT)
-			visu->follow = 0;
-	}
-	//fonction free
-	SDL_DestroyTexture(visu->texture);
-	SDL_DestroyRenderer(visu->renderer);
-	SDL_DestroyWindow(visu->window);
-	free(visu);
-	free(tab_ants);
-	return (0);
+		poll_quit(visu);
+	destroy_sdl_tools(visu, tab_ants);
 }
