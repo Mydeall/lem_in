@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 14:49:49 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/02 16:30:25 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:05:22 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,8 @@ void	find_min_max_coord(t_map *map, t_visu *visu)
 {
 	int		i;
 	t_room	*current_room;
-	
+
 	i = -1;
-	visu->x_min = INT_MAX;
-	visu->x_max = 0;
-	visu->y_min = INT_MAX;;
-	visu->y_max = 0;
 	while (++i < HASH_SIZE)
 	{
 		current_room = NULL;
@@ -66,7 +62,6 @@ void	give_sizes(t_map *map, t_visu *visu)
 	i = -1;
 	while (++i < HASH_SIZE)
 	{
-		
 		current_room = NULL;
 		if (map->hash_tab[i])
 			current_room = map->hash_tab[i];

@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 15:40:36 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/02 17:26:19 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:00:30 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	draw_rooms(t_map *map, t_visu *visu)
 			else if (current_room == map->end)
 				SDL_SetRenderDrawColor(visu->renderer, 0, 0, 0, 255);
 			else
-			SDL_SetRenderDrawColor(visu->renderer, 29, 74, 127, 255);
+				SDL_SetRenderDrawColor(visu->renderer, 29, 74, 127, 255);
 			visu->room.x = current_room->x - visu->square_size / 2;
 			visu->room.y = current_room->y - visu->square_size / 2;
 			SDL_RenderFillRect(visu->renderer, &visu->room);

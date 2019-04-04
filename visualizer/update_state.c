@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 12:50:35 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 16:38:39 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:13:58 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static int	find_new_room_dest(t_map *map, char *instruction, t_move *tab_ants)
 	{
 		if (!i)
 			(split[i])++;
-		tab_ants[ft_atoi(split[i]) - 1].room_dest
-			= find_room(ft_strchr(split[i], '-') + 1, map);
-		free(i ? --split[i] : split[i]);
+		tab_ants[ft_atoi(split[i]) - 1].room_dest = find_room(\
+				ft_strchr(split[i], '-') + 1, map);
+		free(!i ? (split[i] = split[i] - 1) : split[i]);
 	}
 	free(split);
 	return (1);
@@ -60,13 +60,13 @@ static int	find_new_room_dest(t_map *map, char *instruction, t_move *tab_ants)
 static void	move_ants(t_map *map, t_visu *visu, t_move *tab_ants, int step)
 {
 	int		i;
-	
+
 	i = -1;
 	draw_map(map, visu);
 	while (++i < map->ants)
 	{
 		if (tab_ants[i].room)
-		{				
+		{
 			visu->dest.x = tab_ants[i].room->x - visu->ant_size / 2
 				+ step * tab_ants[i].x;
 			visu->dest.y = tab_ants[i].room->y - visu->ant_size / 2
@@ -103,10 +103,11 @@ static int	make_movement(t_map *map, t_visu *visu, t_move *tab_ants, int ants)
 	return (1);
 }
 
-int		update_state(t_map *map, t_visu *visu, char *instruction, t_move *tab_ants)
+int			update_state(t_map *map, t_visu *visu, char *instruction,
+t_move *tab_ants)
 {
 	int		i;
-	
+
 	if (!visu->follow)
 		return (0);
 	give_vectors(tab_ants, map->ants);

@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:56:39 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 18:35:05 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 19:11:54 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ static t_visu	*initialize_visu(t_map *map, char **instructions)
 
 	if (!(visu = (t_visu*)malloc(sizeof(t_visu))))
 		return (NULL);
+	visu->x_min = INT_MAX;
+	visu->x_max = 0;
+	visu->y_min = INT_MAX;
+	visu->y_max = 0;
 	find_min_max_coord(map, visu);
 	visu->x_diff = visu->x_max - visu->x_min;
 	visu->y_diff = visu->y_max - visu->y_min;
@@ -51,7 +55,7 @@ static t_visu	*initialize_visu(t_map *map, char **instructions)
 	visu->sprite = SDL_LoadBMP("./visualizer/Rond10.bmp");
 	SDL_SetColorKey(visu->sprite, SDL_TRUE,
 		SDL_MapRGB(visu->sprite->format, 40, 147, 255));
-	return (visu);	
+	return (visu);
 }
 
 static void		actualize_coor(t_map *map, t_visu *visu)
@@ -91,8 +95,6 @@ void			visualize(t_map *map, char **instructions)
 	}
 	actualize_coor(map, visu);
 	create_sdl_tools(visu);
-	draw_map(map, visu);  // necessaire ??
-	SDL_Delay(1000);
 	current_inst = -1;
 	while (instructions[++current_inst] && visu->follow)
 	{

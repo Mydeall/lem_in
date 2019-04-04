@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:12:55 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 15:03:52 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:12:54 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static char	**record_instructions(void)
 	free(joined_insts);
 	return (instructions);
 }
-
 
 int			main(void)
 {

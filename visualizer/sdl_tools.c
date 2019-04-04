@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 15:11:19 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 15:37:45 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:07:08 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	create_sdl_tools(t_visu *visu)
 {
 	visu->window = SDL_CreateWindow("Lem-in", SDL_WINDOWPOS_UNDEFINED,
 	SDL_WINDOWPOS_UNDEFINED, 1600, 900, SDL_WINDOW_SHOWN);
-	visu->renderer =  SDL_CreateRenderer(visu->window, -1,
+	visu->renderer = SDL_CreateRenderer(visu->window, -1,
 	SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	visu->texture = SDL_CreateTextureFromSurface(visu->renderer, visu->sprite);
 	SDL_FreeSurface(visu->sprite);
@@ -31,7 +31,7 @@ void	destroy_sdl_tools(t_visu *visu, t_move *tab_ants)
 	free(tab_ants);
 }
 
-void 	poll_quit(t_visu *visu)
+void	poll_quit(t_visu *visu)
 {
 	SDL_PollEvent(&(visu->event));
 	if (visu->event.type == SDL_QUIT)
