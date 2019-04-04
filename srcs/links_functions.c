@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 17:54:56 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/14 15:49:18 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 18:26:32 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@ int		append_one_link(t_room *room, t_room *room_dest)
 		if (!(room->links = new_link(room_dest)))
 			return (1);
 	}
-	else	
+	else
+	{
 		if (!(tmp->next = new_link(room_dest)))
 			return (1);
+	}
 	return (0);
 }
 
-int	append_links(t_room *a_room, t_room *b_room)
+int		append_links(t_room *a_room, t_room *b_room)
 {
 	if (!a_room || !b_room)
 		return (1);

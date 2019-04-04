@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 15:57:25 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/03 17:46:54 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 15:56:19 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,4 +125,24 @@ void	display_room(t_room *room)
 		current = current->next;
 	}
 	printf("-----------------------\n");
+}
+
+void			display_params(t_param *params)
+{
+	t_param *current;
+
+	current = params;
+	printf("------ params -----\n");
+	if (!current)
+		printf("(null)\n");
+	while (current)
+	{
+		printf("bfs_id : %d\n", current->depth);
+		if (current->prev)
+			printf("prev : %s\n", current->prev->name);
+		else
+			printf("prev : NULL\n");
+		current = current->next;
+	}
+	printf("---- fin params ----\n");
 }

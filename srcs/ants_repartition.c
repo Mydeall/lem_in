@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:08:40 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/03 18:15:22 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 16:20:51 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,6 @@ static void	sort_paths(t_path *paths, int nb_paths)
 	}
 }
 
-static int	compute_ants(t_path *path, int nb_paths, int paths_len, int ants)
-{
-	int		ants_path;
-
-	ants_path = (paths_len - nb_paths * path->size + ants) / nb_paths;
-	return (ants_path);
-}
-
 static void	complete(t_path *paths, int ants_left)
 {
 	int	min_step;
@@ -68,6 +60,14 @@ static void	complete(t_path *paths, int ants_left)
 	}
 }
 
+static int	compute_ants(t_path *path, int nb_paths, int paths_len, int ants)
+{
+	int		ants_path;
+
+	ants_path = (paths_len - nb_paths * path->size + ants) / nb_paths;
+	return (ants_path);
+}
+
 static int	compute_total_steps(t_path *paths)
 {
 	int		max_step;
@@ -80,16 +80,6 @@ static int	compute_total_steps(t_path *paths)
 			max_step = paths[i].steps;
 	return (max_step);
 }
-
-/*
- *		tmp = current->prev;
-		current->prev = current->prev->next;
-		current = tmp->room;
-		free(tmp);
-		
-		current = current->prev->room;
-
-*/
 
 int			ants_repartition(int ants, t_path *paths)
 {
@@ -107,7 +97,6 @@ int			ants_repartition(int ants, t_path *paths)
 		paths[nb_path].size = queue_len(paths[nb_path].path) - 1;
 		paths_len += paths[nb_path].size;
 	}
-//	printf("nb_paths : %d\n", nb_path);
 	sort_paths(paths, nb_path);
 	current_path = paths;
 	ants_left = ants;
@@ -116,9 +105,9 @@ int			ants_repartition(int ants, t_path *paths)
 	while (current_path[++i].path)
 	{
 		current_path[i].ants = compute_ants(&current_path[i], nb_path, paths_len, ants);
+		//current_path[i].ants = (current_path[i].size - nb_path * current_path[i].size + ants) / nb_path;
 		if (current_path[i].ants <= 0)
 		{
-	//		printf("skip size : %d\n", current_path[i].size);
 			paths_len -= current_path[i].size;
 			current_path[i].ants = 0;
 			nb_path--;

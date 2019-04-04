@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/04/04 15:09:10 by rkirszba         ###   ########.fr        #
+#    Updated: 2019/04/04 18:38:39 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,22 +20,23 @@ SRC_PATH = ./srcs
 VIS_PATH = ./visualizer
 INC_PATH = ./includes
 
-SRC_NAME = free_functions.c\
-		   display.c\
+SRC_NAME = display.c\
+		   main.c\
 		   recur_bfs.c\
-		   best_len_bfs.c\
 		   bfs_functions.c\
+		   path_functions.c\
 		   edmonds_karp_recur.c\
 		   ants_repartition.c\
 		   display_instructions.c\
 
 COM_NAME = initialize.c\
 		   parser.c\
+		   param_functions.c\
 		   room_functions.c\
 		   links_functions.c\
 		   queue_functions.c\
 		   parser_functions.c\
-		   main.c\
+		   free_functions.c\
 
 VIS_NAME = visualizer.c\
 		   visualize.c\
@@ -43,6 +44,7 @@ VIS_NAME = visualizer.c\
 		   parser_v.c\
 		   initialization_utils_functions.c\
 		   draw_map.c\
+		   sdl_tools.c
 
 INC_NAME = lem_in.h \
 		   get_next_line.h \

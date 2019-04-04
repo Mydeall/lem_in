@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 16:19:01 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/14 14:19:21 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 18:24:39 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		hash_jenkins(char *name)
 {
-	int	i;
-	unsigned int hash;
+	int				i;
+	unsigned int	hash;
 
 	i = -1;
 	hash = 0;
@@ -60,7 +60,6 @@ t_room	*find_room(char *name, t_map *map)
 	int		hash;
 	t_room	*tmp;
 
-//	printf("find_room : name = %s\n", name);
 	if (!name || !(*name))
 		return (NULL);
 	hash = hash_jenkins(name);

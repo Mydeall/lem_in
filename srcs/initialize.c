@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 17:30:13 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/03/28 17:30:25 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 18:12:20 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_map			*initialize_map(t_map *map)
 	map->ants = 0;
 	map->start = NULL;
 	map->end = NULL;
+	map->best_steps = -1;
+	map->best_paths = NULL;
 	if (!(hash_tab = (t_room**)ft_memalloc(sizeof(t_room*) * HASH_SIZE)))
 	{
 		free(map);		

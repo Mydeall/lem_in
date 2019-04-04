@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:56:39 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 17:11:45 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/04 18:35:05 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ void			visualize(t_map *map, char **instructions)
 	if (!(tab_ants = initialize_tab_ants(map))
 		|| !(visu = initialize_visu(map, instructions)))
 	{
-		if (tab_ants);
+		if (tab_ants)
 			free(tab_ants);
-		return (1);
+		return ;
 	}
 	actualize_coor(map, visu);
 	create_sdl_tools(visu);
