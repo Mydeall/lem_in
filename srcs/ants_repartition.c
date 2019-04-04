@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 18:08:40 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/04 16:20:51 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 19:01:36 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	sort_paths(t_path *paths, int nb_paths)
 {
-	t_path tmp;
-	int i;
-	int j;
+	t_path	tmp;
+	int		i;
+	int		j;
 
 	i = -1;
 	while (++i < nb_paths)
@@ -55,17 +55,10 @@ static void	complete(t_path *paths, int ants_left)
 			}
 		}
 		paths[min_index].ants += 1;
-		paths[min_index].steps = paths[min_index].size + paths[min_index].ants - 1;
+		paths[min_index].steps = paths[min_index].size\
+								+ paths[min_index].ants - 1;
 		ants_left--;
 	}
-}
-
-static int	compute_ants(t_path *path, int nb_paths, int paths_len, int ants)
-{
-	int		ants_path;
-
-	ants_path = (paths_len - nb_paths * path->size + ants) / nb_paths;
-	return (ants_path);
 }
 
 static int	compute_total_steps(t_path *paths)
@@ -81,44 +74,46 @@ static int	compute_total_steps(t_path *paths)
 	return (max_step);
 }
 
-int			ants_repartition(int ants, t_path *paths)
+int			sort_and_compute_paths(t_path *paths, int *paths_len)
 {
-	t_path	*current_path;
-	int		i;
 	int		nb_path;
-	int		paths_len;
-	int		ants_left;
-	int		nb_skip;
 
+	*paths_len = 0;
 	nb_path = -1;
-	paths_len = 0;
 	while (paths[++nb_path].path)
 	{
 		paths[nb_path].size = queue_len(paths[nb_path].path) - 1;
-		paths_len += paths[nb_path].size;
+		*paths_len += paths[nb_path].size;
 	}
 	sort_paths(paths, nb_path);
-	current_path = paths;
+	return (nb_path);
+}
+
+int			ants_repartition(int ants, t_path *paths)
+{
+	int		i;
+	int		paths_len;
+	int		ants_left;
+	int		nb_path;
+
 	ants_left = ants;
-	nb_skip = 0;
+	nb_path = sort_and_compute_paths(paths, &paths_len);
 	i = -1;
-	while (current_path[++i].path)
+	while (paths[++i].path)
 	{
-		current_path[i].ants = compute_ants(&current_path[i], nb_path, paths_len, ants);
-		//current_path[i].ants = (current_path[i].size - nb_path * current_path[i].size + ants) / nb_path;
-		if (current_path[i].ants <= 0)
+		paths[i].ants = (paths_len - nb_path * paths[i].size + ants) / nb_path;
+		if (paths[i].ants <= 0)
 		{
-			paths_len -= current_path[i].size;
-			current_path[i].ants = 0;
+			paths_len -= paths[i].size;
 			nb_path--;
-			nb_skip++;
-			current_path[i].ants = 0;
+			paths++;
+			i--;
+			paths[i].ants = 0;
 			continue ;
 		}
-		current_path[i].steps = current_path[i].size + current_path[i].ants - 1;
-		ants_left -= current_path[i].ants;
+		paths[i].steps = paths[i].size + paths[i].ants - 1;
+		ants_left -= paths[i].ants;
 	}
-	complete(&paths[nb_skip], ants_left);
-	return (compute_total_steps(&paths[nb_skip]));
+	complete(paths, ants_left);
+	return (compute_total_steps(paths));
 }
-		

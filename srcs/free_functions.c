@@ -6,11 +6,23 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 17:55:41 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 18:39:02 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 20:09:04 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+void	free_queue(t_queue *queue)
+{
+	t_queue	*tmp;
+
+	while (queue)
+	{
+		tmp = queue;
+		queue = queue->next;
+		free(tmp);
+	}
+}
 
 void	free_links(t_link *link)
 {
@@ -69,15 +81,16 @@ void	free_room(t_room *room)
 	free(room->name);
 	free(room);
 }
-	
 
 void	free_map(t_map *map)
 {
 	int		i;
-	t_room	*current_room;	
+	t_room	*current_room;
 	t_room	*tmp;
 
 	i = -1;
+	if (!map)
+		return ;
 	while (++i < HASH_SIZE)
 	{
 		current_room = NULL;
@@ -85,11 +98,14 @@ void	free_map(t_map *map)
 			current_room = map->hash_tab[i];
 		while (current_room)
 		{
-			tmp = current_room;		
+			tmp = current_room;
 			current_room = current_room->next;
 			free_room(tmp);
 		}
 	}
-	free(map->hash_tab);
+	if (map->best_paths)
+		free_path(map->best_paths);
+	if (map->hash_tab)
+		free(map->hash_tab);
 	free(map);
 }

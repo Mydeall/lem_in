@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 14:51:24 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 15:43:12 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 19:50:36 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static void	initialize_tab_ants(t_queue **tab_ants, int ants)
 		i++;
 	}
 }
-
 
 static void	print_instructions(t_queue **tab_ants, int ants)
 {
@@ -46,7 +45,7 @@ static void	print_instructions(t_queue **tab_ants, int ants)
 			i++;
 		}
 	}
-	write(1 , "\n", 1);
+	write(1, "\n", 1);
 }
 
 static void	refresh_tab_ants(t_queue **tab_ants, t_path *paths, int *sent_ants)

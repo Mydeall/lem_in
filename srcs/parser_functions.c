@@ -6,13 +6,13 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 18:47:10 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/03 12:42:58 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 19:17:46 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		verif_com(char *line, t_map *map, int *step, char *command)
+int			verif_com(char *line, t_map *map, int *step, char *command)
 {
 	(void)step;
 	(void)map;
@@ -30,7 +30,7 @@ int		verif_com(char *line, t_map *map, int *step, char *command)
 	return (line ? 1 : -1);
 }
 
-int		verif_ants(char *line, t_map *map, int *step, char *command)
+int			verif_ants(char *line, t_map *map, int *step, char *command)
 {
 	if ((map->ants = is_pos_int(line)) == -1 || *command)
 		return (1);
@@ -38,35 +38,31 @@ int		verif_ants(char *line, t_map *map, int *step, char *command)
 	return (0);
 }
 
-static int		verif_coord(char *cp_line, t_room *room)
+static int	verif_coord(char *cp_line, t_room *room)
 {
 	int		i;
 
-	i = 0;	
+	i = 0;
 	while (cp_line[i])
 		i++;
 	while (i > 0 && cp_line[i] != ' ')
 		i--;
-	if (!cp_line[i + 1] || (room->y = is_pos_int(&(cp_line[i + 1]))) == - 1)
+	if (!cp_line[i + 1] || (room->y = is_pos_int(&(cp_line[i + 1]))) == -1)
 		return (1);
 	cp_line[i] = 0;
 	while (i > 0 && cp_line[i] != ' ')
 		i--;
-	if (!cp_line[i + 1] || (room->x = is_pos_int(&(cp_line[i + 1]))) == - 1)
+	if (!cp_line[i + 1] || (room->x = is_pos_int(&(cp_line[i + 1]))) == -1)
 		return (1);
 	cp_line[i] = 0;
 	return (0);
 }
 
-static int		verif_name(t_map *map, char *cp_line, t_room *room)
+static int	verif_name(t_map *map, char *cp_line, t_room *room)
 {
-	//char	*tmp; /**/
 	int		error;
 
 	error = 0;
-	//tmp = cp_line; /**/
-	//cp_line = ft_strtrimchar(cp_line, ' '); /**/
-	//free(tmp); /**/
 	if (!*cp_line)
 		error = 1;
 	else if (!(room->name = ft_strdup(cp_line)))
@@ -79,7 +75,7 @@ static int		verif_name(t_map *map, char *cp_line, t_room *room)
 	return (error);
 }
 
-int		verif_room(char *line, t_map *map, int *step, char *command)
+int			verif_room(char *line, t_map *map, int *step, char *command)
 {
 	int		i;
 	t_room	*room;
@@ -88,15 +84,16 @@ int		verif_room(char *line, t_map *map, int *step, char *command)
 
 	(void)step;
 	i = 0;
-	if (!(cp = ft_strdup(line))	|| !(room = (t_room*)malloc(sizeof(t_room))))
-		return(-1);
+	if (!(cp = ft_strdup(line))\
+			|| !(room = (t_room*)malloc(sizeof(t_room))))
+		return (-1);
 	room->next = NULL;
 	room->links = NULL;
 	room->nb_recur = 0;
 	room->params = NULL;
 	if (verif_coord(cp, room))
 		return (1);
-	if ((ret = verif_name(map, cp,room)))
+	if ((ret = verif_name(map, cp, room)))
 		return (ret);
 	if (*command == 1)
 		map->start = room;
@@ -104,36 +101,4 @@ int		verif_room(char *line, t_map *map, int *step, char *command)
 		map->end = room;
 	*command = 0;
 	return (0);
-}
-
-int		verif_link(char *line, t_map *map, int *step, char *command)
-{
-	int		i;
-	char	*cp;
-	t_room	*a_r;
-	t_room	*b_r;
-
-	i = 0;
-	a_r = NULL;
-	b_r = NULL;
-//	printf("test link : line = %s | line[i] = %s\n", line, line + i);
-	while (1)
-	{
-		if (!(cp = ft_strdup(line)) || *command)
-			return (cp ? 1 : -1);
-		while (cp[i] && cp[i] != '-')
-			i++;
-//		printf("test link : line = %s | line[i] = %s\n", line, line + i);
-		if (!line[i])
-			return (1);
-//		printf("test link\n");
-		cp[i] = '\0';
-		if ((a_r = find_room(cp, map)) && (b_r = find_room(cp + i + 1, map)))
-			break ;
-		i = line[i] ? i + 1 : i;
-		free(cp);
-	}
-	free(cp);
-	*step = 2;
-	return(append_links(a_r, b_r));
 }

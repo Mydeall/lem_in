@@ -6,10 +6,9 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 15:44:44 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/04 16:00:26 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 19:51:20 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "lem_in.h"
 
@@ -36,5 +35,3 @@ int				append_param(t_room *room, t_room *prev, int depth)
 	room->params = new;
 	return (0);
 }
-
-

@@ -6,25 +6,11 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 13:07:57 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/04 16:53:15 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 20:13:50 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-t_link	*find_flow(t_link *links, int value)
-{
-	t_link	*current_link;
-
-	current_link = links;
-	while (current_link)
-	{
-		if (current_link->flow == value)
-			return (current_link);
-		current_link = current_link->next;
-	}
-	return (NULL);
-}
 
 t_link	*find_link(t_room *room, t_room *room_dest)
 {

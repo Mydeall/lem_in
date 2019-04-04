@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 17:30:13 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 18:12:20 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 19:30:05 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_tab_parser	*initialize_tab_parser(t_tab_parser *tab_parser)
 t_map			*initialize_map(t_map *map)
 {
 	t_room	**hash_tab;
-	
+
 	if (!(map = (t_map*)malloc(sizeof(t_map))))
 		return (NULL);
 	map->ants = 0;
@@ -40,7 +40,7 @@ t_map			*initialize_map(t_map *map)
 	map->best_paths = NULL;
 	if (!(hash_tab = (t_room**)ft_memalloc(sizeof(t_room*) * HASH_SIZE)))
 	{
-		free(map);		
+		free(map);
 		return (NULL);
 	}
 	map->hash_tab = hash_tab;

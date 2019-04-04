@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 14:51:49 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/04 16:40:00 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 19:27:16 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		verif_already_queue(t_queue **queue, t_room *room)
 {
 	t_queue	*tmp;
-	
+
 	tmp = *queue;
 	while (tmp)
 	{
@@ -85,21 +85,7 @@ int		append_start_queue(t_queue **queue, t_room *room)
 	return (0);
 }
 
-void	free_queue(t_queue *queue)
-{
-	t_queue	*tmp;
-
-//	printf("%p\n", queue);
-//	display_queue(queue);
-	while (queue)
-	{
-		tmp = queue;
-		queue = queue->next;
-		free(tmp);
-	}
-}
-
-int			queue_len(t_queue *queue)
+int		queue_len(t_queue *queue)
 {
 	t_queue	*current;
 	int		len;

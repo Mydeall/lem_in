@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 17:58:14 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/04 18:22:27 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 20:18:02 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,28 @@ int			links_manager(t_map *map, t_queue **queue, t_queue **head_queue,\
 		current_link = current_link->next;
 	}
 	*queue = (*queue)->next;
+	return (0);
+}
+
+int				test_best_repartition(t_map *map)
+{
+	t_path	*paths;
+	int		steps;
+	int		i;
+
+	i = -1;
+	if (!(paths = get_paths(map)))
+		return (1);
+	steps = ants_repartition(map->ants, paths);
+	if (map->best_steps == -1 || map->best_steps > steps)
+	{
+		map->best_steps = steps;
+		if (map->best_paths)
+			free_path(map->best_paths);
+		map->best_paths = paths;
+	}
+	else
+		free_path(paths);
 	return (0);
 }
 

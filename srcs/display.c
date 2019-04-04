@@ -6,19 +6,19 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 15:57:25 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 15:56:19 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/04 20:03:31 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void			print_map(t_map *map)
+void	print_map(t_map *map)
 {
 	int		i;
 	t_room	*tmp;
 	t_link	*tmp2;
-	int count_rooms;
-	int count_links;
+	int		count_rooms;
+	int		count_links;
 
 	count_rooms = 0;
 	count_links = 0;
@@ -48,7 +48,8 @@ void			print_map(t_map *map)
 				while (tmp2)
 				{
 					count_links++;
-					printf("----link dest = %s | flow = %d\n", tmp2->room_dest->name, tmp2->flow);
+					printf("----link dest = %s | flow = %d\n",\
+							tmp2->room_dest->name, tmp2->flow);
 					tmp2 = tmp2->next;
 				}
 				tmp = tmp->next;
@@ -65,10 +66,10 @@ void			print_map(t_map *map)
 void	display_paths(t_path *paths)
 {
 	int		i;
-	//	t_queue	*path;
+	t_queue	*path;
 
 	i = 0;
-//	printf("DISPLAY\n");
+	printf("DISPLAY\n");
 	if (!paths)
 	{
 		printf("%p\n", NULL);
@@ -77,17 +78,17 @@ void	display_paths(t_path *paths)
 	while (paths[i].path)
 	{
 		printf("Chemin %d\n", i + 1);
-		//		path = paths[i]->path;
-//		printf("size : %d\nants : %d\nsteps : %d\n", paths[i].size,\
-//				paths[i].ants, paths[i].steps);
+		path = paths[i].path;
+		printf("size : %d\nants : %d\nsteps : %d\n", paths[i].size,\
+				paths[i].ants, paths[i].steps);
 		display_queue(paths[i].path);
-		//		while (path)
-		//		{
-		//			printf("%s", path->room->name);
-		//			if (path->next)
-		//				printf("->");
-		//			path = path->next;
-		//		}
+		while (path)
+		{
+			printf("%s", path->room->name);
+			if (path->next)
+				printf("->");
+			path = path->next;
+		}
 		i++;
 		printf("\n");
 	}
@@ -127,7 +128,7 @@ void	display_room(t_room *room)
 	printf("-----------------------\n");
 }
 
-void			display_params(t_param *params)
+void	display_params(t_param *params)
 {
 	t_param *current;
 

@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/04/04 18:38:39 by ccepre           ###   ########.fr        #
+#    Updated: 2019/04/04 20:27:15 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,8 @@ INC_PATH = ./includes
 
 SRC_NAME = display.c\
 		   main.c\
-		   recur_bfs.c\
+		   find_best_paths.c\
 		   bfs_functions.c\
-		   path_functions.c\
-		   edmonds_karp_recur.c\
 		   ants_repartition.c\
 		   display_instructions.c\
 
@@ -34,6 +32,7 @@ COM_NAME = initialize.c\
 		   param_functions.c\
 		   room_functions.c\
 		   links_functions.c\
+		   path_functions.c\
 		   queue_functions.c\
 		   parser_functions.c\
 		   free_functions.c\
