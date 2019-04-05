@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:04:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/04 19:16:55 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/05 16:07:06 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		verif_link(char *line, t_map *map, int *step, char *command)
 	i = 0;
 	a_r = NULL;
 	b_r = NULL;
-	while (1)
+	while (!a_r || !b_r)
 	{
 		if (!(cp = ft_strdup(line)) || *command)
 			return (cp ? 1 : -1);
@@ -31,13 +31,11 @@ int		verif_link(char *line, t_map *map, int *step, char *command)
 		if (!line[i])
 			return (1);
 		cp[i] = '\0';
-		if ((a_r = find_room(cp, map))\
-				&& (b_r = find_room(cp + i + 1, map)))
-			break ;
+		a_r = find_room(cp, map);
+		b_r = find_room(cp + i + 1, map);
 		i = line[i] ? i + 1 : i;
 		free(cp);
 	}
-	free(cp);
 	*step = 2;
 	return (append_links(a_r, b_r));
 }
@@ -59,7 +57,46 @@ int		is_pos_int(char *str)
 	return (-1);
 }
 
-void	parser(t_map *map, t_tab_parser *tab_parser, char *line)
+static int		input_manager(char *line, char **input, int end)
+{
+	static char	buff[LM_BUFF_SIZE + 1];
+	static int	len_buff = 0;
+	int			i;
+	char		*tmp;
+
+	if (end || ft_strlen(line) + 1 + len_buff > LM_BUFF_SIZE)
+	{
+		tmp = *input;
+		*input = ft_strjoinarg(4, *input, buff, line, "\n");
+		free(tmp);
+		free(line);
+		len_buff = 0;
+		buff[0] = '\0';
+		return (0);
+	}
+	i = -1;
+	while (line[++i])
+		buff[len_buff++] = line[i];
+	buff[len_buff] = '\n';
+	buff[++len_buff] = '\0';
+	free(line);
+	return (0);
+}
+
+static int	error_manager(int error, char *line, char **input)
+{
+	if (error)
+	{
+		free(line);
+		input_manager(ft_strnew(0), input, 1);
+		return (1);
+	}
+	if (input_manager(line, input, 0))
+		return (1);
+	return (0);
+}
+
+void		parser(t_map *map, t_tab_parser *tab_parser, char *line, char **input)
 {
 	char	command;
 	int		error;
@@ -72,8 +109,6 @@ void	parser(t_map *map, t_tab_parser *tab_parser, char *line)
 	while ((ret = get_next_line(0, &line)) == 1)
 	{
 		i = -1;
-		write(1, line, ft_strlen(line));
-		write(1, "\n", 1);
 		while (++i < 4)
 		{
 			if (tab_parser[i].step == step || i == 0 || (i == 3 && step == 1))
@@ -83,9 +118,8 @@ void	parser(t_map *map, t_tab_parser *tab_parser, char *line)
 					break ;
 			}
 		}
-		free(line);
-		if (error == 1 || error == -1)
+		if (error_manager(error, line, input))
 			return ;
 	}
-	write(1, "\n", 1);
+	input_manager(ft_strnew(0), input, 1);
 }

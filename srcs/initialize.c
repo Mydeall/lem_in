@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 17:30:13 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 19:30:05 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/05 15:49:30 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_map			*initialize_map(t_map *map)
 
 	if (!(map = (t_map*)malloc(sizeof(t_map))))
 		return (NULL);
-	map->ants = 0;
+	map->ants = -1;
 	map->start = NULL;
 	map->end = NULL;
 	map->best_steps = -1;

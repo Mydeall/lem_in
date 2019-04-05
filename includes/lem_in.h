@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/04 18:34:37 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/05 15:24:30 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <time.h>
 
 # define HASH_SIZE 9679
+# define LM_BUFF_SIZE 2048
 # define MOVE_STEPS 20
 
 struct s_link;
@@ -120,7 +121,8 @@ typedef struct	s_move
 ** check functions
 */
 
-void			parser(t_map *map, t_tab_parser *tab_parser, char *line);
+void			parser(t_map *map, t_tab_parser *tab_parser, char *line,\
+		char **input);
 t_tab_parser	*initialize_tab_parser(t_tab_parser *tab_parser);
 t_map			*initialize_map(t_map *map);
 int				is_pos_int(char *str);

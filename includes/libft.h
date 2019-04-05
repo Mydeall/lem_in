@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 20:00:42 by ccepre            #+#    #+#             */
-/*   Updated: 2019/03/28 17:24:23 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/05 14:55:16 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void				ft_putstrtab(char **tab);
 void				ft_putinttab(int *tab, size_t size);
 char				*ft_strtrimchar(char const *s, int c);
 char				*ft_strjointab(const char **tab, const char *join);
+char				*ft_strjoinarg(int nb, ...);
 size_t				ft_lstlen(t_list *lst);
 void				ft_lstradd(t_list **lst, t_list *new);
 void				ft_putlst_str(t_list *lst);
