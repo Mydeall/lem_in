@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/05 15:24:30 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/05 17:24:46 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ int				queue_len(t_queue *queue);
 
 int				display_instructions(t_map *map, t_path *paths, int steps);
 
-void			parser_v(t_map *map, t_tab_parser *tab_parser, char *line);
+int				parser_v(t_map *map, t_tab_parser *tab_parser, char *line);
 void			visualize(t_map *map, char **instructions);
 int				update_state(t_map *map, t_visu *visu, char *instruction, t_move *tab_ants);
 void			give_sizes(t_map *map, t_visu *visu);

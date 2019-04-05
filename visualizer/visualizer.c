@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 11:12:55 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 19:12:54 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/05 17:53:00 by rkirszba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,19 @@ static void	free_instructions(char **instructions)
 	while (instructions[++i])
 		free(instructions[i]);
 	free(instructions);
+}
+
+static void	free_manager(t_map *map, t_tab_parser *tab_parser, char *line,
+char **instructions)
+{
+	if (map)
+		free_map(map);
+	if (tab_parser)
+		free(tab_parser);
+	if (line)
+		free(line);
+	if (instructions)
+		free_instructions(instructions);
 }
 
 static char	**record_instructions(void)
@@ -51,6 +64,31 @@ static char	**record_instructions(void)
 	return (instructions);
 }
 
+static int	check_nb_rooms(t_map *map)
+{
+	int		i;
+	int		nb_rooms;
+	int		error;
+	t_room	*current_room;
+
+	nb_rooms = 0;
+	error = 0;
+	i = -1;
+	while (++i < HASH_SIZE && !error)
+	{
+		current_room = NULL;
+		if (map->hash_tab[i])
+			current_room = map->hash_tab[i];
+		while (current_room)
+		{
+			if (++nb_rooms > 30)
+				error = 1;
+			current_room = current_room->next;
+		}
+	}
+	return (error ? 0 : 1);
+}
+
 int			main(void)
 {
 	t_tab_parser	*tab_parser;
@@ -61,21 +99,20 @@ int			main(void)
 	line = NULL;
 	map = NULL;
 	tab_parser = NULL;
+	instructions = NULL;
 	if (!(tab_parser = initialize_tab_parser(tab_parser))
-			|| !(map = initialize_map(map)))
+			|| !(map = initialize_map(map))
+			|| !(parser_v(map, tab_parser, line))
+			|| !(instructions = record_instructions())
+			|| !(check_nb_rooms(map)))
 	{
-		if (tab_parser)
-			free(tab_parser);
+		ft_printf("Your map is not correct or contains more than 30 rooms\n");
+		free_manager(map, tab_parser, line, instructions);
 		return (1);
 	}
-	parser_v(map, tab_parser, line);
-	if (!(instructions = record_instructions()))
-		return (1);
 	SDL_Init(SDL_INIT_VIDEO);
 	visualize(map, instructions);
 	SDL_Quit();
-	free(tab_parser);
-	free_map(map);
-	free_instructions(instructions);
+	free_manager(map, tab_parser, line, instructions);
 	return (0);
 }

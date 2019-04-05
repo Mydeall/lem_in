@@ -129,8 +129,8 @@ class   Custom_Executer() :
 
 if __name__ == "__main__" :
 #    executer = Executer(50)
-#    executer.execute_generator(gen_option = "--big")
+    executer.execute_generator(gen_option = "--big")
 #    executer.execute_generator()
 #    specific_map("maps/best_combinaison")
-    custom_exec = Custom_Executer()
-    custom_exec.execute_custom("maps/best_combinaison")
+#    custom_exec = Custom_Executer()
+#    custom_exec.execute_custom("maps/best_combinaison")
