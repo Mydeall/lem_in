@@ -50,27 +50,32 @@ INC_NAME = lem_in.h \
 		   ft_printf.h \
 		   libft.h
 
+LIB_NAME = libft.a
+
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
 VIS = $(addprefix $(VIS_PATH)/, $(VIS_NAME))
 COM = $(addprefix $(SRC_PATH)/, $(COM_NAME))
 INC = $(addprefix $(INC_PATH)/, $(INC_NAME))
+LIB = $(addprefix $(LIB_PATH)/, $(LIB_NAME))
 
 OBJ_SRC= $(SRC:.c=.o)
 OBJ_COM= $(COM:.c=.o)
 OBJ_VIS= $(VIS:.c=.o)
 
-all : libft $(NAME) $(NAME_VIS)
+all : lib $(NAME) $(NAME_VIS)
 
 %.o : %.c $(INC)
 	gcc $(FLAGS) -c `~/SDL2/SDL2-2.0.8/build/sdl2-config --cflags` $< -o $@ -I $(INC_PATH)
 
 $(NAME) : $(OBJ_SRC) $(OBJ_COM) $(INC) $(LIB_PATH)/libft.a
-	gcc -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
+	@gcc -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB) -I $(INC_PATH)
+	@echo "lem-in has been well compiled"
 
-$(NAME_VIS) : $(OBJ_VIS) $(OBJ_COM) $(INC) $(LIB_PATH)/libft.a
-	gcc -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
+# $(NAME_VIS) : $(OBJ_VIS) $(OBJ_COM) $(INC) $(LIB)
+# 	@gcc -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
+#	@echo "visu has been well compiled"
 
-libft :
+lib :
 	@cd $(LIB_PATH) ; $(MAKE) -f Makefile
 
 clean :
@@ -84,8 +89,8 @@ re : fclean all
 
 san : $(OBJ_SRC) $(OBJ_VIS) $(OBJ_COM) $(OBJ_LIB) $(INC)
 	cd $(LIB_PATH) ; $(MAKE) -f Makefile
-	gcc -g3 -fsanitize=address -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
-	gcc -g3 -fsanitize=address -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
+	gcc -g3 -fsanitize=address -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB) -I $(INC_PATH)
+	gcc -g3 -fsanitize=address -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB) -I $(INC_PATH)
 
-.PHONY : san libft visu clean fclean re
+.PHONY : san lib visu clean fclean re
 

@@ -84,13 +84,14 @@ OBJS_PRINTF = $(PRINTF:.c=.o)
 all : $(NAME)
 
 %.o : %.c
-	gcc $(FLAGS) -c $< -o $@ -I $(HEADERS)
+	@gcc $(FLAGS) -c $< -o $@ -I $(HEADERS)
 
 .PHONY : clean fclean re
 
 $(NAME) : $(OBJS_LIB) $(OBJS_PRINTF) $(INC)
-	ar rc $(NAME) $(OBJS_LIB) $(OBJS_PRINTF)
-	ranlib $(NAME)
+	@ar rc $(NAME) $(OBJS_LIB) $(OBJS_PRINTF)
+	@ranlib $(NAME)
+	@echo "Libft has been well compiled"
 
 clean :
 	rm -f $(OBJS_LIB) $(OBJS_PRINTF)

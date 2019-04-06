@@ -68,9 +68,7 @@ int				test_best_repartition(t_map *map)
 {
 	t_path	*paths;
 	int		steps;
-	int		i;
 
-	i = -1;
 	if (!(paths = get_paths(map)))
 		return (1);
 	steps = ants_repartition(map->ants, paths);

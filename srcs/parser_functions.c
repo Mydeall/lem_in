@@ -77,13 +77,11 @@ static int	verif_name(t_map *map, char *cp_line, t_room *room)
 
 int			verif_room(char *line, t_map *map, int *step, char *command)
 {
-	int		i;
 	t_room	*room;
 	char	*cp;
 	int		ret;
 
 	(void)step;
-	i = 0;
 	if (!(cp = ft_strdup(line))\
 			|| !(room = (t_room*)malloc(sizeof(t_room))))
 		return (-1);

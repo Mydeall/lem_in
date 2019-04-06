@@ -66,7 +66,6 @@ void	print_map(t_map *map)
 void	display_paths(t_path *paths)
 {
 	int		i;
-	t_queue	*path;
 
 	i = 0;
 	printf("DISPLAY\n");
@@ -78,17 +77,9 @@ void	display_paths(t_path *paths)
 	while (paths[i].path)
 	{
 		printf("Chemin %d\n", i + 1);
-		path = paths[i].path;
 		printf("size : %d\nants : %d\nsteps : %d\n", paths[i].size,\
 				paths[i].ants, paths[i].steps);
 		display_queue(paths[i].path);
-		while (path)
-		{
-			printf("%s", path->room->name);
-			if (path->next)
-				printf("->");
-			path = path->next;
-		}
 		i++;
 		printf("\n");
 	}

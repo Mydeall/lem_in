@@ -22,22 +22,22 @@ int		verif_link(char *line, t_map *map, int *step, char *command)
 	i = 0;
 	a_r = NULL;
 	b_r = NULL;
+	if (!(cp = ft_strdup(line)) || *command)
+		return (cp ? 1 : -1);
 	while (!a_r || !b_r)
 	{
-		if (!(cp = ft_strdup(line)) || *command)
-			return (cp ? 1 : -1);
 		while (cp[i] && cp[i] != '-')
 			i++;
 		if (!line[i])
-			return (1);
+			break ;
 		cp[i] = '\0';
 		a_r = find_room(cp, map);
 		b_r = find_room(cp + i + 1, map);
 		i = line[i] ? i + 1 : i;
-		free(cp);
 	}
+	free(cp);
 	*step = 2;
-	return (append_links(a_r, b_r));
+	return (line[i] ? append_links(a_r, b_r) : 1);
 }
 
 int		is_pos_int(char *str)
@@ -101,12 +101,11 @@ void		parser(t_map *map, t_tab_parser *tab_parser, char *line, char **input)
 	char	command;
 	int		error;
 	int		step;
-	int		ret;
 	int		i;
 
 	step = 0;
 	command = 0;
-	while ((ret = get_next_line(0, &line)) == 1)
+	while ((get_next_line(0, &line)) == 1)
 	{
 		i = -1;
 		while (++i < 4)
