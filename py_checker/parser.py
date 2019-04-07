@@ -22,7 +22,7 @@ class   Map_Parser() :
     def __init__(self, map_gen) :
         self.map_gen = map_gen
         self.ants = 0
-        self.steps_required = None
+        self.steps_required = -1 
         self.start = None
         self.end = None
         self.room_tab = [None] * 9679

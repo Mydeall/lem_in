@@ -14,22 +14,21 @@ class   Map_Exec() :
         self.error_message = ""
 
     def generate_map(self, option = "--big-superposition", map_name = "map") :
-        ret = os.popen("./truc/generator " + option + " > " + map_name).readlines()
+        ret = os.popen("./maps/generator " + option + " > " + map_name).readlines()
         if (ret != []) :
-            self.error_message = ret
+            self.error_message = "Error during map generation.\npath gen :" +\
+                    + "'./maps/generator'\nOption : '{}'\n".format(option) 
             return (1)
         return (0)
 
-    def exec_lem_in(self, exec_name = "lem_in", path_map = "map") :
+    def exec_lem_in(self, exec_name = "lem-in", path_map = "map") :
         self.map_gen = os.popen("cat " + path_map).readlines()
-        print(self.map_gen)
         if (self.map_gen == []) :
-            self.error_message = self.map_gen
+            self.error_message = "No file named '{}'".format(path_map)
             return (1)
         self.output = os.popen("./" + exec_name + " < " + path_map).readlines()
-        print(self.output)
-        if ("No such file" in self.output[0]) :
-            self.error_message = self.output[0]
+        if (self.output == []) :
+            self.error_message = "No file named '{}' or '{}'".format(exec_name, path_map)
             return (1)
         return (0)
 
@@ -63,10 +62,11 @@ class   Gen_Executer() :
         nb_exec = self.nb_exec if nb_exec == -1 else nb_exec
         gen_option = self.gen_option if gen_option == "" else gen_option
         for i in range(int(nb_exec)) :
-            print("------- Test {}/{} -------".format(i + 1, nb_exec))
+            print("\n------- Test {}/{} -------".format(i + 1, nb_exec))
             map_exec = Map_Exec()
-            map_exec.generate_map(gen_option)
-            map_exec.exec_lem_in()
+            if (map_exec.generate_map(gen_option) == 1 or map_exec.exec_lem_in() == 1) :
+                print(map_exec.error_message)
+                return (1)
             map_parser = parser.Map_Parser(map_exec.map_gen)
             if map_parser.parse_map() == 1 :
                 print("Wrong map")
@@ -88,7 +88,7 @@ class   Gen_Executer() :
             if self.result[i] > self.lim_diff :
                 os.system("mv map map_hard_" + str(i))
                 print("This map has been register has map_hard_" + str(i))
-            print("--------------------------\n")
+            print("--------------------------")
             time.sleep(1)
         if self.result != [] :
             self.display_generator_summary()
@@ -98,14 +98,15 @@ class   Custom_Executer() :
         self.path = path
 
     def display_result(self, steps = -1, steps_required = -1, error_message = "") :
-        print("------- Map : {} ------".format(self.path))
+        print("\n------- Map : {} ------".format(self.path))
         if (error_message == "") :
-            print("steps : " + str(self.steps))
-            if (self.steps_required != -1) :
-                print("steps_required : " + str(self.steps_required))
+            print("Actions are valid\n")
+            print("steps : " + str(steps))
+            if (steps_required != -1) :
+                print("steps_required : " + str(steps_required))
         else :
             print(error_message)
-        print("--------------------------\n")
+        print("--------------------------")
 
     def execute_custom(self, path = "") :
         self.path = self.path if path == "" else path
@@ -113,8 +114,9 @@ class   Custom_Executer() :
             print("No path")
             return (1)
         map_exec = Map_Exec()
-#        map_exec.generate_map()
-        map_exec.exec_lem_in(path)
+        if (map_exec.exec_lem_in(path_map = path) == 1) :
+            print(map_exec.error_message)
+            return (1)
         map_parser = parser.Map_Parser(map_exec.map_gen)
         map_parser.parse_map()
         output_checker = checker.Output_Checker(map_exec.output, map_parser)
@@ -122,15 +124,7 @@ class   Custom_Executer() :
                 or output_checker.check_map_output()) :
             self.display_result(error_message = output_checker.error_message)
         else :
-            steps = len(output_checker.answer)
+            steps = len(output_checker.actions)
             steps_required = map_parser.steps_required
             self.display_result(steps, steps_required)
         return (0)
-
-if __name__ == "__main__" :
-#    executer = Executer(50)
-    executer.execute_generator(gen_option = "--big")
-#    executer.execute_generator()
-#    specific_map("maps/best_combinaison")
-#    custom_exec = Custom_Executer()
-#    custom_exec.execute_custom("maps/best_combinaison")

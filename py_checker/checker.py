@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import numpy as np
+
 class   Output_Checker() :
     def __init__(self, output, map_parser) :
         self.output = output 
@@ -106,5 +108,3 @@ class   Output_Checker() :
                 return (0)
         self.error_message = "Wrong output format : No '\\n' separator between map and actions"
         return (1)
-
-

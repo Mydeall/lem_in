@@ -49,10 +49,10 @@ int	main(void)
 	if (!map->best_paths)
 		return (error(tab_parser, map, input, 0));
 	write(1, input, ft_strlen(input));
-	/* display_instructions(map, map->best_paths, map->best_steps); */
-	printf("\nBest paths after edmonds-karp :\n");
-	display_paths(map->best_paths);
-	printf("finale best steps : %d\n", map->best_steps);
+	display_instructions(map, map->best_paths, map->best_steps);
+	/* printf("\nBest paths after edmonds-karp :\n"); */
+	/* display_paths(map->best_paths); */
+	/* printf("finale best steps : %d\n", map->best_steps); */
 	free_map(map);
 	if (tab_parser)
 		free(tab_parser);
