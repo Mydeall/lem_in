@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 18:06:13 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/05 17:24:46 by rkirszba         ###   ########.fr       */
+/*   Updated: 2019/04/08 18:41:28 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <SDL2/SDL.h>
 # include <limits.h>
 
-# include <stdio.h>
 # include <time.h>
 
 # define HASH_SIZE 9679
