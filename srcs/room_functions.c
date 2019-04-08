@@ -6,13 +6,13 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 16:19:01 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 20:20:45 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/08 18:09:32 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		hash_jenkins(char *name)
+int			hash_jenkins(char *name)
 {
 	int				i;
 	unsigned int	hash;
@@ -31,7 +31,7 @@ int		hash_jenkins(char *name)
 	return ((int)(hash % HASH_SIZE));
 }
 
-int		append_room(t_room *room, t_map *map)
+int			append_room(t_room *room, t_map *map)
 {
 	t_room	*tmp;
 	int		hash;
@@ -55,7 +55,7 @@ int		append_room(t_room *room, t_map *map)
 	return (0);
 }
 
-t_room	*find_room(char *name, t_map *map)
+t_room		*find_room(char *name, t_map *map)
 {
 	int		hash;
 	t_room	*tmp;
@@ -73,7 +73,7 @@ t_room	*find_room(char *name, t_map *map)
 	return (NULL);
 }
 
-static void		update_flow(t_room *a_room, t_room *b_room, char side)
+static void	update_flow(t_room *a_room, t_room *b_room, char side)
 {
 	t_link	*current_link;
 
@@ -92,7 +92,7 @@ static void		update_flow(t_room *a_room, t_room *b_room, char side)
 	}
 }
 
-void			update_flow_path(t_queue *path, char side)
+void		update_flow_path(t_queue *path, char side)
 {
 	t_queue *current;
 

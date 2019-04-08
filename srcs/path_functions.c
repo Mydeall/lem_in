@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 16:11:04 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/04 20:13:31 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/08 18:10:35 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void			free_path(t_path *paths)
 	free(paths);
 }
 
-t_link	*find_flow(t_link *links, int value)
+t_link			*find_flow(t_link *links, int value)
 {
 	t_link	*current_link;
 

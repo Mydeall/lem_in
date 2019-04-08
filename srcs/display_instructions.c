@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 14:51:24 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/04 19:50:36 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/08 17:10:10 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@ static void	initialize_tab_ants(t_queue **tab_ants, int ants)
 	int		i;
 
 	i = 0;
-	while (i <= ants)
+	while (i < ants)
 	{
 		tab_ants[i] = NULL;
 		i++;
 	}
 }
 
-static void	print_instructions(t_queue **tab_ants, int ants)
+static void	print_instructions(t_queue **tab_ants, int sent_ants)
 {
 	int		current_ant;
 	int		i;
 
 	current_ant = -1;
 	i = 0;
-	while (++current_ant < ants)
+	while (++current_ant < sent_ants)
 	{
 		if (tab_ants[current_ant] && tab_ants[current_ant]->room)
 		{
@@ -75,7 +75,7 @@ int			display_instructions(t_map *map, t_path *paths, int steps)
 	int		nb_step;
 	int		sent_ants;
 
-	if (!(tab_ants = (t_queue**)malloc(sizeof(t_queue*) * (map->ants + 1))))
+	if (!(tab_ants = (t_queue**)malloc(sizeof(t_queue*) * (map->ants))))
 		return (-1);
 	initialize_tab_ants(tab_ants, map->ants);
 	nb_step = -1;
@@ -83,7 +83,7 @@ int			display_instructions(t_map *map, t_path *paths, int steps)
 	while (++nb_step < steps)
 	{
 		refresh_tab_ants(tab_ants, paths, &sent_ants);
-		print_instructions(tab_ants, map->ants);
+		print_instructions(tab_ants, sent_ants);
 	}
 	free(tab_ants);
 	return (0);

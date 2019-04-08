@@ -17,7 +17,7 @@ class   Output_Checker() :
         if actions == None :
             actions = self.actions
         if self.map_parser.find_room(action[1]) == None :
-            self.error_message = "Room : on line {} doesn'exist"\
+            self.error_message = "Room {} on line {} doesn'exist"\
                     .format(action[1], nb_line)
             return (1)
         if action[1] in self.map_parser.start.tab_link :

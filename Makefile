@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/04/04 20:27:15 by ccepre           ###   ########.fr        #
+#    Updated: 2019/04/08 18:39:52 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ COM_NAME = initialize.c\
 		   parser_functions.c\
 		   free_functions.c\
 
-VIS_NAME = visualizer.c\
+VIS_NAME = main.c\
 		   visualize.c\
 		   update_state.c\
 		   parser_v.c\
@@ -62,25 +62,25 @@ OBJ_SRC= $(SRC:.c=.o)
 OBJ_COM= $(COM:.c=.o)
 OBJ_VIS= $(VIS:.c=.o)
 
-all : lib $(NAME) $(NAME_VIS)
+all : lib $(NAME_VIS) $(NAME)
 
 %.o : %.c $(INC)
-	gcc $(FLAGS) -c `~/SDL2/SDL2-2.0.8/build/sdl2-config --cflags` $< -o $@ -I $(INC_PATH)
+	@gcc $(FLAGS) -c $< -o $@ -I $(INC_PATH)
 
-$(NAME) : $(OBJ_SRC) $(OBJ_COM) $(INC) $(LIB_PATH)/libft.a
+$(NAME_VIS) : $(OBJ_VIS) $(OBJ_COM) $(INC) $(LIB)
+	@gcc -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB) -I $(INC_PATH)
+	@echo "visu has been well compiled"
+
+$(NAME) : $(OBJ_SRC) $(OBJ_COM) $(INC) $(LIB)
 	@gcc -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB) -I $(INC_PATH)
 	@echo "lem-in has been well compiled"
-
-# $(NAME_VIS) : $(OBJ_VIS) $(OBJ_COM) $(INC) $(LIB)
-# 	@gcc -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB_PATH)/libft.a -I $(INC_PATH)
-#	@echo "visu has been well compiled"
 
 lib :
 	@cd $(LIB_PATH) ; $(MAKE) -f Makefile
 
 clean :
 	rm -f $(OBJ_SRC) $(OBJ_VIS) $(OBJ_COM)
-	cd $(LIB_PATH) ; $(MAKE) fclean 
+	cd $(LIB_PATH) ; $(MAKE) fclean
 
 fclean : clean
 	rm -f $(NAME) $(NAME_VIS)
@@ -92,5 +92,4 @@ san : $(OBJ_SRC) $(OBJ_VIS) $(OBJ_COM) $(OBJ_LIB) $(INC)
 	gcc -g3 -fsanitize=address -o $(NAME) $(OBJ_SRC) $(OBJ_COM) $(LIB) -I $(INC_PATH)
 	gcc -g3 -fsanitize=address -F/Library/Frameworks -framework SDL2 -o $(NAME_VIS) $(OBJ_VIS) $(OBJ_COM) $(LIB) -I $(INC_PATH)
 
-.PHONY : san lib visu clean fclean re
-
+.PHONY : san lib clean fclean re

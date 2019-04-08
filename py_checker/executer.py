@@ -6,6 +6,7 @@ import time
 import parser
 import checker
 import numpy as np
+import subprocess
 
 class   Map_Exec() :
     def __init__(self) :
@@ -14,21 +15,30 @@ class   Map_Exec() :
         self.error_message = ""
 
     def generate_map(self, option = "--big-superposition", map_name = "map") :
-        ret = os.popen("./maps/generator " + option + " > " + map_name).readlines()
-        if (ret != []) :
-            self.error_message = "Error during map generation.\npath gen :" +\
-                    + "'./maps/generator'\nOption : '{}'\n".format(option) 
+        pipe = subprocess.Popen(["maps/generator", str(option)],\
+                stdout=subprocess.PIPE,\
+                stderr=subprocess.PIPE,\
+                universal_newlines=True)
+        self.map_gen, self.error_message= pipe.communicate()
+        if (self.error_message != "") :
+            self.error_message = "Error during map generation.\n" + self.error_message
             return (1)
+        f = open("map", "a")
+        f.write(self.map_gen)
+        f.close()
         return (0)
 
-    def exec_lem_in(self, exec_name = "lem-in", path_map = "map") :
-        self.map_gen = os.popen("cat " + path_map).readlines()
-        if (self.map_gen == []) :
-            self.error_message = "No file named '{}'".format(path_map)
-            return (1)
-        self.output = os.popen("./" + exec_name + " < " + path_map).readlines()
-        if (self.output == []) :
-            self.error_message = "No file named '{}' or '{}'".format(exec_name, path_map)
+    def exec_lem_in(self, exec_name = "./lem-in", path_map = "map") :
+        print(self.map_gen)
+        output = subprocess.check_output([exec_name,  "< map"], stderr=subprocess.STDOUT)
+#        pipe = subprocess.Popen([exec_name, self.map_gen],\
+ #               stdout=subprocess.PIPE,\
+  #              stderr=subprocess.PIPE)
+   #     self.output, self.error_message = pipe.communicate()
+        print(output)
+        if (self.error_message != "") :
+            self.error_message = "Error during execution of lem-in :\n"\
+                    + self.error_message
             return (1)
         return (0)
 
@@ -56,39 +66,48 @@ class   Gen_Executer() :
         for key, value in dict_diff.items() :
             print("\t{} : {}".format(key, value))
 
-#    def display_result() :
+    def display_result(steps = -1, steps_required = -1, error_message = "", warning = "") :
+        if (warning != "") :
+            print(warning)
+        if (error_message != "") :
+            print(error_message)
+        else :
+            print("Nb steps :       " + str(steps))
+            print("Steps required : " + str(steps_required))
+            print("Difference : " + str(steps_required - steps))
+        print("--------------------------")
 
     def execute_generator(self, nb_exec = -1, gen_option = "") :
         nb_exec = self.nb_exec if nb_exec == -1 else nb_exec
         gen_option = self.gen_option if gen_option == "" else gen_option
+        warning = ""
         for i in range(int(nb_exec)) :
             print("\n------- Test {}/{} -------".format(i + 1, nb_exec))
             map_exec = Map_Exec()
-            if (map_exec.generate_map(gen_option) == 1 or map_exec.exec_lem_in() == 1) :
-                print(map_exec.error_message)
+            if (map_exec.generate_map(gen_option) == 1) :
+                self.display_result(error_message = str(map_exec.error_message))
+                return (1)
+            if (map_exec.exec_lem_in() == 1) :
+                self.display_result(error_message = str(map_exec.error_message))
                 return (1)
             map_parser = parser.Map_Parser(map_exec.map_gen)
-            if map_parser.parse_map() == 1 :
-                print("Wrong map")
-                return (1)
+            if (map_parser.parse_map() == 1) :
+                warning = "WARNING : the map has not been read entirely"
             output_checker = checker.Output_Checker(map_exec.output, map_parser)
             if (output_checker.split_output() != 1) :
                 if output_checker.check_map_output() == 1 or\
                         output_checker.check_actions() == 1 :
-                    os.system("mv map map_error")
-                    print("\nThe map has been registered has map_error")
+                    os.system("mv map map_error_" + str(i))
+                    self.display_result(0, 0, output_checker.error_message +\
+                            "\nThe map has been registered has map_error_" + str(i))
                     break 
-            step = len(output_checker.actions)
-            print("Nb steps :       " + str(step))
+            steps = len(output_checker.actions)
             if map_parser.steps_required != None :
-                self.result.append(step - map_parser.steps_required)
-                print("Steps required : " + str(map_parser.steps_required))
-            
-            print("Difference : " + str(self.result[i]))
+                self.result.append(steps - map_parser.steps_required)
             if self.result[i] > self.lim_diff :
                 os.system("mv map map_hard_" + str(i))
-                print("This map has been register has map_hard_" + str(i))
-            print("--------------------------")
+                warning += "This map has been register has map_hard_" + str(i)
+            self.display_result(steps, int(map_parser.steps_required), "", warning)
             time.sleep(1)
         if self.result != [] :
             self.display_generator_summary()

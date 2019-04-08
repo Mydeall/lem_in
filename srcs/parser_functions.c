@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 18:47:10 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/05 14:57:54 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/08 18:05:45 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ int			verif_com(char *line, t_map *map, int *step, char *command)
 	{
 		if (*(line + 1) == '#')
 		{
+			if (*command || (*step != 1 && (!ft_strcmp((line + 2), "start")\
+						|| !ft_strcmp((line + 2), "end"))))
+				return (1);
 			if (!(ft_strcmp((line + 2), "start")))
 				*command = 1;
 			if (!(ft_strcmp((line + 2), "end")))
@@ -48,12 +51,20 @@ static int	verif_coord(char *cp_line, t_room *room)
 	while (i > 0 && cp_line[i] != ' ')
 		i--;
 	if (!cp_line[i + 1] || (room->y = is_pos_int(&(cp_line[i + 1]))) == -1)
+	{
+		free(cp_line);
+		free(room);
 		return (1);
+	}
 	cp_line[i] = 0;
 	while (i > 0 && cp_line[i] != ' ')
 		i--;
 	if (!cp_line[i + 1] || (room->x = is_pos_int(&(cp_line[i + 1]))) == -1)
+	{
+		free(cp_line);
+		free(room);
 		return (1);
+	}
 	cp_line[i] = 0;
 	return (0);
 }
