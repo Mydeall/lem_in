@@ -67,7 +67,7 @@ class   Map_Exec() :
         return (0)
 
 class   Gen_Executer() :
-    def __init__(self, nb_exec, gen_option = "--big-superposition", lim_diff = 15) :
+    def __init__(self, nb_exec, gen_option = "--big-superposition", lim_diff = 5) :
         self.nb_exec = nb_exec
         self.gen_option = gen_option
         self.lim_diff = lim_diff 
@@ -90,7 +90,11 @@ class   Gen_Executer() :
         for key, value in dict_diff.items() :
             print("\t{} : {}".format(key, value))
 
-    def display_result(self, steps, steps_required, error_message, warning_message) :
+    def display_result(self, steps, steps_required,\
+            error_message, warning_message) :
+        blue = "\033[94m"
+        green = "\033[92m"
+        warning = "\033[93m"
         if (warning_message != "") :
             print(warning_message)
         if (error_message != "") :
@@ -98,7 +102,13 @@ class   Gen_Executer() :
         else :
             print("Nb steps :       " + str(steps))
             print("Steps required : " + str(steps_required))
-            print("Difference : " + str(steps - steps_required))
+            diff = steps - steps_required
+            color = green
+            if diff > 3 and diff < 5 :
+                color = blue
+            elif diff > 4 :
+                color = warning
+            print("Difference : " + color + str(diff) + "\033[0m")
         print("--------------------------")
 
     def execute_generator(self, nb_exec = -1, gen_option = "") :
@@ -130,7 +140,6 @@ class   Gen_Executer() :
             steps = len(output_checker.actions)
             if map_parser.steps_required != None :
                 self.result.append(steps - map_parser.steps_required)
-                print("Diff : " + str(self.result[-1]))
             if self.result[i] > self.lim_diff :
                 os.system("mv map map_hard_" + str(i))
                 warning += "This map has been register has map_hard_" + str(i)
@@ -160,6 +169,9 @@ class   Custom_Executer() :
             print("No path")
             return (1)
         map_exec = Map_Exec()
+        if (map_exec.read_custom_map(path_map = "map_m")) :
+            print(map_exec.error_message)
+            return (1)
         if (map_exec.exec_lem_in(path_map = path) == 1) :
             print(map_exec.error_message)
             return (1)

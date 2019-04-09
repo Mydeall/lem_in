@@ -34,7 +34,7 @@ def ask_int_input(input_message, invalid_message, min_arg = None, max_arg = None
 
 def generator_option() :
     print("\n--------- Generator Executer ---------")
-    valid_arg = ["--big-superposition", "--big"]
+    valid_arg = ["--big-superposition", "--big", "--flow-thousand", "--flow-ten", "--flow-one"]
     for arg, i in zip(valid_arg, range(1, len(valid_arg) + 1)) :
         print("{} : {}".format(i, arg))
     arg = ask_int_input("\nChoose an arg among the ones up there\nArg : ",\
@@ -58,7 +58,7 @@ if __name__ == "__main__" :
     # valid_input = ["1", "2", "3"]
     valid_input = ["1", "2"]
     option = ask_input("Option : ",\
-            "This option doesn't exists. Give an input between " + ", ".join(valid_input), valid_input)
+            "This option doesn't exist. Give an input between " + ", ".join(valid_input), valid_input)
     if (option == "1") :
         generator_option()
     if (option == "2") :
