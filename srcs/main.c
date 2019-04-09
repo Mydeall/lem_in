@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 18:52:43 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/08 18:16:49 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/09 14:17:10 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static int	quit(t_tab_parser *tab_parser, t_map *map, char *input,\
 	if (map)
 		free_map(map);
 	if (error_type == 1)
-		write(1, "ERROR\n", 6);
+		write(2, "ERROR\n", 6);
 	else if (error_type == -1)
-		write(1, "Malloc Error\n", 13);
+		write(2, "Malloc Error\n", 13);
 	return (error_type == -1 ? 1 : 0);
 }
 
@@ -50,6 +50,7 @@ int			main(void)
 	if (!map->best_paths)
 		return (quit(tab_parser, map, input, 1));
 	write(1, input, ft_strlen(input));
+//	display_paths(map->best_paths);
 	display_instructions(map, map->best_paths, map->best_steps);
 	return (quit(tab_parser, map, input, 0));
 }

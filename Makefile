@@ -6,7 +6,7 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/04/08 18:41:55 by ccepre           ###   ########.fr        #
+#    Updated: 2019/04/09 14:06:42 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ VIS_PATH = ./visualizer
 INC_PATH = ./includes
 
 SRC_NAME = main.c\
+		   display.c\
 		   find_best_paths.c\
 		   bfs_functions.c\
 		   ants_repartition.c\

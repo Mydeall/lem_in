@@ -16,7 +16,7 @@ class   Room() :
         return s
 
     def __repr__(self) :
-        print(self.__str__())
+        return (self.__str__())
 
 class   Map_Parser() :
     def __init__(self, map_gen) :
@@ -46,6 +46,7 @@ class   Map_Parser() :
                 if room.name == name :
                     return (room)
         return (None)
+
     def parse_com(self, line, i) :
         if line[1] == "#" :
             line_next = self.map_gen[i].rstrip("\n")
@@ -55,7 +56,7 @@ class   Map_Parser() :
             elif line[2:] == "end" :
                 self.end = self.parse_room(line_next)
                 return (1)
-        if "lines required:" in line :
+        if "lines required:" in line and self.steps_required == -1 :
             line = line.split(" ")
             if line[-1].isdigit() :
                 self.steps_required = int(line[-1])
@@ -94,8 +95,8 @@ class   Map_Parser() :
         i = 0
         while i < len(self.map_gen) :
             line = self.map_gen[i]
-            i += 1
             line = line.rstrip("\n")
+            i += 1
             done = 0
             if line[0] == "#" :
                 i += self.parse_com(line, i)

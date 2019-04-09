@@ -17,7 +17,7 @@ class   Output_Checker() :
         if actions == None :
             actions = self.actions
         if self.map_parser.find_room(action[1]) == None :
-            self.error_message = "Room {} on line {} doesn'exist"\
+            self.error_message = "Room '{}' on line {} doesn'exist"\
                     .format(action[1], nb_line)
             return (1)
         if action[1] in self.map_parser.start.tab_link :
@@ -91,15 +91,14 @@ class   Output_Checker() :
             map_output = self.map_output
         for i in range(len(map_output)) :
             if map_output[i] != self.map_parser.map_gen[i].rstrip("\n") :
-                self.error_message = "The output map is not the same on line " + str(i)
-                self.error_message = "|{}|\n|{}|".format(str(map_output[i]),\
+                self.error_message = "The output map is not the same on line "\
+                        + str(i) + "\n|{}|\n|{}|".format(str(map_output[i]),\
                         str(self.map_parser.map_gen[i]))
                 return (1)
         return (0)
 
     def split_output(self) :
         self.output = [line.rstrip("\n") for line in self.output]
-#        print("\n".join(self.output))
         for i in range(len(self.output)) :
             if self.output[i] == "" :
                 self.actions = self.output[i + 1 :]
