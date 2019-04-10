@@ -6,7 +6,7 @@
 /*   By: ccepre <ccepre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 18:47:10 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/08 18:05:45 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/10 16:19:58 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int			verif_com(char *line, t_map *map, int *step, char *command)
 
 int			verif_ants(char *line, t_map *map, int *step, char *command)
 {
-	if ((map->ants = is_pos_int(line)) == -1 || *command)
+	map->ants = is_pos_int(line);
+	if (map->ants == -1 || map->ants == 0 || *command)
 		return (1);
 	(*step)++;
 	return (0);
@@ -72,17 +73,28 @@ static int	verif_coord(char *cp_line, t_room *room)
 static int	verif_name(t_map *map, char *cp_line, t_room *room)
 {
 	int		error;
+	char	**name_split;
+	int		i;
 
 	error = 0;
-	if (!*cp_line)
+	i = -1;
+	name_split = NULL;
+	if (!*cp_line || *cp_line == 'L')
 		error = 1;
-	else if (!(room->name = ft_strdup(cp_line)))
+	else if (!(name_split = ft_strsplit(cp_line, ' ')))
 		error = -1;
+	else
+		while (name_split && name_split[++i])
+			if (*(name_split[i]) == 'L')
+				error = 1;
+	if (error || !(room->name = ft_strdup(cp_line)))
+		error = error == 0 ? -1 : error;
 	else if (append_room(room, map))
 		error = 1;
 	if (error)
 		free(room);
 	free(cp_line);
+	ft_freetab(name_split);
 	return (error);
 }
 

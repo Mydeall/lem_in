@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 20:00:42 by ccepre            #+#    #+#             */
-/*   Updated: 2019/04/05 14:55:16 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/10 16:21:05 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void				*ft_memset (void *s, int c, size_t n);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 void				*ft_memccpy(void *restrict dst, const void *restrict src,\
-					int c, size_t n);
+						int c, size_t n);
 void				*ft_memmove(void *dst, const void *src, size_t len);
 void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -92,10 +92,11 @@ size_t				ft_lstlen(t_list *lst);
 void				ft_lstradd(t_list **lst, t_list *new);
 void				ft_putlst_str(t_list *lst);
 int					ft_pow(int nb, int pow);
+void				ft_freetab(char **av);
 char				*ft_itoa_base(unsigned long long int nb, const char *base);
 char				*ft_itoa_base_signed(long long int nb, const char *base);
 void				ft_dputnbr(long double n, int precision);
-char			    *ft_dtoa(long double n, int precision);
+char				*ft_dtoa(long double n, int precision);
 int					ft_printf(const char *restrict format, ...);
 int					get_next_line(const int fd, char **line);
 

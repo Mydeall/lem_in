@@ -6,7 +6,7 @@
 /*   By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 18:52:43 by rkirszba          #+#    #+#             */
-/*   Updated: 2019/04/09 14:17:10 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/10 14:31:37 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int			main(void)
 	if (!map->best_paths)
 		return (quit(tab_parser, map, input, 1));
 	write(1, input, ft_strlen(input));
-//	display_paths(map->best_paths);
 	display_instructions(map, map->best_paths, map->best_steps);
 	return (quit(tab_parser, map, input, 0));
 }

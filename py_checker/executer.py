@@ -20,7 +20,7 @@ class   Map_Exec() :
                     stdout=subprocess.PIPE,\
                     stderr=subprocess.PIPE,\
                     universal_newlines=True)
-            self.map_gen, self.error_message= pipe.communicate()
+            self.map_gen, self.error_message = pipe.communicate()
         except FileNotFoundError :
             self.error_message = "Error during map generation.\n"\
             + "No file named './generator'."
@@ -36,14 +36,15 @@ class   Map_Exec() :
             del self.map_gen[-1]
         return (0)
 
-    def read_custom_map(self, path_map = "map") :
+    def read_custom_map(self, path_map) :
         try :
-            subprocess.Popen(["cat", path_map])
+            f = open(path_map, "r")
+            self.map_gen = f.readlines()
+            f.close()
         except FileNotFoundError :
             self.error_message = "Error during map reading.\n" +\
                     "No file named '{}'".format(path_map)
             return (1)
-        self.map_gen = os.popen("cat " + path_map).readlines()
         return (0)
 
     def exec_lem_in(self, exec_name = "./lem-in", path_map = "map") :
@@ -54,16 +55,14 @@ class   Map_Exec() :
                     "No file named '{}'".format(exec_name)
             return (1)
         self.output = os.popen(exec_name + " < " + path_map).readlines()
-#       output = subprocess.check_output([exec_name,  "< map"],\
-#               shell=True, stderr=subprocess.STDOUT)
-#       pipe = subprocess.Popen([exec_name, self.map_gen],\
-#               stdout=subprocess.PIPE,\
-#               stderr=subprocess.PIPE)
-#       self.output, self.error_message = pipe.communicate()
         if (self.error_message != "") :
             self.error_message = "Error during execution of lem-in :\n"\
                     + self.error_message
             return (1)
+        elif (self.output == []) :
+            self.error_message = "Error during execution of lem-in :\n"\
+                    + "lem-in returned nothing on stdout"
+            return (-1)
         return (0)
 
 class   Gen_Executer() :
@@ -136,7 +135,7 @@ class   Gen_Executer() :
                             str(i), "")
                     break 
             else :
-               display_result(-1, -1, "Wrong split of the output", "")
+               self.display_result(-1, -1, "Wrong split of the output", "")
             steps = len(output_checker.actions)
             if map_parser.steps_required != None :
                 self.result.append(steps - map_parser.steps_required)
@@ -155,13 +154,13 @@ class   Custom_Executer() :
     def display_result(self, steps = -1, steps_required = -1, error_message = "") :
         print("\n------- Map : {} ------".format(self.path))
         if (error_message == "") :
-            print("Actions are valid\n")
+            print("Checker : ok")
             print("steps : " + str(steps))
             if (steps_required != -1) :
                 print("steps_required : " + str(steps_required))
         else :
             print(error_message)
-        print("--------------------------")
+        print("-"*len("------- Map : {} ------".format(self.path)))
 
     def execute_custom(self, path = "") :
         self.path = self.path if path == "" else path
@@ -169,12 +168,13 @@ class   Custom_Executer() :
             print("No path")
             return (1)
         map_exec = Map_Exec()
-        if (map_exec.read_custom_map(path_map = "map_m")) :
-            print(map_exec.error_message)
+        if (map_exec.read_custom_map(path_map = path)) :
+            self.display_result(error_message = map_exec.error_message)
             return (1)
-        if (map_exec.exec_lem_in(path_map = path) == 1) :
-            print(map_exec.error_message)
-            return (1)
+        ret = map_exec.exec_lem_in(path_map = path)
+        if (ret) :
+            self.display_result(error_message = map_exec.error_message)
+            return (1 if ret == 1 else 0)
         map_parser = parser.Map_Parser(map_exec.map_gen)
         map_parser.parse_map()
         output_checker = checker.Output_Checker(map_exec.output, map_parser)

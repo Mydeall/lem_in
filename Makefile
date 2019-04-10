@@ -6,14 +6,14 @@
 #    By: rkirszba <rkirszba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/04/09 14:06:42 by ccepre           ###   ########.fr        #
+#    Updated: 2019/04/10 15:27:09 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in
 NAME_VIS = visu
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -O3
 
 LIB_PATH = ./libft
 SRC_PATH = ./srcs
@@ -21,7 +21,6 @@ VIS_PATH = ./visualizer
 INC_PATH = ./includes
 
 SRC_NAME = main.c\
-		   display.c\
 		   find_best_paths.c\
 		   bfs_functions.c\
 		   ants_repartition.c\

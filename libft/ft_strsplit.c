@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 10:37:22 by ccepre            #+#    #+#             */
-/*   Updated: 2018/11/17 12:32:57 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/04/10 16:13:18 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ static char		**filltab(char **tab, char *str, int count, char c)
 	while (++j < count)
 	{
 		i = 0;
-		while (str[i] != c)
+		while (str[i] != c && str[i])
 			i++;
 		if (!(tab[j] = ft_strsub(str, 0, i)))
 		{
 			free_tab(tab, count);
 			return (NULL);
 		}
-		while (*str && str[i] == c)
+		while (str[i] && str[i] == c)
 			i++;
 		str = &str[i];
 	}
